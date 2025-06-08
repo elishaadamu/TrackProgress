@@ -4,7 +4,10 @@ import MainContent from "./MainContent";
 
 function Content() {
   return (
-    <div className="flex flex-col md:flex-row max-w-full mt-10 mx-auto">
+    <div
+      id="content"
+      className="flex flex-col md:flex-row max-w-full mt-10 mx-auto"
+    >
       <Sidebar />
       <MainContent />
     </div>

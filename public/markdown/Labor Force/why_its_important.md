@@ -1,0 +1,3 @@
+A strong labor force is essential for the region’s economic vitality. Employment opportunities are a key ingredient for individuals, families, and communities to generate wealth and spend it locally, in a reciprocal cycle that grows businesses and job opportunities. Labor force is a measure of who is employed or actively engaged in seeking employment. If individuals feel shut out from the workforce, are unable to develop skills, or other circumstances don’t allow them to work, opportunities to strengthen households, communities, and local businesses may be lost.
+
+This indicator measures workforce participation by various demographics, and relates to the _Connections 2050_ Plan vision to grow an innovative and connected economy with broadly shared prosperity.

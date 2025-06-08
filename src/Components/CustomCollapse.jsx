@@ -5,14 +5,18 @@ function CustomCollapse({ header, children }) {
   const contentRef = useRef(null);
 
   return (
-    <div className="w-full max-w-lg mx-auto my-6">
+    <div className="w-[90%] md:w-full max-w-lg mx-auto my-6">
       <button
         className="w-full flex justify-between items-center bg-[#008085] text-white px-6 py-4 rounded-t-lg font-semibold focus:outline-none transition"
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
       >
         <span>{header}</span>
-        <span className={`transform transition-transform duration-300 ${open ? "rotate-180" : ""}`}>
+        <span
+          className={`transform transition-transform duration-300 ${
+            open ? "rotate-180" : ""
+          }`}
+        >
           ▼
         </span>
       </button>
@@ -26,7 +30,11 @@ function CustomCollapse({ header, children }) {
         }}
         className="rounded-b-lg px-6"
       >
-        <div className={`py-4 ${open ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}>
+        <div
+          className={`py-4 ${
+            open ? "opacity-100" : "opacity-0"
+          } transition-opacity duration-300`}
+        >
           {children}
         </div>
       </div>

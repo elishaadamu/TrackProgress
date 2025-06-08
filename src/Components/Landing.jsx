@@ -14,7 +14,7 @@ function Landing() {
       <p className="text-2xl pt-5 text-gray-500">
         Measuring progress toward our regional vision
       </p>
-      <Link className="flex justify-center ">
+      <a href="#content" className="flex justify-center ">
         <button className="mt-5 bg-[#008085] flex items-center text-white py-2 px-4 rounded-[10px] hover:bg-[#006f6f] transition duration-300">
           <img
             src={DashboardButtonIcon}
@@ -25,7 +25,7 @@ function Landing() {
             Go to Dashboard
           </span>
         </button>
-      </Link>
+      </a>
       <CustomCollapse header="More Info">
         <p className="text-left mb-2">
           Tracking Progress is an interactive dashboard for exploring regularly

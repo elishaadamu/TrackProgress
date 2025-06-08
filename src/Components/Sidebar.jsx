@@ -31,57 +31,57 @@ function Sidebar() {
         <>
           <div
             onClick={() => setSelectedCategory(null)}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-2xl hover:bg-gray-800 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0"
+            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-700 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
           >
             <span className="text-white text-xl">Show All</span>
           </div>
           <div
             onClick={() => handleCategoryClick("sustainability")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-emerald-900 hover:shadow-2xl hover:bg-emerald-950 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0"
+            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#762a83]  hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#762a83] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
           >
             <GrPowerCycle style={{ fontSize: "40px", color: "#ffffff" }} />
             <span className="text-white text-xl ml-2">Sustainability</span>
           </div>
           <div
             onClick={() => handleCategoryClick("equity")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-blue-900 hover:shadow-2xl hover:bg-blue-950 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0"
+            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#9970ab] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#9970ab] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
           >
-            <BarChartOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-            <span className="text-white text-xl ml-2">Equity</span>
+            <BarChartOutlined style={{ fontSize: "40px", color: "#000000" }} />
+            <span className="text-black text-xl ml-2">Equity</span>
           </div>
           <div
             onClick={() => handleCategoryClick("resilience")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-purple-900 hover:shadow-2xl hover:bg-purple-950 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0"
+            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#c2a5cf] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#c2a5cf] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
           >
-            <SafetyOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-            <span className="text-white text-xl ml-2">Resilience</span>
+            <SafetyOutlined style={{ fontSize: "40px", color: "#000000" }} />
+            <span className="text-black text-xl ml-2">Resilience</span>
           </div>
           <div
             onClick={() => handleCategoryClick("environment")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-green-900 hover:shadow-2xl hover:bg-green-950 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0"
+            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#FFFFA6] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#FFFFA6] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
           >
             <EnvironmentOutlined
-              style={{ fontSize: "40px", color: "#ffffff" }}
+              style={{ fontSize: "40px", color: "#000000" }}
             />
-            <span className="text-white text-xl ml-2">Environment</span>
+            <span className="text-black text-xl ml-2">Environment</span>
           </div>
           <div
             onClick={() => handleCategoryClick("community")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-orange-900 hover:shadow-2xl hover:bg-orange-950 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0"
+            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#a6dba0] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#a6dba0] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
           >
-            <TeamOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-            <span className="text-white text-xl ml-2">Community</span>
+            <TeamOutlined style={{ fontSize: "40px", color: "#000000" }} />
+            <span className="text-black text-xl ml-2">Community</span>
           </div>
           <div
             onClick={() => handleCategoryClick("transportation")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-cyan-900 hover:shadow-2xl hover:bg-cyan-950 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0"
+            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#5aae61] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#5aae61] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
           >
-            <CarOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-            <span className="text-white text-xl ml-2">Transportation</span>
+            <CarOutlined style={{ fontSize: "40px", color: "#000000" }} />
+            <span className="text-black text-xl ml-2">Transportation</span>
           </div>
           <div
             onClick={() => handleCategoryClick("economy")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-yellow-900 hover:shadow-2xl hover:bg-yellow-950 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0"
+            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#1b7837] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#1b7837] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
           >
             <BankOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
             <span className="text-white text-xl ml-2">Economy</span>
@@ -91,23 +91,23 @@ function Sidebar() {
     } else {
       return (
         <>
-          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-2xl hover:bg-gray-800 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0">
+          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-800 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0">
             <SmileOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
             <span className="text-white text-xl ml-2">Very Good</span>
           </div>
-          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-2xl hover:bg-gray-800 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0">
+          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-800 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0">
             <LikeOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
             <span className="text-white text-xl ml-2">Good</span>
           </div>
-          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-2xl hover:bg-gray-800 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0">
+          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-800 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0">
             <MehOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
             <span className="text-white text-xl ml-2">Neutral</span>
           </div>
-          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-2xl hover:bg-gray-800 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0">
+          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-800 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0">
             <FrownOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
             <span className="text-white text-xl ml-2">Not Good</span>
           </div>
-          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-2xl hover:bg-gray-800 cursor-pointer transition-all duration-500 ease-in-out mx-2 md:mx-0">
+          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-800 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0">
             <DislikeOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
             <span className="text-white text-xl ml-2">Poor</span>
           </div>
