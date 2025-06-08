@@ -10,14 +10,7 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/about"
-            element={<MarkdownViewer file="/markdown/about.md" />}
-          />
-          <Route
-            path="/contact"
-            element={<MarkdownViewer file="/markdown/contact.md" />}
-          />
+          <Route path="/contact" element={<MarkdownViewer />} />
         </Routes>
       </div>
     </CategoryProvider>
