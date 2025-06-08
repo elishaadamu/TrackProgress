@@ -3,3 +3,20 @@ There were 25 days violating National Ambient Air Quality Standards in 2023, wit
 The second chart shows that concentrations of both pollutants increased slightly in 2023, after having decreased in severity for about a decade prior. Ozone violations are more common than PM<sub>2.5</sub>, thanks to advances made to reduce PM<sub>2.5</sub> levels through power plant and diesel-powered engine regulations. Ozone is particularly seasonal—with violations occurring primarily in the second and third quarters of the year, due to higher levels of heat and sunlight in those periods. The last Very Unhealthy day for ozone occurred in 2008. 2023 was the first year with a PM<sub>2.5</sub> violation since 2008, and it was the first year since 2019 with at least one code red Unhealthy day.
 
 Federal standards have had a dramatic effect in reducing emissions and unhealthy air quality days over the past few decades. Public health has benefitted from greater awareness of pollutants and ways to lessen their impact. However, climate change may counter the progress the nation has made in improving air quality, as higher temperatures increase the potential for forming ground-level ozone and wildfires risk increased PM<sub>2.5</sub> emissions, which is likely to result in more days that violate national standards.
+
+# Air Quality Trends
+
+Here's our air quality data:
+
+<d3chart 
+  type="bar" 
+  data='{
+    "data": [
+      {"label": "2019", "value": 25},
+      {"label": "2020", "value": 15},
+      {"label": "2021", "value": 18},
+      {"label": "2022", "value": 12},
+      {"label": "2023", "value": 30}
+    ]
+  }'
+/>
