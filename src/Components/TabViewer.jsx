@@ -144,7 +144,7 @@ const TabViewer = ({ folderPath }) => {
         ))}
       </div>
 
-      <div className="prose prose-invert mt-10 max-w-[1024px] mx-auto">
+      <div className="prose prose-invert mt-10 max-w-[1024px]  mx-auto">
         {error ? (
           <div className="text-red-500">{error}</div>
         ) : (

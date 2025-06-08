@@ -160,7 +160,7 @@ function MainContent() {
 
   return (
     <div className="flex-[80%] bg-gray-900 p-4 flex items-start justify-start">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 [@media(min-width:1800px)]:grid-cols-7 [@media(min-width:2100px)]:grid-cols-8 gap-8 w-full max-w-full">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 [@media(min-width:1800px)]:grid-cols-7 [@media(min-width:2100px)]:grid-cols-8 gap-8 w-full max-w-full">
         {items.map((item, idx) => (
           <div
             onClick={() => handleBoxClick(item.markdownPath)}
