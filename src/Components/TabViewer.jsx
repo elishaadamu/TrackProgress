@@ -154,6 +154,192 @@ const D3Chart = ({ chartData, type }) => {
         break;
       }
 
+      case "stackedBar": {
+        // Create scales
+        const x = d3
+          .scaleBand()
+          .range([0, width])
+          .domain(chartData.data.map((d) => d.year))
+          .padding(0.2);
+
+        const y = d3
+          .scaleLinear()
+          .range([height, 0])
+          .domain([0, d3.max(chartData.data, (d) => d.total) * 1.1]);
+
+        // Create color scale
+        const color = d3
+          .scaleOrdinal()
+          .domain(["State", "Local", "Other"])
+          .range(chartData.colors || ["#4f46e5", "#06b6d4", "#14b8a6"]);
+
+        // Add X axis
+        svg
+          .append("g")
+          .attr("transform", `translate(0,${height})`)
+          .call(d3.axisBottom(x))
+          .selectAll("text")
+          .style("fill", "white")
+          .style("font-size", "12px")
+          .attr("transform", "rotate(-45)")
+          .style("text-anchor", "end");
+
+        // Add Y axis
+        svg
+          .append("g")
+          .call(d3.axisLeft(y))
+          .selectAll("text")
+          .style("fill", "white")
+          .style("font-size", "12px");
+
+        // Create stacked data
+        const stackedData = d3
+          .stack()
+          .keys(["State", "Local", "Other"])
+          .value((d, key) => d.values.find((v) => v.name === key)?.value || 0)(
+          chartData.data
+        );
+
+        // Add bars
+        svg
+          .append("g")
+          .selectAll("g")
+          .data(stackedData)
+          .join("g")
+          .attr("fill", (d) => color(d.key))
+          .selectAll("rect")
+          .data((d) => d)
+          .join("rect")
+          .attr("x", (d) => x(d.data.year))
+          .attr("y", (d) => y(d[1]))
+          .attr("height", (d) => y(d[0]) - y(d[1]))
+          .attr("width", x.bandwidth())
+          .attr("rx", 4);
+
+        // Add legend
+        const legend = svg
+          .append("g")
+          .attr("transform", `translate(${width - 100}, 0)`);
+
+        ["State", "Local", "Other"].forEach((key, i) => {
+          const legendRow = legend
+            .append("g")
+            .attr("transform", `translate(0, ${i * 20})`);
+
+          legendRow
+            .append("rect")
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("fill", color(key));
+
+          legendRow
+            .append("text")
+            .attr("x", 20)
+            .attr("y", 12)
+            .style("fill", "white")
+            .style("font-size", "12px")
+            .text(key);
+        });
+        break;
+      }
+
+      case "multiLine": {
+        // Create scales
+        const x = d3
+          .scalePoint()
+          .range([0, width])
+          .domain(chartData.data[0].values.map((d) => d.year));
+
+        const y = d3
+          .scaleLinear()
+          .range([height, 0])
+          .domain([
+            0,
+            d3.max(chartData.data, (series) =>
+              d3.max(series.values, (d) => d.value)
+            ) * 1.1,
+          ]);
+
+        // Create color scale
+        const color = d3
+          .scaleOrdinal()
+          .domain(chartData.data.map((d) => d.name))
+          .range(chartData.colors || ["#4f46e5", "#06b6d4", "#14b8a6"]);
+
+        // Add X axis
+        svg
+          .append("g")
+          .attr("transform", `translate(0,${height})`)
+          .call(d3.axisBottom(x))
+          .selectAll("text")
+          .style("fill", "white")
+          .style("font-size", "12px");
+
+        // Add Y axis
+        svg
+          .append("g")
+          .call(d3.axisLeft(y))
+          .selectAll("text")
+          .style("fill", "white")
+          .style("font-size", "12px");
+
+        // Add lines
+        chartData.data.forEach((series) => {
+          svg
+            .append("path")
+            .datum(series.values)
+            .attr("fill", "none")
+            .attr("stroke", color(series.name))
+            .attr("stroke-width", 2)
+            .attr(
+              "d",
+              d3
+                .line()
+                .x((d) => x(d.year))
+                .y((d) => y(d.value))
+            );
+
+          // Add dots
+          svg
+            .selectAll(`dot-${series.name}`)
+            .data(series.values)
+            .join("circle")
+            .attr("cx", (d) => x(d.year))
+            .attr("cy", (d) => y(d.value))
+            .attr("r", 4)
+            .attr("fill", color(series.name));
+        });
+
+        // Add legend
+        const legend = svg
+          .append("g")
+          .attr("transform", `translate(${width - 100}, 0)`);
+
+        chartData.data.forEach((series, i) => {
+          const legendRow = legend
+            .append("g")
+            .attr("transform", `translate(0, ${i * 20})`);
+
+          legendRow
+            .append("line")
+            .attr("x1", 0)
+            .attr("x2", 15)
+            .attr("y1", 10)
+            .attr("y2", 10)
+            .attr("stroke", color(series.name))
+            .attr("stroke-width", 2);
+
+          legendRow
+            .append("text")
+            .attr("x", 20)
+            .attr("y", 12)
+            .style("fill", "white")
+            .style("font-size", "12px")
+            .text(series.name);
+        });
+        break;
+      }
+
       // Add more chart types as needed
       default:
         console.error("Unsupported chart type:", type);

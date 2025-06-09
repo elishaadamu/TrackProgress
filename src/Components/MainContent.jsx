@@ -1,106 +1,251 @@
 import React, { useState } from "react";
 import {
-  FaChartBar,
-  FaUsers,
-  FaLeaf,
-  FaGlobe,
-  FaCity,
-  FaSchool,
-  FaCar,
-  FaHeartbeat,
+  FaWind,
   FaBuilding,
+  FaHandshake,
+  FaBus,
+  FaCar,
+  FaGraduationCap,
+  FaChartLine,
+  FaTemperatureHigh,
+  FaHome,
+  FaFileContract,
+  FaDollarSign,
+  FaBriefcase,
+  FaUsers,
   FaTree,
-  FaLightbulb,
-  FaWater,
+  FaRoad,
+  FaPiggyBank,
+  FaCity,
+  FaSubway,
+  FaShieldAlt,
+  FaTint,
+  FaCalendarAlt,
+  FaChartBar,
 } from "react-icons/fa";
 import { useCategory } from "../Context/CategoryContext";
 import TabViewer from "./TabViewer";
+import { GiSuspensionBridge } from "react-icons/gi";
 
 const items = [
   {
-    icon: <FaChartBar size={40} color="#ffffff" />,
-    title: "Performance",
-    details: "See how the region is performing with up-to-date metrics.",
+    icon: <FaWind size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "One day",
+    title: "Air Quality",
+    details: "increase in five-year average of violating days",
     markdownPath: "/markdown/Air Quality",
   },
   {
-    icon: <FaUsers size={40} color="#ffffff" />,
-    title: "Population",
-    details: "Track population growth and demographic changes.",
+    icon: <GiSuspensionBridge size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "62% drop",
+    title: "Bridge Conditions",
+    details: "in deficient bridge deck area",
     markdownPath: "/markdown/Bridge Conditions",
   },
   {
-    icon: <FaLeaf size={40} color="#ffffff" />,
-    title: "Sustainability",
-    details: "Monitor sustainability and green initiatives.",
-    markdownPath: "/markdown/Sustainability",
+    icon: <FaBuilding size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "95% growth",
+    title: "Business Formations",
+    details: "in annual applications",
+    markdownPath: "/markdown/Business Formations",
   },
   {
-    icon: <FaGlobe size={40} color="#ffffff" />,
-    title: "Global Impact",
-    details: "Understand the region's global connections.",
-    markdownPath: "/markdown/Global Impact",
+    icon: <FaHandshake size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "40-51%",
+    title: "Community Integration",
+    details: "of residents not living in diverse communities",
+    markdownPath: "/markdown/Community Integration",
   },
   {
-    icon: <FaCity size={40} color="#ffffff" />,
-    title: "Urban Development",
-    details: "Explore urban growth and infrastructure projects.",
-    markdownPath: "/markdown/Urban Development",
-  },
-  {
-    icon: <FaSchool size={40} color="#ffffff" />,
-    title: "Education",
-    details: "Review educational attainment and resources.",
-    markdownPath: "/markdown/Education",
+    icon: <FaBus size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "10.8% fewer",
+    title: "Commute Mode",
+    details: "residents drive alone to work",
+    markdownPath: "/markdown/Commute Mode",
   },
   {
     icon: <FaCar size={40} color="#ffffff" />,
-    title: "Transportation",
-    details: "Analyze transportation networks and mobility.",
-    markdownPath: "/markdown/Transportation",
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "4.3% less",
+    title: "Congestion",
+    details: "reliability on region's highways",
+    markdownPath: "/markdown/Congestion",
   },
   {
-    icon: <FaHeartbeat size={40} color="#ffffff" />,
-    title: "Health",
-    details: "Check public health and wellness indicators.",
-    markdownPath: "/markdown/Health",
+    icon: <FaGraduationCap size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "10% rise",
+    title: "Educational Attainment",
+    details: "in population over 25 with high school diploma",
+    markdownPath: "/markdown/Educational Attainment",
   },
   {
-    icon: <FaBuilding size={40} color="#ffffff" />,
-    title: "Housing",
-    details: "Assess housing availability and affordability.",
-    markdownPath: "/markdown/Housing",
+    icon: <FaChartLine size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "1.7% gain",
+    title: "Gross Domestic Product",
+    details: "annual average GDP growth",
+    markdownPath: "/markdown/GDP",
+  },
+  {
+    icon: <FaTemperatureHigh size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "30% decrease",
+    title: "Heat-Trapping Gases",
+    details: "in heat-trapping gases per person",
+    markdownPath: "/markdown/Heat Trapping Gases",
+  },
+  {
+    icon: <FaHome size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "9% fewer",
+    title: "Housing Affordability",
+    details: "cost burdened households since 2011",
+    markdownPath: "/markdown/Housing Affordability",
+  },
+  {
+    icon: <FaFileContract size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "46% increase",
+    title: "Housing Permits",
+    details: "in permits in appropriate development areas",
+    markdownPath: "/markdown/Housing Permits",
+  },
+  {
+    icon: <FaDollarSign size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "20-35% remaining",
+    title: "Income",
+    details: "income gaps between groups",
+    markdownPath: "/markdown/Income",
+  },
+  {
+    icon: <FaBriefcase size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "25% increase",
+    title: "Job Growth",
+    details: "in jobs",
+    markdownPath: "/markdown/Job Growth",
+  },
+  {
+    icon: <FaBriefcase size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+
+    trendDetails: "5-6% drop",
+    title: "Labor Force",
+    details: "in participation rate gaps from base years",
+    markdownPath: "/markdown/Job Growth",
+  },
+  {
+    icon: <FaBriefcase size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "49% drop",
+
+    title: "Land Consumption",
+    details: "in land consumption rate",
+    markdownPath: "/markdown/Job Growth",
+  },
+  {
+    icon: <FaUsers size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "0.5% decrease",
+    title: "Population Growth",
+    details: "in daily miles driven per person",
+    markdownPath: "/markdown/Population Growth",
   },
   {
     icon: <FaTree size={40} color="#ffffff" />,
-    title: "Environment",
-    details: "Track environmental quality and conservation.",
-    markdownPath: "/markdown/Environment",
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "8-10% drop",
+    title: "Tree Canopy Cover",
+    details: "in loan approval rate gaps",
+    markdownPath: "/markdown/Tree Canopy Cover",
   },
   {
-    icon: <FaLightbulb size={40} color="#ffffff" />,
-    title: "Innovation",
-    details: "See innovation and technology trends.",
-    markdownPath: "/markdown/Innovation",
+    icon: <FaRoad size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "1.0% fewer",
+    title: "Pavement Conditions",
+    details: "road lane miles in poor condition",
+    markdownPath: "/markdown/Vehicle Miles Traveled",
   },
   {
-    icon: <FaWater size={40} color="#ffffff" />,
-    title: "Water Resources",
-    details: "Monitor water quality and resource management.",
-    markdownPath: "/markdown/Water Resources",
+    icon: <FaPiggyBank size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "10.6% increase",
+    title: "Population Growth",
+    details: "in population",
+    markdownPath: "/markdown/Wealth Inequality",
+  },
+  {
+    icon: <FaCity size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "28.6% increase",
+    title: "Transit Conditions",
+    details: "of revenue service vehicles are past their useful life",
+    markdownPath: "/markdown/City Budget",
+  },
+  {
+    icon: <FaSubway size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "37% decrease",
+    title: "Transit Ridership",
+    details: "in transit trips per person",
+    markdownPath: "/markdown/Transit Ridership",
+  },
+  {
+    icon: <FaBus size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "60.5% increase",
+    title: "Transportation Safety",
+    details: "in fatalities and severe injuries",
+    markdownPath: "/markdown/Transportation Safety",
+  },
+  {
+    icon: <FaTint size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "2.8% decrease",
+    title: "Water Quality",
+    details: "in water supporting aquatic life",
+    markdownPath: "/markdown/Water Quality",
+  },
+  {
+    icon: <FaCalendarAlt size={40} color="#ffffff" />,
+    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendDetails: "49% drop",
+    title: "2050",
+    details: "",
+    markdownPath: "/markdown/Year Founded",
   },
 ];
 
-// Update the categoryColors object to match Sidebar colors
-
+// Update categoryMapping to reflect new categories
 const categoryMapping = {
-  sustainability: ["Sustainability", "Environment", "Water Resources"],
-  equity: ["Population", "Housing", "Education"],
-  resilience: ["Health", "Innovation", "Performance"],
-  environment: ["Environment", "Water Resources", "Sustainability"],
-  community: ["Population", "Education", "Health"],
-  transportation: ["Transportation"],
-  economy: ["Performance", "Housing", "Innovation"],
+  environment: ["Air Quality", "Heat-Trapping Gases", "Water Quality"],
+  infrastructure: [
+    "Bridge Conditions",
+    "Pavement Conditions",
+    "Transit Conditions",
+  ],
+  economy: ["Business Formations", "GDP", "Job Growth", "Income"],
+  community: [
+    "Community Integration",
+    "Educational Attainment",
+    "Population Growth",
+  ],
+  transportation: [
+    "Commute Mode",
+    "Congestion",
+    "Transit Ridership",
+    "Miles Driven",
+  ],
+  housing: ["Housing Affordability", "Housing Permits", "Mortgage Lending"],
+  safety: ["Transportation Safety"],
 };
 
 function MainContent() {
@@ -169,7 +314,7 @@ function MainContent() {
             } cursor-pointer`}
             key={idx}
           >
-            <div className="flip-card-inner h-56">
+            <div className="flip-card-inner text-center h-56">
               <div
                 className="flip-card-front"
                 style={{
@@ -191,9 +336,8 @@ function MainContent() {
                   color: getTextAndIconColor(item.title),
                 }}
               >
-                {React.cloneElement(item.icon, {
-                  color: getTextAndIconColor(item.title),
-                })}
+                <span className="font-bold">{item.trendIcon}</span>
+                <span className="font-bold">{item.trendDetails}</span>
                 <div className="mt-4 text-base text-center">{item.details}</div>
               </div>
             </div>
