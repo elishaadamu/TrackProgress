@@ -1,352 +1,195 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import ReactMarkdown from "react-markdown";
-import rehypeRaw from "rehype-raw"; // Add this import
-import * as d3 from "d3";
+import rehypeRaw from "rehype-raw";
 
-// Custom D3Chart component
-const D3Chart = ({ chartData, type }) => {
-  const chartRef = useRef();
+// Lazy load ApexCharts to avoid SSR issues
+const Chart = lazy(() => import("react-apexcharts"));
+
+// Add a loading component
+const ChartLoader = () => (
+  <div className="h-[300px] w-full flex items-center justify-center bg-gray-800">
+    <div className="text-white">Loading chart...</div>
+  </div>
+);
+
+const ChartRenderer = ({ chartData, type }) => {
+  const theme = {
+    mode: "dark",
+    palette: "palette1",
+    monochrome: {
+      enabled: false,
+      color: "#4f46e5",
+    },
+  };
+
+  const defaultOptions = {
+    theme,
+    chart: {
+      background: "transparent",
+      toolbar: {
+        show: false,
+      },
+    },
+    grid: {
+      borderColor: "#334155",
+      opacity: 0.1,
+    },
+    xaxis: {
+      labels: {
+        style: {
+          colors: "#ffffff",
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: "#ffffff",
+        },
+      },
+    },
+    legend: {
+      labels: {
+        colors: "#ffffff",
+      },
+    },
+  };
+
+  switch (type) {
+    case "bar":
+      return (
+        <Chart
+          options={{
+            ...defaultOptions,
+            xaxis: {
+              ...defaultOptions.xaxis,
+              categories: chartData.data.map((d) => d.label),
+            },
+          }}
+          series={[{ data: chartData.data.map((d) => d.value) }]}
+          type="bar"
+          height={300}
+        />
+      );
+
+    case "multiLine":
+      return (
+        <Chart
+          options={{
+            ...defaultOptions,
+            colors: chartData.colors,
+            xaxis: {
+              ...defaultOptions.xaxis,
+              type: "category",
+            },
+            stroke: {
+              width: 2,
+              curve: "smooth",
+            },
+            markers: {
+              size: 4,
+            },
+          }}
+          series={chartData.data.map((series) => ({
+            name: series.name || series.key,
+            data: series.values.map((d) => ({
+              x: d.x || d.year,
+              y: d.y || d.value,
+            })),
+          }))}
+          type="line"
+          height={300}
+        />
+      );
+
+    case "stackedBar":
+      return (
+        <Chart
+          options={{
+            ...defaultOptions,
+            colors: chartData.colors,
+            xaxis: {
+              ...defaultOptions.xaxis,
+              categories: chartData.data[0].values.map((d) => d.x),
+              labels: {
+                rotate: -45,
+                style: {
+                  colors: "#ffffff",
+                },
+              },
+            },
+            plotOptions: {
+              bar: {
+                horizontal: false,
+                borderRadius: 4,
+                columnWidth: "70%",
+                stacked: true,
+              },
+            },
+          }}
+          series={chartData.data.map((series) => ({
+            name: series.key,
+            data: series.values.map((d) => d.y),
+          }))}
+          type="bar"
+          height={300}
+        />
+      );
+
+    default:
+      return null;
+  }
+};
+
+// Simple CSV parser
+const parseCSV = (text) => {
+  const lines = text.trim().split("\n");
+  const headers = lines[0].split(",").map((h) => h.trim());
+  return lines
+    .slice(1)
+    .filter((line) => line.trim())
+    .map((line) => {
+      const values = line.split(",");
+      return headers.reduce((obj, header, i) => {
+        obj[header] = values[i]?.trim();
+        return obj;
+      }, {});
+    });
+};
+
+const CSVChart = ({ filename, type, config }) => {
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    if (!chartData?.data || !chartRef.current) return;
+    fetch(`/data/${filename}`)
+      .then((res) => res.text())
+      .then((text) => {
+        const records = parseCSV(text);
+        const formattedData = {
+          data: config.series.map((series) => ({
+            key: series.key,
+            values: records.map((record) => ({
+              x: record[config.xAxis],
+              y: parseFloat(record[series.column]) || 0,
+            })),
+          })),
+          colors: config.colors,
+        };
+        setData(formattedData);
+      })
+      .catch((err) => console.error("Error loading CSV:", err));
+  }, [filename, config]);
 
-    // Clear existing chart
-    d3.select(chartRef.current).selectAll("*").remove();
+  if (!data) return <ChartLoader />;
+  return <ChartRenderer chartData={data} type={type} />;
+};
 
-    const margin = { top: 20, right: 30, bottom: 40, left: 60 };
-    const width = chartRef.current.clientWidth - margin.left - margin.right;
-    const height = 300 - margin.top - margin.bottom;
-
-    const svg = d3
-      .select(chartRef.current)
-      .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    switch (type) {
-      case "bar": {
-        // Create scales
-        const x = d3
-          .scaleBand()
-          .range([0, width])
-          .domain(chartData.data.map((d) => d.label))
-          .padding(0.2);
-
-        const y = d3
-          .scaleLinear()
-          .range([height, 0])
-          .domain([0, d3.max(chartData.data, (d) => d.value) * 1.1]); // Add 10% padding
-
-        // Add X axis
-        svg
-          .append("g")
-          .attr("transform", `translate(0,${height})`)
-          .call(d3.axisBottom(x))
-          .selectAll("text")
-          .style("fill", "white")
-          .style("font-size", "12px")
-          .attr("transform", "rotate(-45)")
-          .style("text-anchor", "end");
-
-        // Add Y axis
-        svg
-          .append("g")
-          .call(d3.axisLeft(y))
-          .selectAll("text")
-          .style("fill", "white")
-          .style("font-size", "12px");
-
-        // Add grid lines
-        svg
-          .append("g")
-          .attr("class", "grid")
-          .call(d3.axisLeft(y).tickSize(-width).tickFormat(""))
-          .style("stroke-opacity", 0.1);
-
-        // Add bars
-        svg
-          .selectAll("rect")
-          .data(chartData.data)
-          .join("rect")
-          .attr("x", (d) => x(d.label))
-          .attr("width", x.bandwidth())
-          .attr("y", (d) => y(d.value))
-          .attr("height", (d) => height - y(d.value))
-          .attr("fill", "#4f46e5")
-          .attr("rx", 4) // Rounded corners
-          .on("mouseover", function () {
-            d3.select(this).transition().duration(200).attr("fill", "#6366f1");
-          })
-          .on("mouseout", function () {
-            d3.select(this).transition().duration(200).attr("fill", "#4f46e5");
-          });
-
-        // Add value labels on top of bars
-        svg
-          .selectAll(".value-label")
-          .data(chartData.data)
-          .join("text")
-          .attr("class", "value-label")
-          .attr("x", (d) => x(d.label) + x.bandwidth() / 2)
-          .attr("y", (d) => y(d.value) - 5)
-          .attr("text-anchor", "middle")
-          .style("fill", "white")
-          .style("font-size", "12px")
-          .text((d) => d.value);
-        break;
-      }
-
-      case "line": {
-        // Add line chart implementation
-        const x = d3
-          .scalePoint()
-          .range([0, width])
-          .domain(chartData.data.map((d) => d.label));
-
-        const y = d3
-          .scaleLinear()
-          .range([height, 0])
-          .domain([0, d3.max(chartData.data, (d) => d.value) * 1.1]);
-
-        // Add X axis
-        svg
-          .append("g")
-          .attr("transform", `translate(0,${height})`)
-          .call(d3.axisBottom(x))
-          .selectAll("text")
-          .style("fill", "white")
-          .style("font-size", "12px");
-
-        // Add Y axis
-        svg
-          .append("g")
-          .call(d3.axisLeft(y))
-          .selectAll("text")
-          .style("fill", "white")
-          .style("font-size", "12px");
-
-        // Add the line
-        svg
-          .append("path")
-          .datum(chartData.data)
-          .attr("fill", "none")
-          .attr("stroke", "#4f46e5")
-          .attr("stroke-width", 2)
-          .attr(
-            "d",
-            d3
-              .line()
-              .x((d) => x(d.label))
-              .y((d) => y(d.value))
-          );
-
-        // Add dots
-        svg
-          .selectAll("circle")
-          .data(chartData.data)
-          .join("circle")
-          .attr("cx", (d) => x(d.label))
-          .attr("cy", (d) => y(d.value))
-          .attr("r", 4)
-          .attr("fill", "#4f46e5");
-        break;
-      }
-
-      case "stackedBar": {
-        // Create scales
-        const x = d3
-          .scaleBand()
-          .range([0, width])
-          .domain(chartData.data.map((d) => d.year))
-          .padding(0.2);
-
-        const y = d3
-          .scaleLinear()
-          .range([height, 0])
-          .domain([0, d3.max(chartData.data, (d) => d.total) * 1.1]);
-
-        // Create color scale
-        const color = d3
-          .scaleOrdinal()
-          .domain(["State", "Local", "Other"])
-          .range(chartData.colors || ["#4f46e5", "#06b6d4", "#14b8a6"]);
-
-        // Add X axis
-        svg
-          .append("g")
-          .attr("transform", `translate(0,${height})`)
-          .call(d3.axisBottom(x))
-          .selectAll("text")
-          .style("fill", "white")
-          .style("font-size", "12px")
-          .attr("transform", "rotate(-45)")
-          .style("text-anchor", "end");
-
-        // Add Y axis
-        svg
-          .append("g")
-          .call(d3.axisLeft(y))
-          .selectAll("text")
-          .style("fill", "white")
-          .style("font-size", "12px");
-
-        // Create stacked data
-        const stackedData = d3
-          .stack()
-          .keys(["State", "Local", "Other"])
-          .value((d, key) => d.values.find((v) => v.name === key)?.value || 0)(
-          chartData.data
-        );
-
-        // Add bars
-        svg
-          .append("g")
-          .selectAll("g")
-          .data(stackedData)
-          .join("g")
-          .attr("fill", (d) => color(d.key))
-          .selectAll("rect")
-          .data((d) => d)
-          .join("rect")
-          .attr("x", (d) => x(d.data.year))
-          .attr("y", (d) => y(d[1]))
-          .attr("height", (d) => y(d[0]) - y(d[1]))
-          .attr("width", x.bandwidth())
-          .attr("rx", 4);
-
-        // Add legend
-        const legend = svg
-          .append("g")
-          .attr("transform", `translate(${width - 100}, 0)`);
-
-        ["State", "Local", "Other"].forEach((key, i) => {
-          const legendRow = legend
-            .append("g")
-            .attr("transform", `translate(0, ${i * 20})`);
-
-          legendRow
-            .append("rect")
-            .attr("width", 15)
-            .attr("height", 15)
-            .attr("fill", color(key));
-
-          legendRow
-            .append("text")
-            .attr("x", 20)
-            .attr("y", 12)
-            .style("fill", "white")
-            .style("font-size", "12px")
-            .text(key);
-        });
-        break;
-      }
-
-      case "multiLine": {
-        // Create scales
-        const x = d3
-          .scalePoint()
-          .range([0, width])
-          .domain(chartData.data[0].values.map((d) => d.year));
-
-        const y = d3
-          .scaleLinear()
-          .range([height, 0])
-          .domain([
-            0,
-            d3.max(chartData.data, (series) =>
-              d3.max(series.values, (d) => d.value)
-            ) * 1.1,
-          ]);
-
-        // Create color scale
-        const color = d3
-          .scaleOrdinal()
-          .domain(chartData.data.map((d) => d.name))
-          .range(chartData.colors || ["#4f46e5", "#06b6d4", "#14b8a6"]);
-
-        // Add X axis
-        svg
-          .append("g")
-          .attr("transform", `translate(0,${height})`)
-          .call(d3.axisBottom(x))
-          .selectAll("text")
-          .style("fill", "white")
-          .style("font-size", "12px");
-
-        // Add Y axis
-        svg
-          .append("g")
-          .call(d3.axisLeft(y))
-          .selectAll("text")
-          .style("fill", "white")
-          .style("font-size", "12px");
-
-        // Add lines
-        chartData.data.forEach((series) => {
-          svg
-            .append("path")
-            .datum(series.values)
-            .attr("fill", "none")
-            .attr("stroke", color(series.name))
-            .attr("stroke-width", 2)
-            .attr(
-              "d",
-              d3
-                .line()
-                .x((d) => x(d.year))
-                .y((d) => y(d.value))
-            );
-
-          // Add dots
-          svg
-            .selectAll(`dot-${series.name}`)
-            .data(series.values)
-            .join("circle")
-            .attr("cx", (d) => x(d.year))
-            .attr("cy", (d) => y(d.value))
-            .attr("r", 4)
-            .attr("fill", color(series.name));
-        });
-
-        // Add legend
-        const legend = svg
-          .append("g")
-          .attr("transform", `translate(${width - 100}, 0)`);
-
-        chartData.data.forEach((series, i) => {
-          const legendRow = legend
-            .append("g")
-            .attr("transform", `translate(0, ${i * 20})`);
-
-          legendRow
-            .append("line")
-            .attr("x1", 0)
-            .attr("x2", 15)
-            .attr("y1", 10)
-            .attr("y2", 10)
-            .attr("stroke", color(series.name))
-            .attr("stroke-width", 2);
-
-          legendRow
-            .append("text")
-            .attr("x", 20)
-            .attr("y", 12)
-            .style("fill", "white")
-            .style("font-size", "12px")
-            .text(series.name);
-        });
-        break;
-      }
-
-      // Add more chart types as needed
-      default:
-        console.error("Unsupported chart type:", type);
-    }
-  }, [chartData, type]);
-
-  return <div ref={chartRef} className="w-full h-[300px] my-4"></div>;
+// Add this function at the top of the file
+const formatFolderTitle = (folderPath) => {
+  // Extract the last part of the path
+  const folder = folderPath.split("/").pop();
+  // Remove any special characters and split by spaces
+  return folder.replace(/[_-]/g, " ");
 };
 
 const TabViewer = ({ folderPath }) => {
@@ -359,6 +202,9 @@ const TabViewer = ({ folderPath }) => {
   const [activeTab, setActiveTab] = useState("why_its_important");
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
+
+  // Add new state for folder title
+  const [folderTitle, setFolderTitle] = useState("");
 
   useEffect(() => {
     setError(null);
@@ -380,22 +226,74 @@ const TabViewer = ({ folderPath }) => {
       });
   }, [folderPath, activeTab]);
 
+  // Add useEffect to set folder title
+  useEffect(() => {
+    const title = formatFolderTitle(folderPath);
+    setFolderTitle(title);
+    document.title = `${title} - Performance Tracker`; // Optional: update page title
+  }, [folderPath]);
+
   // Custom components for markdown
   const components = {
     // Add custom component for charts
     d3chart: ({ node, ...props }) => {
       try {
-        const chartData = JSON.parse(props.data);
-        return <D3Chart chartData={chartData} type={props.type} />;
+        if (props.csv) {
+          // Validate required props
+          if (!props.type || !props.config) {
+            throw new Error("Missing required chart properties");
+          }
+
+          return (
+            <div className="chart-container">
+              <CSVChart
+                filename={props.csv}
+                type={props.type}
+                config={
+                  typeof props.config === "string"
+                    ? JSON.parse(props.config)
+                    : props.config
+                }
+              />
+            </div>
+          );
+        }
+
+        const chartData =
+          typeof props.data === "string" ? JSON.parse(props.data) : props.data;
+
+        // Validate required properties
+        if (!chartData || !props.type) {
+          console.error("Invalid chart configuration:", {
+            chartData,
+            type: props.type,
+          });
+          return (
+            <div className="text-red-500">Invalid chart configuration</div>
+          );
+        }
+
+        return (
+          <div className="chart-container">
+            <Suspense fallback={<ChartLoader />}>
+              <ChartRenderer chartData={chartData} type={props.type} />
+            </Suspense>
+          </div>
+        );
       } catch (err) {
         console.error("Error parsing chart data:", err);
-        return <div className="text-red-500">Error loading chart</div>;
+        return (
+          <div className="text-red-500">Error loading chart: {err.message}</div>
+        );
       }
     },
   };
 
   return (
     <div className="w-full h-full bg-gray-900 text-white p-4">
+      {/* Add folder title */}
+      <h1 className="text-2xl font-bold text-center mb-6">{folderTitle}</h1>
+
       {/* Scrollable tab container on mobile */}
       <div className="relative flex transistion-all duration-300 ease-in-out md:justify-center overflow-x-auto whitespace-nowrap space-x-4 mb-4 border-b border-gray-700 scrollbar-hide">
         {tabs.map((tab) => (
