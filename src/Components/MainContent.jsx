@@ -290,6 +290,11 @@ function MainContent() {
   };
 
   if (selectedPath) {
+    // Find the selected item
+    const selectedItem = items.find(
+      (item) => item.markdownPath === selectedPath
+    );
+
     return (
       <div className="flex-[80%] bg-gray-900">
         <button
@@ -298,7 +303,13 @@ function MainContent() {
         >
           Back to Grid
         </button>
-        <TabViewer folderPath={selectedPath} />
+        <TabViewer
+          folderPath={selectedPath}
+          trendIcon={selectedItem.trendIcon}
+          trendDetails={selectedItem.trendDetails}
+          details={selectedItem.details}
+          title={selectedItem.title}
+        />
       </div>
     );
   }

@@ -4,20 +4,106 @@ The second chart shows that concentrations of both pollutants increased slightly
 
 Federal standards have had a dramatic effect in reducing emissions and unhealthy air quality days over the past few decades. Public health has benefitted from greater awareness of pollutants and ways to lessen their impact. However, climate change may counter the progress the nation has made in improving air quality, as higher temperatures increase the potential for forming ground-level ozone and wildfires risk increased PM<sub>2.5</sub> emissions, which is likely to result in more days that violate national standards.
 
+---
+
+<br>
+
+#### Days Violating National Ambient Air Quality Standards
+
 <d3chart
-  type="multiLine"
-  csv="transit_safety_KSI_1_fk.csv"
-  config='{
-    "xAxis": "Year",
-    "series": [
-      {"key": "MPO Per Capita", "column": "mpo_capita"},
-      {"key": "Columbia Per Capita", "column": "colh_capita"},
-      {"key": "Petersburg Per Capita", "column": "pet_capita"},
-      {"key": "Hope Per Capita", "column": "hope_capita"},
-      {"key": "Chester Per Capita", "column": "chest_capita"},
-      {"key": "Dinwiddie Per Capita", "column": "din_capita"},
-      {"key": "Prince George Per Capita", "column": "prg_capita"}
+  type="mixed"
+  data='{
+    "data": [
+      {
+        "key": "Days Violating",
+        "type": "bar",
+        "values": [
+          {"x": "2000", "y": 62}, {"x": "2001", "y": 80}, {"x": "2002", "y": 83},
+          {"x": "2003", "y": 62}, {"x": "2004", "y": 50}, {"x": "2005", "y": 62},
+          {"x": "2006", "y": 59}, {"x": "2007", "y": 58}, {"x": "2008", "y": 49},
+          {"x": "2009", "y": 24}, {"x": "2010", "y": 48}, {"x": "2011", "y": 31},
+          {"x": "2012", "y": 43}, {"x": "2013", "y": 19}, {"x": "2014", "y": 20},
+          {"x": "2015", "y": 30}, {"x": "2016", "y": 18}, {"x": "2017", "y": 21},
+          {"x": "2018", "y": 19}, {"x": "2019", "y": 16}, {"x": "2020", "y": 8},
+          {"x": "2021", "y": 15}, {"x": "2022", "y": 6}, {"x": "2023", "y": 25}
+        ]
+      },
+      {
+        "key": "Five Year Average",
+        "type": "line",
+        "values": [
+          {"x": "2000", "y": 70}, {"x": "2001", "y": 71}, {"x": "2002", "y": 74},
+          {"x": "2003", "y": 71}, {"x": "2004", "y": 67}, {"x": "2005", "y": 67},
+          {"x": "2006", "y": 63}, {"x": "2007", "y": 58}, {"x": "2008", "y": 56},
+          {"x": "2009", "y": 50}, {"x": "2010", "y": 48}, {"x": "2011", "y": 42},
+          {"x": "2012", "y": 39}, {"x": "2013", "y": 33}, {"x": "2014", "y": 32},
+          {"x": "2015", "y": 29}, {"x": "2016", "y": 26}, {"x": "2017", "y": 22},
+          {"x": "2018", "y": 22}, {"x": "2019", "y": 21}, {"x": "2020", "y": 16},
+          {"x": "2021", "y": 16}, {"x": "2022", "y": 13}, {"x": "2023", "y": 14}
+        ]
+      }
     ],
-    "colors": ["#4f46e5", "#06b6d4", "#14b8a6", "#0891b2", "#0e7490", "#155e75", "#164e63"]
+    "colors": ["#4f46e5", "#ef4444"]
   }'
+  type="mixed"
+/>
+
+## <br>
+
+<br>
+
+#### Quarterly Unhealthy Days by Air Quality Index Level
+
+<d3chart
+  type="stackedBar"
+  data='{
+    "data": [
+      {
+        "key": "Unhealthy Sensitive PM",
+        "values": [
+          {"x": "2023 Q4", "y": 4}, {"x": "2023 Q3", "y": 2}, {"x": "2023 Q2", "y": 1}, {"x": "2023 Q1", "y": 0},
+          {"x": "2022 Q4", "y": 1}, {"x": "2022 Q3", "y": 0}, {"x": "2022 Q2", "y": 0}, {"x": "2022 Q1", "y": 0}
+        ]
+      },
+      {
+        "key": "Unhealthy PM",
+        "values": [
+          {"x": "2023 Q4", "y": 0}, {"x": "2023 Q3", "y": 0}, {"x": "2023 Q2", "y": 3}, {"x": "2023 Q1", "y": 0},
+          {"x": "2022 Q4", "y": 0}, {"x": "2022 Q3", "y": 0}, {"x": "2022 Q2", "y": 0}, {"x": "2022 Q1", "y": 0}
+        ]
+      },
+      {
+        "key": "Very Unhealthy PM",
+        "values": [
+          {"x": "2023 Q4", "y": 0}, {"x": "2023 Q3", "y": 0}, {"x": "2023 Q2", "y": 1}, {"x": "2023 Q1", "y": 0},
+          {"x": "2022 Q4", "y": 0}, {"x": "2022 Q3", "y": 0}, {"x": "2022 Q2", "y": 0}, {"x": "2022 Q1", "y": 0}
+        ]
+      },
+      {
+        "key": "Hazardous PM",
+        "values": [
+          {"x": "2023 Q4", "y": 0}, {"x": "2023 Q3", "y": 0}, {"x": "2023 Q2", "y": 1}, {"x": "2023 Q1", "y": 0},
+          {"x": "2022 Q4", "y": 0}, {"x": "2022 Q3", "y": 0}, {"x": "2022 Q2", "y": 0}, {"x": "2022 Q1", "y": 0}
+        ]
+      },
+      {
+        "key": "Unhealthy Sensitive Ozone",
+        "values": [
+          {"x": "2023 Q4", "y": 0}, {"x": "2023 Q3", "y": 8}, {"x": "2023 Q2", "y": 4}, {"x": "2023 Q1", "y": 0},
+          {"x": "2022 Q4", "y": 0}, {"x": "2022 Q3", "y": 2}, {"x": "2022 Q2", "y": 3}, {"x": "2022 Q1", "y": 0}
+        ]
+      },
+      {
+        "key": "Unhealthy Ozone",
+        "values": [
+          {"x": "2023 Q4", "y": 0}, {"x": "2023 Q3", "y": 0}, {"x": "2023 Q2", "y": 1}, {"x": "2023 Q1", "y": 0},
+          {"x": "2022 Q4", "y": 0}, {"x": "2022 Q3", "y": 0}, {"x": "2022 Q2", "y": 0}, {"x": "2022 Q1", "y": 0}
+        ]
+      }
+    ],
+    "colors": [
+      "#60a5fa", "#3b82f6", "#1d4ed8", "#1e3a8a", "#34d399", "#10b981", "#047857", "#064e3b"  
+    ]
+  }'
+  type="stackedBar"
 />

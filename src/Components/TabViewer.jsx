@@ -80,7 +80,14 @@ const ChartRenderer = ({ chartData, type }) => {
             colors: chartData.colors,
             xaxis: {
               ...defaultOptions.xaxis,
+              categories: chartData.data[0].values.map((d) => d.x),
               type: "category",
+              labels: {
+                ...defaultOptions.xaxis.labels,
+                rotate: -45,
+                trim: true,
+                maxHeight: 120,
+              },
             },
             stroke: {
               width: 2,
@@ -88,14 +95,24 @@ const ChartRenderer = ({ chartData, type }) => {
             },
             markers: {
               size: 4,
+              hover: {
+                size: 6,
+              },
+            },
+            tooltip: {
+              shared: true,
+              intersect: false,
+            },
+            legend: {
+              ...defaultOptions.legend,
+              position: "top",
+              horizontalAlign: "center",
+              floating: false,
             },
           }}
           series={chartData.data.map((series) => ({
-            name: series.name || series.key,
-            data: series.values.map((d) => ({
-              x: d.x || d.year,
-              y: d.y || d.value,
-            })),
+            name: series.key,
+            data: series.values.map((d) => parseFloat(d.y) || 0),
           }))}
           type="line"
           height={300}
@@ -107,6 +124,11 @@ const ChartRenderer = ({ chartData, type }) => {
         <Chart
           options={{
             ...defaultOptions,
+            chart: {
+              ...defaultOptions.chart,
+              stacked: true,
+              type: "bar",
+            },
             colors: chartData.colors,
             xaxis: {
               ...defaultOptions.xaxis,
@@ -121,10 +143,16 @@ const ChartRenderer = ({ chartData, type }) => {
             plotOptions: {
               bar: {
                 horizontal: false,
-                borderRadius: 4,
                 columnWidth: "70%",
-                stacked: true,
+                borderRadius: 4,
               },
+            },
+            dataLabels: {
+              enabled: false,
+            },
+            tooltip: {
+              shared: true,
+              intersect: false,
             },
           }}
           series={chartData.data.map((series) => ({
@@ -132,6 +160,56 @@ const ChartRenderer = ({ chartData, type }) => {
             data: series.values.map((d) => d.y),
           }))}
           type="bar"
+          height={300}
+        />
+      );
+
+    case "mixed":
+      return (
+        <Chart
+          options={{
+            ...defaultOptions,
+            chart: {
+              ...defaultOptions.chart,
+              type: "line",
+            },
+            stroke: {
+              width: [0, 3],
+              curve: "smooth",
+            },
+            plotOptions: {
+              bar: {
+                columnWidth: "50%",
+              },
+            },
+            colors: chartData.colors,
+            xaxis: {
+              ...defaultOptions.xaxis,
+              categories: chartData.data[0].values.map((d) => d.x),
+              labels: {
+                rotate: -45,
+                style: {
+                  colors: "#ffffff",
+                },
+              },
+            },
+            markers: {
+              size: [0, 4],
+              strokeWidth: 2,
+              hover: {
+                size: 6,
+              },
+            },
+            tooltip: {
+              shared: true,
+              intersect: false,
+            },
+          }}
+          series={chartData.data.map((series) => ({
+            name: series.key,
+            type: series.type,
+            data: series.values.map((d) => d.y),
+          }))}
           height={300}
         />
       );
@@ -192,7 +270,7 @@ const formatFolderTitle = (folderPath) => {
   return folder.replace(/[_-]/g, " ");
 };
 
-const TabViewer = ({ folderPath }) => {
+const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
   const [tabs] = useState([
     "why_its_important",
     "what_is_it",
@@ -291,10 +369,12 @@ const TabViewer = ({ folderPath }) => {
 
   return (
     <div className="w-full h-full bg-gray-900 text-white p-4">
-      {/* Add folder title */}
-      <h1 className="text-2xl font-bold text-center mb-6">{folderTitle}</h1>
+      {/* Add trend information section */}
+      <div className="flex items-center justify-center max-w-[1024px] mx-auto mb-6">
+        <h1 className="text-2xl font-bold">{title}</h1>
+      </div>
 
-      {/* Scrollable tab container on mobile */}
+      {/* Scrollable tab container */}
       <div className="relative flex transistion-all duration-300 ease-in-out md:justify-center overflow-x-auto whitespace-nowrap space-x-4 mb-4 border-b border-gray-700 scrollbar-hide">
         {tabs.map((tab) => (
           <button
@@ -327,16 +407,24 @@ const TabViewer = ({ folderPath }) => {
         {error ? (
           <div className="text-red-500">{error}</div>
         ) : (
-          <ReactMarkdown
-            components={components}
-            rehypePlugins={[rehypeRaw]} // Add this line
-          >
+          <ReactMarkdown components={components} rehypePlugins={[rehypeRaw]}>
             {content}
           </ReactMarkdown>
         )}
+        <div className="flex items-center justify-center mt-10 gap-5">
+          <div className="flex items-center">
+            {trendIcon}
+            <span className="ml-2 font-semibold">{trendDetails}</span>
+          </div>
+          <p className="text-gray-300">{details}</p>
+        </div>
       </div>
     </div>
   );
 };
 
 export default TabViewer;
+
+// trendIcon={selectedItem.trendIcon}
+//         trendDetails={selectedItem.trendDetails}
+//         details={selectedItem.details}
