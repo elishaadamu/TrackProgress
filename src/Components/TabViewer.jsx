@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import Chart from "./ChartComponent";
@@ -19,26 +19,63 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
   const [folderTitle, setFolderTitle] = useState("");
+  const [allContent, setAllContent] = useState({});
+  const [sharedCharts, setSharedCharts] = useState([]);
 
+  // Extract charts from markdown content
+  const extractCharts = (content) => {
+    const chartRegex = /chart:{([^}]*)}/g;
+    const charts = [];
+    let match;
+
+    while ((match = chartRegex.exec(content))) {
+      try {
+        const chart = JSON.parse(`{${match[1]}}`);
+        charts.push(chart);
+      } catch (e) {
+        console.error("Error parsing chart:", e);
+      }
+    }
+    return charts;
+  };
+
+  // Fetch all tab content initially
+  useEffect(() => {
+    const fetchAllContent = async () => {
+      const content = {};
+      const allCharts = [];
+
+      for (const tab of tabs) {
+        try {
+          const res = await fetch(`${folderPath}/${tab}.md`);
+          if (res.ok) {
+            const text = await res.text();
+            content[tab] = text;
+            const charts = extractCharts(text);
+            allCharts.push(...charts);
+          }
+        } catch (err) {
+          console.error(`Error loading ${tab}:`, err);
+        }
+      }
+
+      setAllContent(content);
+      setSharedCharts(allCharts);
+    };
+
+    fetchAllContent();
+  }, [folderPath]);
+
+  // Update active tab content
   useEffect(() => {
     setError(null);
-    fetch(`${folderPath}/${activeTab}.md`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Tab content not found: ${activeTab}`);
-        }
-        return res.text();
-      })
-      .then((text) => {
-        setContent(text);
-        setError(null);
-      })
-      .catch((err) => {
-        console.error("Error loading markdown:", err);
-        setError(err.message);
-        setContent("");
-      });
-  }, [folderPath, activeTab]);
+    if (allContent[activeTab]) {
+      setContent(allContent[activeTab]);
+    } else {
+      setError(`Tab content not found: ${activeTab}`);
+      setContent("");
+    }
+  }, [activeTab, allContent]);
 
   useEffect(() => {
     const title = formatFolderTitle(folderPath);
@@ -46,27 +83,38 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
     document.title = `${title} - Performance Tracker`;
   }, [folderPath]);
 
-  const components = {
-    // Custom component to handle chart markdown syntax
-    p: ({ children }) => {
-      if (typeof children === "string" && children.startsWith("chart:")) {
-        try {
-          const config = JSON.parse(children.slice(6));
-          return (
-            <Chart
-              type={config.type}
-              dataPath={`/data/${config.file}`}
-              config={config}
-            />
-          );
-        } catch (e) {
-          console.error("Error parsing chart config:", e);
-          return <p className="text-red-500">Invalid chart configuration</p>;
+  const components = useMemo(
+    () => ({
+      // Custom component to handle chart markdown syntax
+      p: ({ children }) => {
+        if (typeof children === "string" && children.startsWith("chart:")) {
+          try {
+            const config = JSON.parse(children.slice(6));
+            // Check if this chart exists in other tabs
+            const isShared = sharedCharts.some(
+              (chart) =>
+                chart.file === config.file && chart.type === config.type
+            );
+
+            return (
+              <div className={isShared ? "shared-chart" : ""}>
+                <Chart
+                  type={config.type}
+                  dataPath={`/data/${config.file}`}
+                  config={config}
+                />
+              </div>
+            );
+          } catch (e) {
+            console.error("Error parsing chart config:", e);
+            return <p className="text-red-500">Invalid chart configuration</p>;
+          }
         }
-      }
-      return <p>{children}</p>;
-    },
-  };
+        return <p>{children}</p>;
+      },
+    }),
+    [sharedCharts]
+  );
 
   return (
     <div className="w-full h-full bg-gray-900 text-white p-4">
@@ -115,7 +163,7 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
             {trendIcon}
             <span className="ml-2 font-semibold">{trendDetails}</span>
           </div>
-          <p className="text-gray-300">{details}</p>
+          <span className="text-gray-300 mt-[2px] ">{details}</span>
         </div>
       </div>
     </div>
