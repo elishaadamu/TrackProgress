@@ -1,3 +1,17 @@
-Bridges enable mobility and commerce throughout the region. Federal transportation legislation requires state departments of transportation to use a Lowest Life Cycle Cost (LLCC) approach to maximize the life of a bridge at the lowest cost. LLCC emphasizes preservation and promotes the right treatment at the right time, while incorporating risk into the analysis. Bridges with a poor condition rating indicate maintenance needs that do not pose safety issues, as long as they are resolved in a timely manner. 
+Bridges enable mobility and commerce throughout the region. Federal transportation legislation requires state departments of transportation to use a Lowest Life Cycle Cost (LLCC) approach to maximize the life of a bridge at the lowest cost. LLCC emphasizes preservation and promotes the right treatment at the right time, while incorporating risk into the analysis. Bridges with a poor condition rating indicate maintenance needs that do not pose safety issues, as long as they are resolved in a timely manner.
 
 This indicator reflects the _Connections 2050_ Plan goal to rebuild and modernize the region’s transportation assets in order to achieve and maintain a state-of-good repair.
+
+# Bridge Conditions
+
+Here's the trend of bridge conditions over time:
+
+chart:{
+"type": "line",
+"file": "Bridge_Conditions_1_fk.csv",
+"xAxis": "year",
+"lines": [
+{"key": "MPO- All", "name": "All Bridges", "color": "#8884d8"},
+{"key": "MPO- State", "name": "State Bridges", "color": "#82ca9d"}
+]
+}

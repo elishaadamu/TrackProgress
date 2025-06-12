@@ -5,10 +5,10 @@
 /************************ Helper Functions *********************************/
 // input helper function
 const formatInpus = (source, toggleContext) => {
-  // the Period of the div containing the svg for d3 to paint on
+  // Get the container
   const container = `.${source.container} svg`;
 
-  // create or reset the values field to be populated by each charting function
+  // Reset values
   source.data.forEach((series) => (series.values = []));
 
   let labels, xLabel, units, chartName;
@@ -55,18 +55,29 @@ const formatInpus = (source, toggleContext) => {
     chartName = source.dataSource[0];
   }
 
-  const dataSource = `./data/${chartName}.csv`;
+  // Modify how dataSource is constructed
+  const dataSource = chartName.startsWith("/")
+    ? chartName
+    : `/data/${chartName}.csv`;
 
-  // if neither labels nor units need updating, make context null so the viz fncs can avoid calling formatLabels
-  let context = labels || units ? { labels, units, xLabel } : null;
+  // Construct absolute path using window.location
+  const baseUrl = window.location.origin;
+  const absoluteDataPath = `${baseUrl}/public${dataSource}`;
 
+  // Handle data URL for source attribution
   const chartSrc =
-    document.querySelector(container).parentElement.nextElementSibling;
-  const dataUrl = chartSrc.querySelector("#data-url");
-  if (!dataUrl)
-    chartSrc.innerHTML += `<a id='data-url' target='_blank' href='${source.dataUrl}' style='margin-left:auto;'>Access the data behind these charts</a>`;
+    document.querySelector(container)?.parentElement?.nextElementSibling;
+  if (chartSrc && !chartSrc.querySelector("#data-url")) {
+    chartSrc.innerHTML += `
+      <a id='data-url' 
+         target='_blank' 
+         href='${source.dataUrl || absoluteDataPath}' 
+         style='margin-left:auto;'>
+        Access the data behind these charts
+      </a>`;
+  }
 
-  return [container, dataSource, source, context];
+  return [container, absoluteDataPath, source, context];
 };
 
 // labelling helper function
@@ -292,19 +303,20 @@ const createLineChart = (source, toggleContext) => {
   let container, dataSource, context;
   [container, dataSource, source, context] = formatInpus(source, toggleContext);
 
-  d3.csv(
-    dataSource,
-    (rows) => {
+  d3.csv(dataSource)
+    .then((data) => {
+      // Process the data
       source.data.forEach((series) => {
-        if (rows[series.columns[1]] != "")
-          series.values.push([
-            +rows[series.columns[0]],
-            rows[series.columns[1]] === "NA" ? null : +rows[series.columns[1]],
+        series.values = data
+          .filter((row) => row[series.columns[1]] !== "")
+          .map((row) => [
+            +row[series.columns[0]],
+            row[series.columns[1]] === "NA" ? null : +row[series.columns[1]],
           ]);
       });
-    },
-    (csvObj) => {
-      nv.addGraph(() => {
+
+      // Create chart
+      return nv.addGraph(() => {
         let chart = nv.models
           .lineChart()
           .margin(standardMargin)
@@ -313,26 +325,25 @@ const createLineChart = (source, toggleContext) => {
           .clipEdge(false)
           .forceY(source.range || 0)
           .x((d) => (d ? d[0] : null))
-          .y((d, i) => (d ? d[1] : null));
+          .y((d) => (d ? d[1] : null));
 
-        // set max legend length to an arbitrarily high number to prevent text cutoff
+        // Configure chart
         chart.legend.maxKeyLength(100);
-
-        // format yAxis units and labels if necessary
         if (context) formatLabels(chart.yAxis, chart.xAxis, context);
 
+        // Render chart
         d3.select(container)
           .datum(source.data)
           .transition()
           .duration(500)
           .call(chart);
 
+        // Handle resize
         nv.utils.windowResize(chart.update);
-
         return chart;
       });
-    }
-  );
+    })
+    .catch(handleCSVError);
 };
 
 const createBarChart = (source, toggleContext) => {

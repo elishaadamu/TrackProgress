@@ -1,272 +1,10 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import Chart from "./ChartComponent";
 
-// Lazy load ApexCharts to avoid SSR issues
-const Chart = lazy(() => import("react-apexcharts"));
-
-// Add a loading component
-const ChartLoader = () => (
-  <div className="h-[300px] w-full flex items-center justify-center bg-gray-800">
-    <div className="text-white">Loading chart...</div>
-  </div>
-);
-
-const ChartRenderer = ({ chartData, type }) => {
-  const theme = {
-    mode: "dark",
-    palette: "palette1",
-    monochrome: {
-      enabled: false,
-      color: "#4f46e5",
-    },
-  };
-
-  const defaultOptions = {
-    theme,
-    chart: {
-      background: "transparent",
-      toolbar: {
-        show: false,
-      },
-    },
-    grid: {
-      borderColor: "#334155",
-      opacity: 0.1,
-    },
-    xaxis: {
-      labels: {
-        style: {
-          colors: "#ffffff",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#ffffff",
-        },
-      },
-    },
-    legend: {
-      labels: {
-        colors: "#ffffff",
-      },
-    },
-  };
-
-  switch (type) {
-    case "bar":
-      return (
-        <Chart
-          options={{
-            ...defaultOptions,
-            xaxis: {
-              ...defaultOptions.xaxis,
-              categories: chartData.data.map((d) => d.label),
-            },
-          }}
-          series={[{ data: chartData.data.map((d) => d.value) }]}
-          type="bar"
-          height={300}
-        />
-      );
-
-    case "multiLine":
-      return (
-        <Chart
-          options={{
-            ...defaultOptions,
-            colors: chartData.colors,
-            xaxis: {
-              ...defaultOptions.xaxis,
-              categories: chartData.data[0].values.map((d) => d.x),
-              type: "category",
-              labels: {
-                ...defaultOptions.xaxis.labels,
-                rotate: -45,
-                trim: true,
-                maxHeight: 120,
-              },
-            },
-            stroke: {
-              width: 2,
-              curve: "smooth",
-            },
-            markers: {
-              size: 4,
-              hover: {
-                size: 6,
-              },
-            },
-            tooltip: {
-              shared: true,
-              intersect: false,
-            },
-            legend: {
-              ...defaultOptions.legend,
-              position: "top",
-              horizontalAlign: "center",
-              floating: false,
-            },
-          }}
-          series={chartData.data.map((series) => ({
-            name: series.key,
-            data: series.values.map((d) => parseFloat(d.y) || 0),
-          }))}
-          type="line"
-          height={300}
-        />
-      );
-
-    case "stackedBar":
-      return (
-        <Chart
-          options={{
-            ...defaultOptions,
-            chart: {
-              ...defaultOptions.chart,
-              stacked: true,
-              type: "bar",
-            },
-            colors: chartData.colors,
-            xaxis: {
-              ...defaultOptions.xaxis,
-              categories: chartData.data[0].values.map((d) => d.x),
-              labels: {
-                rotate: -45,
-                style: {
-                  colors: "#ffffff",
-                },
-              },
-            },
-            plotOptions: {
-              bar: {
-                horizontal: false,
-                columnWidth: "70%",
-                borderRadius: 4,
-              },
-            },
-            dataLabels: {
-              enabled: false,
-            },
-            tooltip: {
-              shared: true,
-              intersect: false,
-            },
-          }}
-          series={chartData.data.map((series) => ({
-            name: series.key,
-            data: series.values.map((d) => d.y),
-          }))}
-          type="bar"
-          height={300}
-        />
-      );
-
-    case "mixed":
-      return (
-        <Chart
-          options={{
-            ...defaultOptions,
-            chart: {
-              ...defaultOptions.chart,
-              type: "line",
-            },
-            stroke: {
-              width: [0, 3],
-              curve: "smooth",
-            },
-            plotOptions: {
-              bar: {
-                columnWidth: "50%",
-              },
-            },
-            colors: chartData.colors,
-            xaxis: {
-              ...defaultOptions.xaxis,
-              categories: chartData.data[0].values.map((d) => d.x),
-              labels: {
-                rotate: -45,
-                style: {
-                  colors: "#ffffff",
-                },
-              },
-            },
-            markers: {
-              size: [0, 4],
-              strokeWidth: 2,
-              hover: {
-                size: 6,
-              },
-            },
-            tooltip: {
-              shared: true,
-              intersect: false,
-            },
-          }}
-          series={chartData.data.map((series) => ({
-            name: series.key,
-            type: series.type,
-            data: series.values.map((d) => d.y),
-          }))}
-          height={300}
-        />
-      );
-
-    default:
-      return null;
-  }
-};
-
-// Simple CSV parser
-const parseCSV = (text) => {
-  const lines = text.trim().split("\n");
-  const headers = lines[0].split(",").map((h) => h.trim());
-  return lines
-    .slice(1)
-    .filter((line) => line.trim())
-    .map((line) => {
-      const values = line.split(",");
-      return headers.reduce((obj, header, i) => {
-        obj[header] = values[i]?.trim();
-        return obj;
-      }, {});
-    });
-};
-
-const CSVChart = ({ filename, type, config }) => {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetch(`/data/${filename}`)
-      .then((res) => res.text())
-      .then((text) => {
-        const records = parseCSV(text);
-        const formattedData = {
-          data: config.series.map((series) => ({
-            key: series.key,
-            values: records.map((record) => ({
-              x: record[config.xAxis],
-              y: parseFloat(record[series.column]) || 0,
-            })),
-          })),
-          colors: config.colors,
-        };
-        setData(formattedData);
-      })
-      .catch((err) => console.error("Error loading CSV:", err));
-  }, [filename, config]);
-
-  if (!data) return <ChartLoader />;
-  return <ChartRenderer chartData={data} type={type} />;
-};
-
-// Add this function at the top of the file
 const formatFolderTitle = (folderPath) => {
-  // Extract the last part of the path
   const folder = folderPath.split("/").pop();
-  // Remove any special characters and split by spaces
   return folder.replace(/[_-]/g, " ");
 };
 
@@ -280,8 +18,6 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
   const [activeTab, setActiveTab] = useState("why_its_important");
   const [content, setContent] = useState("");
   const [error, setError] = useState(null);
-
-  // Add new state for folder title
   const [folderTitle, setFolderTitle] = useState("");
 
   useEffect(() => {
@@ -304,77 +40,40 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
       });
   }, [folderPath, activeTab]);
 
-  // Add useEffect to set folder title
   useEffect(() => {
     const title = formatFolderTitle(folderPath);
     setFolderTitle(title);
-    document.title = `${title} - Performance Tracker`; // Optional: update page title
+    document.title = `${title} - Performance Tracker`;
   }, [folderPath]);
 
-  // Custom components for markdown
   const components = {
-    // Add custom component for charts
-    d3chart: ({ node, ...props }) => {
-      try {
-        if (props.csv) {
-          // Validate required props
-          if (!props.type || !props.config) {
-            throw new Error("Missing required chart properties");
-          }
-
+    // Custom component to handle chart markdown syntax
+    p: ({ children }) => {
+      if (typeof children === "string" && children.startsWith("chart:")) {
+        try {
+          const config = JSON.parse(children.slice(6));
           return (
-            <div className="chart-container">
-              <CSVChart
-                filename={props.csv}
-                type={props.type}
-                config={
-                  typeof props.config === "string"
-                    ? JSON.parse(props.config)
-                    : props.config
-                }
-              />
-            </div>
+            <Chart
+              type={config.type}
+              dataPath={`/data/${config.file}`}
+              config={config}
+            />
           );
+        } catch (e) {
+          console.error("Error parsing chart config:", e);
+          return <p className="text-red-500">Invalid chart configuration</p>;
         }
-
-        const chartData =
-          typeof props.data === "string" ? JSON.parse(props.data) : props.data;
-
-        // Validate required properties
-        if (!chartData || !props.type) {
-          console.error("Invalid chart configuration:", {
-            chartData,
-            type: props.type,
-          });
-          return (
-            <div className="text-red-500">Invalid chart configuration</div>
-          );
-        }
-
-        return (
-          <div className="chart-container">
-            <Suspense fallback={<ChartLoader />}>
-              <ChartRenderer chartData={chartData} type={props.type} />
-            </Suspense>
-          </div>
-        );
-      } catch (err) {
-        console.error("Error parsing chart data:", err);
-        return (
-          <div className="text-red-500">Error loading chart: {err.message}</div>
-        );
       }
+      return <p>{children}</p>;
     },
   };
 
   return (
     <div className="w-full h-full bg-gray-900 text-white p-4">
-      {/* Add trend information section */}
       <div className="flex items-center justify-center max-w-[1024px] mx-auto mb-6">
         <h1 className="text-2xl font-bold">{title}</h1>
       </div>
 
-      {/* Scrollable tab container */}
       <div className="relative flex transistion-all duration-300 ease-in-out md:justify-center overflow-x-auto whitespace-nowrap space-x-4 mb-4 border-b border-gray-700 scrollbar-hide">
         {tabs.map((tab) => (
           <button
@@ -407,7 +106,7 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
         {error ? (
           <div className="text-red-500">{error}</div>
         ) : (
-          <ReactMarkdown components={components} rehypePlugins={[rehypeRaw]}>
+          <ReactMarkdown rehypePlugins={[rehypeRaw]} components={components}>
             {content}
           </ReactMarkdown>
         )}
@@ -424,7 +123,3 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
 };
 
 export default TabViewer;
-
-// trendIcon={selectedItem.trendIcon}
-//         trendDetails={selectedItem.trendDetails}
-//         details={selectedItem.details}

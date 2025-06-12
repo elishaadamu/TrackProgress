@@ -26,11 +26,20 @@ import {
 import { useCategory } from "../Context/CategoryContext";
 import TabViewer from "./TabViewer";
 import { GiSuspensionBridge } from "react-icons/gi";
+import {
+  SmileOutlined,
+  LikeOutlined,
+  MehOutlined,
+  FrownOutlined,
+  DislikeOutlined,
+} from "@ant-design/icons";
 
+// Update these items based on the markdown files
 const items = [
   {
     icon: <FaWind size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <LikeOutlined style={{ fontSize: "40px" }} />,
+    trendType: "good",
     trendDetails: "One day",
     title: "Air Quality",
     details: "increase in five-year average of violating days",
@@ -38,7 +47,7 @@ const items = [
   },
   {
     icon: <GiSuspensionBridge size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <SmileOutlined size={40} color="#ffffff" />,
     trendDetails: "62% drop",
     title: "Bridge Conditions",
     details: "in deficient bridge deck area",
@@ -46,7 +55,7 @@ const items = [
   },
   {
     icon: <FaBuilding size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <SmileOutlined size={40} color="#ffffff" />,
     trendDetails: "95% growth",
     title: "Business Formations",
     details: "in annual applications",
@@ -54,7 +63,7 @@ const items = [
   },
   {
     icon: <FaHandshake size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <FrownOutlined size={40} color="#ffffff" />,
     trendDetails: "40-51%",
     title: "Community Integration",
     details: "of residents not living in diverse communities",
@@ -62,7 +71,7 @@ const items = [
   },
   {
     icon: <FaBus size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <MehOutlined size={40} color="#ffffff" />,
     trendDetails: "10.8% fewer",
     title: "Commute Mode",
     details: "residents drive alone to work",
@@ -70,7 +79,7 @@ const items = [
   },
   {
     icon: <FaCar size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <MehOutlined size={40} color="#ffffff" />,
     trendDetails: "4.3% less",
     title: "Congestion",
     details: "reliability on region's highways",
@@ -78,7 +87,7 @@ const items = [
   },
   {
     icon: <FaGraduationCap size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <LikeOutlined size={40} color="#ffffff" />,
     trendDetails: "10% rise",
     title: "Educational Attainment",
     details: "in population over 25 with high school diploma",
@@ -86,7 +95,7 @@ const items = [
   },
   {
     icon: <FaChartLine size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <MehOutlined size={40} color="#ffffff" />,
     trendDetails: "1.7% gain",
     title: "Gross Domestic Product",
     details: "annual average GDP growth",
@@ -94,7 +103,7 @@ const items = [
   },
   {
     icon: <FaTemperatureHigh size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <MehOutlined size={40} color="#ffffff" />,
     trendDetails: "30% decrease",
     title: "Heat-Trapping Gases",
     details: "in heat-trapping gases per person",
@@ -102,7 +111,7 @@ const items = [
   },
   {
     icon: <FaHome size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <MehOutlined size={40} color="#ffffff" />,
     trendDetails: "9% fewer",
     title: "Housing Affordability",
     details: "cost burdened households since 2011",
@@ -110,7 +119,7 @@ const items = [
   },
   {
     icon: <FaFileContract size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <SmileOutlined size={40} color="#ffffff" />,
     trendDetails: "46% increase",
     title: "Housing Permits",
     details: "in permits in appropriate development areas",
@@ -118,7 +127,7 @@ const items = [
   },
   {
     icon: <FaDollarSign size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <DislikeOutlined size={40} color="#ffffff" />,
     trendDetails: "20-35% remaining",
     title: "Income",
     details: "income gaps between groups",
@@ -126,7 +135,7 @@ const items = [
   },
   {
     icon: <FaBriefcase size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <SmileOutlined size={40} color="#ffffff" />,
     trendDetails: "25% increase",
     title: "Job Growth",
     details: "in jobs",
@@ -134,8 +143,7 @@ const items = [
   },
   {
     icon: <FaBriefcase size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
-
+    trendIcon: <LikeOutlined size={40} color="#ffffff" />,
     trendDetails: "5-6% drop",
     title: "Labor Force",
     details: "in participation rate gaps from base years",
@@ -143,64 +151,63 @@ const items = [
   },
   {
     icon: <FaBriefcase size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <LikeOutlined size={40} color="#ffffff" />,
     trendDetails: "49% drop",
-
     title: "Land Consumption",
     details: "in land consumption rate",
     markdownPath: "/markdown/Job Growth",
   },
   {
     icon: <FaUsers size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <MehOutlined size={40} color="#ffffff" />,
     trendDetails: "0.5% decrease",
-    title: "Population Growth",
+    title: "Miles Driven",
     details: "in daily miles driven per person",
-    markdownPath: "/markdown/Population Growth",
+    markdownPath: "/markdown/Miles Driven",
   },
   {
     icon: <FaTree size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <LikeOutlined size={40} color="#ffffff" />,
     trendDetails: "8-10% drop",
-    title: "Tree Canopy Cover",
+    title: "Mortgage Lending",
     details: "in loan approval rate gaps",
-    markdownPath: "/markdown/Tree Canopy Cover",
+    markdownPath: "/markdown/Mortgage Lending",
   },
   {
     icon: <FaRoad size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <MehOutlined size={40} color="#ffffff" />,
     trendDetails: "1.0% fewer",
     title: "Pavement Conditions",
     details: "road lane miles in poor condition",
-    markdownPath: "/markdown/Vehicle Miles Traveled",
+    markdownPath: "/markdown/Pavement Conditions",
   },
   {
-    icon: <FaPiggyBank size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    icon: <FaUsers size={40} color="#ffffff" />,
+    trendIcon: <LikeOutlined size={40} color="#ffffff" />,
     trendDetails: "10.6% increase",
     title: "Population Growth",
     details: "in population",
-    markdownPath: "/markdown/Wealth Inequality",
+    markdownPath: "/markdown/Population Growth",
   },
   {
     icon: <FaCity size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <MehOutlined size={40} color="#ffffff" />,
     trendDetails: "28.6% increase",
     title: "Transit Conditions",
-    details: "of revenue service vehicles are past their useful life",
-    markdownPath: "/markdown/City Budget",
+    details: "of revenue vehicles past useful life",
+    markdownPath: "/markdown/Transit Conditions",
   },
   {
     icon: <FaSubway size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <DislikeOutlined size={40} color="#ffffff" />,
     trendDetails: "37% decrease",
     title: "Transit Ridership",
     details: "in transit trips per person",
     markdownPath: "/markdown/Transit Ridership",
   },
   {
-    icon: <FaBus size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    icon: <FaShieldAlt size={40} color="#ffffff" />,
+    trendIcon: <DislikeOutlined size={40} color="#ffffff" />,
     trendDetails: "60.5% increase",
     title: "Transportation Safety",
     details: "in fatalities and severe injuries",
@@ -208,7 +215,7 @@ const items = [
   },
   {
     icon: <FaTint size={40} color="#ffffff" />,
-    trendIcon: <FaChartBar size={40} color="#ffffff" />,
+    trendIcon: <FrownOutlined size={40} color="#ffffff" />,
     trendDetails: "2.8% decrease",
     title: "Water Quality",
     details: "in water supporting aquatic life",
@@ -224,45 +231,135 @@ const items = [
   },
 ];
 
-// Update categoryMapping to reflect new categories
+// Update categoryMapping to match the folders exactly
 const categoryMapping = {
-  environment: ["Air Quality", "Heat-Trapping Gases", "Water Quality"],
-  infrastructure: [
-    "Bridge Conditions",
+  sustainability: [
+    "Air Quality",
+    "Commute Mode",
+    "Congestion",
+    "Housing Permits",
+    "Land Consumption",
+    "Miles Driven",
+    "Transit Ridership",
+    "Water Quality",
+  ],
+  equity: [
+    "Air Quality",
+    "Community Integration",
+    "Housing Affordability",
+    "Educational Attainment",
+    "Income",
+    "Labor Force",
+    "Mortgage Lending",
+    "Transportation Safety",
+  ],
+  resilience: [
+    "Gross Domestic Product",
+    "Heat-Trapping Gases",
+    "Housing Affordability",
+    "Income",
+    "Job Growth",
+    "Land Consumption",
+    "Mortgage Lending",
     "Pavement Conditions",
     "Transit Conditions",
   ],
-  economy: ["Business Formations", "GDP", "Job Growth", "Income"],
+  environment: [
+    "Air Quality",
+    "Commute Mode",
+    "Heat-Trapping Gases",
+    "Housing Permits",
+    "Land Consumption",
+    "Miles Driven",
+    "Population Growth",
+    "Transit Ridership",
+    "Water Quality",
+    "2050",
+  ],
   community: [
     "Community Integration",
-    "Educational Attainment",
-    "Population Growth",
-  ],
-  transportation: [
     "Commute Mode",
     "Congestion",
+    "Educational Attainment",
+    "Heat-Trapping Gases",
+    "Housing Affordability",
+    "Housing Permits",
+    "Income",
+    "Job Growth",
+    "Labor Force",
+    "Land Consumption",
+    "Population Growth",
     "Transit Ridership",
-    "Miles Driven",
+    "2050",
   ],
-  housing: ["Housing Affordability", "Housing Permits", "Mortgage Lending"],
-  safety: ["Transportation Safety"],
+  transportation: [
+    "Air Quality",
+    "Bridge Conditions",
+    "Commute Mode",
+    "Miles Driven",
+    "Pavement Conditions",
+    "Transit Conditions",
+    "Transit Ridership",
+    "Transportation Safety",
+    "2050",
+  ],
+  economy: [
+    "Business Formations",
+    "Community Integration",
+    "Congestion",
+    "Educational Attainment",
+    "Gross Domestic Product",
+    "Housing Affordability",
+    "Housing Permits",
+    "Income",
+    "Job Growth",
+    "Labor Force",
+    "Mortgage Lending",
+    "Population Growth",
+    "2050",
+  ],
+};
+
+// First, add this mapping near the top of the file, after the items array
+const trendTypeMapping = {
+  "very-good": <SmileOutlined style={{ fontSize: "40px" }} />,
+  good: <LikeOutlined style={{ fontSize: "40px" }} />,
+  neutral: <MehOutlined style={{ fontSize: "40px" }} />,
+  "not-good": <FrownOutlined style={{ fontSize: "40px" }} />,
+  poor: <DislikeOutlined style={{ fontSize: "40px" }} />,
 };
 
 function MainContent() {
-  const { selectedCategory } = useCategory();
+  const { selectedCategory, selectedTrend } = useCategory();
   const [selectedPath, setSelectedPath] = useState(null);
 
-  const isItemActive = (title) => {
-    if (!selectedCategory) return true;
-    return categoryMapping[selectedCategory]?.includes(title);
+  const isItemActive = (item) => {
+    if (!selectedCategory && !selectedTrend) return true;
+
+    if (
+      selectedCategory &&
+      !categoryMapping[selectedCategory]?.includes(item.title)
+    ) {
+      return false;
+    }
+
+    if (selectedTrend) {
+      // Convert trendIcon to string for comparison
+      const itemTrendType = item.trendType;
+      return itemTrendType === selectedTrend;
+    }
+
+    return true;
   };
 
   const getItemBackground = (title) => {
-    if (!selectedCategory) return "#008085"; // Default gray-800 color
-    if (!isItemActive(title)) return "#ffffff";
+    if (!selectedCategory) return "#008085"; // Default color
 
-    // Update the categoryColors object to match Sidebar colors
+    // Check if the item belongs to the selected category
+    const isActive = categoryMapping[selectedCategory]?.includes(title);
+    if (!isActive) return "#4a5568"; // Inactive color
 
+    // Category-specific colors
     const colors = {
       sustainability: "#762a83",
       equity: "#9970ab",
@@ -276,9 +373,13 @@ function MainContent() {
     return colors[selectedCategory];
   };
 
+  // Update the getTextAndIconColor function
   const getTextAndIconColor = (title) => {
     if (!selectedCategory) return "#ffffff";
-    if (!isItemActive(title)) return "#9CA3AF";
+
+    // Check if the item belongs to the selected category
+    const isActive = categoryMapping[selectedCategory]?.includes(title);
+    if (!isActive) return "#9CA3AF";
 
     // Light background colors that need dark text
     const lightBackgrounds = ["environment", "community", "resilience"];
@@ -316,12 +417,12 @@ function MainContent() {
 
   return (
     <div className="flex-[80%] bg-gray-900 p-4 flex items-start justify-start">
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 [@media(min-width:1800px)]:grid-cols-7 [@media(min-width:2100px)]:grid-cols-8 gap-8 w-full max-w-full">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-8 w-full max-w-full">
         {items.map((item, idx) => (
           <div
             onClick={() => handleBoxClick(item.markdownPath)}
             className={`layout-item rounded-lg shadow-md ${
-              !isItemActive(item.title) ? "pointer-events-none opacity-50" : ""
+              !isItemActive(item) ? "pointer-events-none opacity-50" : ""
             } cursor-pointer`}
             key={idx}
           >
@@ -335,6 +436,7 @@ function MainContent() {
               >
                 {React.cloneElement(item.icon, {
                   color: getTextAndIconColor(item.title),
+                  style: { color: getTextAndIconColor(item.title) },
                 })}
                 <div className="mt-4 text-lg font-semibold hover-text">
                   {item.title}
@@ -347,7 +449,12 @@ function MainContent() {
                   color: getTextAndIconColor(item.title),
                 }}
               >
-                <span className="font-bold">{item.trendIcon}</span>
+                {React.cloneElement(item.trendIcon, {
+                  style: {
+                    fontSize: "40px",
+                    color: getTextAndIconColor(item.title),
+                  },
+                })}
                 <span className="font-bold">{item.trendDetails}</span>
                 <div className="mt-4 text-base text-center">{item.details}</div>
               </div>

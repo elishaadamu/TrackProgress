@@ -18,11 +18,16 @@ import { useCategory } from "../Context/CategoryContext";
 
 function Sidebar() {
   const { Option } = Select;
+  const { setSelectedCategory, setSelectedTrend } = useCategory();
   const [selectedFilter, setSelectedFilter] = useState("category");
-  const { setSelectedCategory } = useCategory();
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category.toLowerCase());
+  };
+
+  const handleTrendClick = (trend) => {
+    setSelectedTrend(trend);
+    setSelectedCategory(null);
   };
 
   const renderContent = () => {
@@ -89,31 +94,62 @@ function Sidebar() {
         </>
       );
     } else {
-      return (
-        <>
-          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-800 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0">
-            <SmileOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-            <span className="text-white text-xl ml-2">Very Good</span>
-          </div>
-          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-800 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0">
-            <LikeOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-            <span className="text-white text-xl ml-2">Good</span>
-          </div>
-          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-800 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0">
-            <MehOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-            <span className="text-white text-xl ml-2">Neutral</span>
-          </div>
-          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-800 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0">
-            <FrownOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-            <span className="text-white text-xl ml-2">Not Good</span>
-          </div>
-          <div className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-800 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0">
-            <DislikeOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-            <span className="text-white text-xl ml-2">Poor</span>
-          </div>
-        </>
-      );
+      return renderTrendContent();
     }
+  };
+
+  const renderTrendContent = () => {
+    return (
+      <>
+        <div
+          onClick={() => handleTrendClick(null)}
+          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-700 cursor-pointer"
+        >
+          <span className="text-white text-xl">Show All</span>
+        </div>
+        <div
+          onClick={() => handleTrendClick("very-good")}
+          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:bg-gray-800 cursor-pointer"
+        >
+          <SmileOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
+          <span className="text-white text-xl ml-2">Very Good</span>
+        </div>
+        <div
+          onClick={() => handleTrendClick("good")}
+          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:bg-gray-800 cursor-pointer"
+        >
+          <LikeOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
+          <span className="text-white text-xl ml-2">Good</span>
+        </div>
+        <div
+          onClick={() => handleTrendClick("neutral")}
+          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:bg-gray-800 cursor-pointer"
+        >
+          <MehOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
+          <span className="text-white text-xl ml-2">Neutral</span>
+        </div>
+        <div
+          onClick={() => handleTrendClick("not-good")}
+          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:bg-gray-800 cursor-pointer"
+        >
+          <FrownOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
+          <span className="text-white text-xl ml-2">Not Good</span>
+        </div>
+        <div
+          onClick={() => handleTrendClick("poor")}
+          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:bg-gray-800 cursor-pointer"
+        >
+          <DislikeOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
+          <span className="text-white text-xl ml-2">Poor</span>
+        </div>
+      </>
+    );
+  };
+
+  const handleFilterChange = (value) => {
+    setSelectedFilter(value);
+    setSelectedCategory(null);
+    setSelectedTrend(null);
   };
 
   return (
@@ -130,7 +166,7 @@ function Sidebar() {
                 style={{ width: 150 }}
                 size="large"
                 className="text-transparent"
-                onChange={(value) => setSelectedFilter(value)}
+                onChange={handleFilterChange}
               >
                 <Option value="category">Category</Option>
                 <Option value="trend">Trend</Option>
