@@ -17,25 +17,39 @@ chart:{
 "format": "percentage",
 "label": "Percentage of Commuters"
 },
-"lines": [
-{"key": "mpo_sov", "name": "MPO", "type": "Drive Alone"},
-{"key": "mpo_pool", "name": "MPO", "type": "Carpool"},
-{"key": "mpo_transit", "name": "MPO", "type": "Transit"},
-{"key": "mpo_walk", "name": "MPO", "type": "Walk"},
-{"key": "mpo_bike", "name": "MPO", "type": "Bike"},
-{"key": "mpo_wfh", "name": "MPO", "type": "Work from Home"}
-],
 "locations": [
-{"value": "MPO", "label": "Greater Philadelphia"}
+{"value": "mpo", "label": "Greater Philadelphia"},
+{"value": "ches", "label": "Chester County"},
+{"value": "colh", "label": "Collegeville"},
+{"value": "din", "label": "Dingmans Ferry"},
+{"value": "hope", "label": "Hopewell"},
+{"value": "pet", "label": "Peterborough"},
+{"value": "prge", "label": "Prince George"}
 ],
 "transportModes": {
 "options": [
-{"value": "sov", "label": "Drive Alone"},
-{"value": "pool", "label": "Carpool"},
-{"value": "transit", "label": "Transit"},
-{"value": "walk", "label": "Walk"},
 {"value": "bike", "label": "Bike"},
+{"value": "bus", "label": "Bus"},
+{"value": "ferry", "label": "Ferry"},
+{"value": "mcyc", "label": "Motorcycle"},
+{"value": "mo", "label": "Motor Other"},
+{"value": "nsov", "label": "Non-SOV"},
+{"value": "other", "label": "Other"},
+{"value": "pool", "label": "Carpool"},
+{"value": "rail", "label": "Rail"},
+{"value": "sov", "label": "Drive Alone"},
+{"value": "subw", "label": "Subway"},
+{"value": "taxi", "label": "Taxi"},
+{"value": "transit", "label": "Transit"},
+{"value": "troll", "label": "Trolley"},
+{"value": "walk", "label": "Walk"},
 {"value": "wfh", "label": "Work from Home"}
+]
+},
+"filters": {
+"Value": [
+{"value": "Residence", "label": "Residence"},
+{"value": "Workplace", "label": "Workplace"}
 ]
 }
 }
