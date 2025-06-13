@@ -5,7 +5,7 @@ This indicator relates to the _Connections 2050_ Plan’s goal to increase mobil
 #### Congestion Data
 
 chart:{
-"type": "congestion",
+"type": "congestion1",
 "file": "congestion_phd_fk.csv",
 "xAxis": "year",
 "yAxis": {

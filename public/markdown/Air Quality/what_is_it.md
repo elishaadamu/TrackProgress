@@ -4,11 +4,7 @@ In order to convey the health impacts of air pollution to the general public, th
 
 Air quality standards have been revised a number of times since 1997, and the data in these charts is normalized to the current standard. The first chart shows the number of days violating air quality standards per year since 2000, along with a five-year rolling average, based on the Philadelphia-Camden-Wilmington core-based statistical area. The second chart shows the number of days per year in each violating category (Unhealthy for Sensitive Groups, Unhealthy, Very Unhealthy, and Hazardous) for both Ozone and PM<sub>2.5</sub>.
 
-<br>
-
 #### Days Violating National Ambient Air Quality Standards for Ozone and/or PM<sub>2.5</sub> by Value Type
-
-<br>
 
 chart:{
 "type": "mixed",
@@ -23,13 +19,7 @@ chart:{
 ]
 }
 
-<br>
-<br>
-
 #### Quarterly Unhealthy Days by Air Quality Index Level
-
-<br>
-<br>
 
 chart:{
 "type": "stacked",

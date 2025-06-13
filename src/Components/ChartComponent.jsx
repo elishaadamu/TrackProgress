@@ -13,9 +13,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { csv } from "d3";
-import BridgeStackedChart from "./MarkdownCharts/BridgeChart"; // Import the new chart component
-import CommuteChart from "./MarkdownCharts/CommuteChart"; // Import the new commute chart component
-import Congestion from "./MarkdownCharts/CongestionChart"; // Import the congestion chart component
+import BridgeStackedChart from "./MarkdownCharts/BridgeCharts/BridgeChart"; // Import the new chart component
+import CommuteChart from "./MarkdownCharts/CommuteChart/CommuteChart"; // Import the new commute chart component
+import Congestion1 from "./MarkdownCharts/CongestionCharts/CongestionChart1"; // Import the congestion chart component
+import Congestion2 from "./MarkdownCharts/CongestionCharts/CongestionChart2"; // Import the congestion chart component
 
 // Update the color palette with more distinct and contrasting colors
 const CHART_COLORS = [
@@ -355,8 +356,10 @@ const Chart = ({ type, dataPath, config }) => {
 
       case "commute":
         return <CommuteChart dataPath={dataPath} config={config} />; // Render the new commute chart type
-      case "congestion":
-        return <Congestion dataPath={dataPath} config={config} />; // Render the congestion chart type
+      case "congestion1":
+        return <Congestion1 dataPath={dataPath} config={config} />; // Render the congestion chart type
+      case "congestion2":
+        return <Congestion2 dataPath={dataPath} config={config} />; // Render the second congestion chart type
 
       default:
         return null;

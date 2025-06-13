@@ -10,11 +10,7 @@ DVRPC’s _[Municipal Implementation Toolbox](https://www.dvrpc.org/Plan/MIT/)_ 
 
 Tracking the Congestion Management and Air Quality (CMAQ) program's performance in reducing on-road mobile source emissions is one of the National Goals set by the Federal Highway Administration’s Transportation Performance Management (TPM). DVRPC is required to either set regional targets or match state department of transportation targets for emissions reductions from mobile-source emissions. See how the region is performing: [TPM System Performance](https://www.dvrpc.org/tpm/?indicator=systemperf).
 
-<br>
-
 #### Days Violating National Ambient Air Quality Standards for Ozone and/or PM<sub>2.5</sub> by Value Type
-
-<br>
 
 chart:{
 "type": "mixed",
@@ -29,13 +25,7 @@ chart:{
 ]
 }
 
-<br>
-<br>
-
 #### Quarterly Unhealthy Days by Air Quality Index Level
-
-<br>
-<br>
 
 chart:{
 "type": "stacked",

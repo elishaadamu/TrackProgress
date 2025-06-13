@@ -2,13 +2,7 @@ Bridges enable mobility and commerce throughout the region. Federal transportati
 
 This indicator reflects the _Connections 2050_ Plan goal to rebuild and modernize the region’s transportation assets in order to achieve and maintain a state-of-good repair.
 
-<br>
-<br>
-
 #### Percentage of Deficient Bridges by Ownership Type
-
-<br>
-<br>
 
 chart:{
 "type": "line",
@@ -65,12 +59,7 @@ chart:{
 ]
 }
 
-<br>
-<br>
-
 #### Deficient Bridges by Ownership Type
-
-<br>
 
 chart:{
 "type": "bridgeStacked",
@@ -99,14 +88,7 @@ chart:{
 "defaultOption": "Bridge"
 }
 
-<br>
-<br>
-<br>
-<br>
-
 #### Deficient Bridges by Ownership Type
-
-<br>
 
 chart:{
 "type": "bridgeStacked",
@@ -134,9 +116,3 @@ chart:{
 ],
 "defaultOption": "Bridge"
 }
-
-<br>
-<br>
-
-<br>
-<br>

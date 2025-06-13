@@ -2,11 +2,7 @@ The U.S. Environmental Protection Agency (US EPA) has developed air quality stan
 
 Ozone and PM<sub>2.5</sub> have been shown to impede healthy lung development in children and exacerbate breathing disorders in the general population, especially in the elderly. Additionally, exposure to PM<sub>2.5</sub> can aggravate heart conditions. In addition to higher costs for households and the healthcare system, poor air quality has economic implications including more days of missed work and school. Air pollution has been shown to have disproportionate effects on persons of color and low-income populations.
 
-<br>
-
 #### Days Violating National Ambient Air Quality Standards for Ozone and/or PM<sub>2.5</sub> by Value Type
-
-<br>
 
 chart:{
 "type": "mixed",
@@ -21,13 +17,7 @@ chart:{
 ]
 }
 
-<br>
-<br>
-
 #### Quarterly Unhealthy Days by Air Quality Index Level
-
-<br>
-<br>
 
 chart:{
 "type": "stacked",

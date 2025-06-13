@@ -43,6 +43,13 @@ h4 {
   padding: 1em 0;
   text-align: center;
   margin: 30px auto;
+  font-weight: bold;
+}
+h4:nth-child(5) {
+  margin-top: 50px; /* Changed from margin-top to margin for proper spacing */
+}
+h4:nth-child(7) {
+  margin-top: 100px; /* Changed from margin-top to margin for proper spacing */
 }
 h5 {
   font-size: 1.2em;

@@ -4,11 +4,7 @@ The second chart shows that concentrations of both pollutants increased slightly
 
 Federal standards have had a dramatic effect in reducing emissions and unhealthy air quality days over the past few decades. Public health has benefitted from greater awareness of pollutants and ways to lessen their impact. However, climate change may counter the progress the nation has made in improving air quality, as higher temperatures increase the potential for forming ground-level ozone and wildfires risk increased PM<sub>2.5</sub> emissions, which is likely to result in more days that violate national standards.
 
-<br>
-
 #### Days Violating National Ambient Air Quality Standards for Ozone and/or PM<sub>2.5</sub> by Value Type
-
-<br>
 
 chart:{
 "type": "mixed",
@@ -23,13 +19,7 @@ chart:{
 ]
 }
 
-<br>
-<br>
-
 #### Quarterly Unhealthy Days by Air Quality Index Level
-
-<br>
-<br>
 
 chart:{
 "type": "stacked",
