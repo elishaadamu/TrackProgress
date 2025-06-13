@@ -36,3 +36,20 @@
 .chart-animate-exit-done {
   display: none;
 }
+
+.recharts-legend-item {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.recharts-legend-item:hover {
+  opacity: 0.8;
+}
+
+.recharts-legend-item.inactive {
+  opacity: 0.3;
+}
+
+.recharts-line {
+  transition: opacity 0.3s ease;
+}

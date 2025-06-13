@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import Chart from "./ChartComponent";
+import "./TabViewer.css"; // Assuming you have some styles for the component
 
 const formatFolderTitle = (folderPath) => {
   const folder = folderPath.split("/").pop();

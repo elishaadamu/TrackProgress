@@ -13,6 +13,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { csv } from "d3";
+import BridgeStackedChart from "./MarkdownCharts/BridgeChart"; // Import the new chart component
+import CommuteChart from "./MarkdownCharts/CommuteChart"; // Import the new commute chart component
 
 // Update the color palette with more distinct and contrasting colors
 const CHART_COLORS = [
@@ -50,6 +52,11 @@ const customLegendStyle = {
 };
 
 const Chart = ({ type, dataPath, config }) => {
+  const [chartHeight, setChartHeight] = React.useState(
+    window.innerWidth > 768 ? 600 : 400
+  );
+  // Add new state for ownership filter
+  const [selectedOwnership, setSelectedOwnership] = React.useState("All");
   const [data, setData] = React.useState([]);
   const [hiddenSeries, setHiddenSeries] = React.useState(new Set());
   const [selectedValue, setSelectedValue] = React.useState(null);
@@ -57,108 +64,34 @@ const Chart = ({ type, dataPath, config }) => {
   const [selectedOption, setSelectedOption] = React.useState(null);
   const [availableOptions, setAvailableOptions] = React.useState([]);
 
-  // Update the useEffect hook to handle bar filtering
-  React.useEffect(() => {
-    csv(dataPath).then((csvData) => {
-      // Extract unique values from the Value column
-      const values = [...new Set(csvData.map((item) => item.Value))];
-      setAvailableValues(values);
-
-      // Set options from config if provided
-      if (config.options) {
-        setAvailableOptions(config.options);
-        if (!selectedOption && config.options.length > 0) {
-          setSelectedOption(config.options[0].value);
-        }
-      }
-
-      // Filter data based on selected value
-      let filteredData = csvData;
-      if (selectedValue) {
-        filteredData = filteredData.filter(
-          (item) => item.Value === selectedValue
-        );
-      }
-
-      setData(filteredData);
-    });
-  }, [dataPath, selectedValue, selectedOption, config.optionKey]);
-
-  const handleValueChange = (event) => {
-    setSelectedValue(event.target.value);
+  // Add formatYAxis function before the renderChart function
+  const formatYAxis = (value) => {
+    if (config.yAxis?.type === "percentage") {
+      return `${value}%`;
+    }
+    return value;
   };
 
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
-  const handleLegendClick = (entry) => {
-    setHiddenSeries((prev) => {
-      const newHidden = new Set(prev);
-      if (newHidden.has(entry.dataKey)) {
-        newHidden.delete(entry.dataKey);
-      } else {
-        newHidden.add(entry.dataKey);
-      }
-      return newHidden;
-    });
-  };
-
-  // Add a custom tooltip formatter
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (!active || !payload) return null;
-
-    return (
-      <div
-        style={{
-          backgroundColor: "white",
-          border: "1px solid #666666",
-          borderRadius: "4px",
-          boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-          padding: "10px",
-          fontSize: "12px",
-        }}
-      >
-        <p
-          style={{
-            margin: "0 0 5px 0",
-            fontWeight: "bold",
-            color: "#000000",
-          }}
-        >
-          {label}
-        </p>
-        {payload.map((entry, index) => (
-          <div
-            key={index}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "3px",
-            }}
-          >
-            <div
-              style={{
-                width: "10px",
-                height: "10px",
-                backgroundColor: entry.color,
-                marginRight: "5px",
-                borderRadius: entry.type === "line" ? "50%" : "2px",
-              }}
-            />
-            <span style={{ color: "#000000" }}>
-              {entry.name}: {Number(entry.value).toLocaleString()}
-            </span>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
+  // Update the renderChart function's YAxis component in all chart types
   const renderChart = () => {
     const commonChartProps = {
       margin: { top: 10, right: 30, left: 0, bottom: 0 },
       style: { backgroundColor: "white" },
+    };
+
+    const commonYAxisProps = {
+      tick: { fill: "#000000", fontSize: 12 },
+      stroke: "#666666",
+      tickLine: { stroke: "#666666" },
+      domain: [0, "auto"], // Changed to auto for actual values
+      tickFormatter: (value) => {
+        if (config.yAxis?.format === "number") {
+          return value.toLocaleString(); // Format numbers with commas
+        }
+        return formatYAxis(value);
+      },
+      // Add padding to spread out the values
+      padding: { top: 40, bottom: 0 },
     };
 
     switch (type) {
@@ -176,15 +109,10 @@ const Chart = ({ type, dataPath, config }) => {
               stroke="#666666"
               tickLine={{ stroke: "#666666" }}
             />
-            <YAxis
-              tick={{ fill: "#000000", fontSize: 12 }}
-              stroke="#666666"
-              tickLine={{ stroke: "#666666" }}
-              domain={["auto", "auto"]}
-            />
+            <YAxis {...commonYAxisProps} />
             <Tooltip
               content={<CustomTooltip />}
-              cursor={{ stroke: "rgba(0, 0, 0, 0.2)" }}
+              cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}
             />
             <Legend
               onClick={handleLegendClick}
@@ -192,17 +120,27 @@ const Chart = ({ type, dataPath, config }) => {
               iconSize={10}
               iconType="circle"
             />
-            {Array.isArray(config.lines) ? (
-              // Handle multiple lines
-              config.lines.map((line, index) => (
+            {config.lines
+              .filter((line) => {
+                if (selectedOwnership === "All") {
+                  // For bridge conditions, show only State, Local, and Other when All is selected
+                  return (
+                    line.key.endsWith("- State") ||
+                    line.key.endsWith("- Local") ||
+                    line.key.endsWith("- Other")
+                  );
+                }
+                return line.key.endsWith(`- ${selectedOwnership}`);
+              })
+              .map((line, index) => (
                 <Line
-                  key={`line-${index}`}
+                  key={index}
                   type="monotone"
                   dataKey={line.key}
                   stroke={
                     line.color || CHART_COLORS[index % CHART_COLORS.length]
                   }
-                  strokeWidth={2}
+                  strokeWidth={3}
                   dot={{
                     strokeWidth: 2,
                     r: 4,
@@ -211,7 +149,7 @@ const Chart = ({ type, dataPath, config }) => {
                       line.color || CHART_COLORS[index % CHART_COLORS.length],
                   }}
                   activeDot={{
-                    r: 6,
+                    r: 8,
                     strokeWidth: 2,
                     fill: "white",
                     stroke:
@@ -220,30 +158,7 @@ const Chart = ({ type, dataPath, config }) => {
                   name={line.name}
                   hide={hiddenSeries.has(line.key)}
                 />
-              ))
-            ) : (
-              // Handle single line for backwards compatibility
-              <Line
-                type="monotone"
-                dataKey={config.line.key}
-                stroke={config.line.color || CHART_COLORS[0]}
-                strokeWidth={2}
-                dot={{
-                  strokeWidth: 2,
-                  r: 4,
-                  fill: "white",
-                  stroke: config.line.color || CHART_COLORS[0],
-                }}
-                activeDot={{
-                  r: 6,
-                  strokeWidth: 2,
-                  fill: "white",
-                  stroke: config.line.color || CHART_COLORS[0],
-                }}
-                name={config.line.name}
-                hide={hiddenSeries.has(config.line.key)}
-              />
-            )}
+              ))}
           </LineChart>
         );
 
@@ -261,12 +176,7 @@ const Chart = ({ type, dataPath, config }) => {
               stroke="#666666"
               tickLine={{ stroke: "#666666" }}
             />
-            <YAxis
-              tick={{ fill: "#000000", fontSize: 12 }}
-              stroke="#666666"
-              tickLine={{ stroke: "#666666" }}
-              domain={["auto", "auto"]}
-            />
+            <YAxis {...commonYAxisProps} />
             <Tooltip
               content={<CustomTooltip />}
               cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}
@@ -305,12 +215,7 @@ const Chart = ({ type, dataPath, config }) => {
               stroke="#666666"
               tickLine={{ stroke: "#666666" }}
             />
-            <YAxis
-              tick={{ fill: "#000000", fontSize: 12 }}
-              stroke="#666666"
-              tickLine={{ stroke: "#666666" }}
-              domain={["auto", "auto"]}
-            />
+            <YAxis {...commonYAxisProps} />
             <Tooltip
               content={<CustomTooltip />}
               cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}
@@ -384,10 +289,13 @@ const Chart = ({ type, dataPath, config }) => {
               tickLine={{ stroke: "#666666" }}
             />
             <YAxis
-              tick={{ fill: "#000000", fontSize: 12 }}
-              stroke="#666666"
-              tickLine={{ stroke: "#666666" }}
-              domain={[0, "auto"]}
+              {...commonYAxisProps}
+              label={{
+                value: config.yAxis?.label || "",
+                angle: -90,
+                position: "insideLeft",
+                offset: 10,
+              }}
             />
             <Tooltip
               content={<CustomTooltip />}
@@ -400,7 +308,16 @@ const Chart = ({ type, dataPath, config }) => {
               iconType="square"
             />
             {config.bars
-              .filter((bar) => !selectedOption || bar.type === selectedOption)
+              .filter((bar) => {
+                if (!selectedOption) return true; // Show all bars when no option is selected
+
+                // Handle different filtering based on data type
+                if (config.optionKey === "Value") {
+                  return bar.type === selectedOwnership;
+                } else {
+                  return bar.type === selectedOption;
+                }
+              })
               .map((bar, index) => (
                 <Bar
                   key={index}
@@ -409,14 +326,176 @@ const Chart = ({ type, dataPath, config }) => {
                   name={bar.name}
                   stackId="stack"
                   hide={hiddenSeries.has(bar.key)}
-                />
+                >
+                  {config.yAxis?.showValues &&
+                    data.map((entry, idx) => (
+                      <text
+                        key={idx}
+                        x={0}
+                        y={0}
+                        dx={30}
+                        dy={20}
+                        fill="#000000"
+                        fontSize={12}
+                        textAnchor="middle"
+                      >
+                        {entry[bar.key]
+                          ? Number(entry[bar.key]).toLocaleString()
+                          : ""}
+                      </text>
+                    ))}
+                </Bar>
               ))}
           </BarChart>
         );
 
+      case "bridgeStacked":
+        return <BridgeStackedChart dataPath={dataPath} config={config} />; // Render the new chart type
+
+      case "commute":
+        return <CommuteChart dataPath={dataPath} config={config} />; // Render the new commute chart type
+
       default:
         return null;
     }
+  };
+
+  // Add this new useEffect to handle initial header visibility
+  React.useEffect(() => {
+    if (config.lines && config.lines.length > 5) {
+      const initialHidden = new Set();
+      config.lines.forEach((line, index) => {
+        if (index >= 4) {
+          initialHidden.add(line.key);
+        }
+      });
+      setHiddenSeries(initialHidden);
+    }
+  }, [config.lines]);
+
+  // Update the useEffect hook for CSV data filtering
+  React.useEffect(() => {
+    csv(dataPath).then((csvData) => {
+      if (config.options) {
+        setAvailableOptions(config.options);
+        if (!selectedOption && config.options.length > 0) {
+          setSelectedOption(config.options[0].value);
+        }
+      }
+
+      let filteredData = csvData;
+
+      // Handle different chart types and their filtering
+      switch (type) {
+        case "stacked":
+          if (selectedOption) {
+            // For stacked charts, filter based on the type property in config.bars
+            filteredData = csvData;
+          }
+          break;
+
+        case "mixed":
+          // No filtering needed for mixed charts
+          filteredData = csvData;
+          break;
+
+        case "line":
+          // For bridge conditions, filter by Value
+          if (selectedOption && config.optionKey === "Value") {
+            filteredData = filteredData.filter(
+              (item) => item[config.optionKey] === selectedOption
+            );
+          }
+          break;
+
+        default:
+          if (selectedOption) {
+            filteredData = filteredData.filter(
+              (item) => item.type === selectedOption
+            );
+          }
+      }
+
+      setData(filteredData);
+    });
+  }, [dataPath, selectedOption, type, config.options, config.optionKey]);
+
+  const handleValueChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+    // Reset ownership selection when changing value type
+    setSelectedOwnership("All");
+  };
+
+  // Add ownership change handler
+  const handleOwnershipChange = (event) => {
+    setSelectedOwnership(event.target.value);
+  };
+
+  const handleLegendClick = (entry) => {
+    setHiddenSeries((prev) => {
+      const newHidden = new Set(prev);
+      if (newHidden.has(entry.dataKey)) {
+        newHidden.delete(entry.dataKey);
+      } else {
+        newHidden.add(entry.dataKey);
+      }
+      return newHidden;
+    });
+  };
+
+  // Add a custom tooltip formatter
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (!active || !payload) return null;
+
+    return (
+      <div
+        style={{
+          backgroundColor: "white",
+          border: "1px solid #666666",
+          borderRadius: "4px",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+          padding: "10px",
+          fontSize: "12px",
+        }}
+      >
+        <p
+          style={{
+            margin: "0 0 5px 0",
+            fontWeight: "bold",
+            color: "#000000",
+          }}
+        >
+          {label}
+        </p>
+        {payload.map((entry, index) => (
+          <div
+            key={index}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "3px",
+            }}
+          >
+            <div
+              style={{
+                width: "10px",
+                height: "10px",
+                backgroundColor: entry.color,
+                borderRadius: "2px",
+                marginRight: "5px",
+              }}
+            />
+            <span style={{ color: "#000000" }}>
+              {entry.name}: {Number(entry.value).toLocaleString()}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   // Update the select styles in the return section
@@ -433,9 +512,20 @@ const Chart = ({ type, dataPath, config }) => {
   const labelStyle = {
     fontWeight: 500,
     color: "#FFFFFF", // White text for labels
+
     padding: "0.5rem",
     borderRadius: "4px",
   };
+
+  // Add this useEffect for handling resize
+  React.useEffect(() => {
+    const handleResize = () => {
+      setChartHeight(window.innerWidth > 768 ? 600 : 400);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div>
@@ -473,8 +563,35 @@ const Chart = ({ type, dataPath, config }) => {
             </select>
           </div>
         )}
+
+        {/* Add ownership type selector */}
+        {config.ownershipType && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+            }}
+          >
+            <label htmlFor="ownershipSelect" style={labelStyle}>
+              {config.ownershipType.label || "Select Ownership"}:
+            </label>
+            <select
+              id="ownershipSelect"
+              value={selectedOwnership}
+              onChange={handleOwnershipChange}
+              style={selectStyle}
+            >
+              {config.ownershipType.options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={chartHeight}>
         {renderChart()}
       </ResponsiveContainer>
     </div>
