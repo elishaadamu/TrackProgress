@@ -22,3 +22,31 @@ chart:{
 {"key": "prince_george", "name": "Prince George"}
 ]
 }
+
+#### Congestion by Location and Mode
+
+chart:{
+"type": "congestion2",
+"file": "congestion_pti_1_fk.csv",
+"xAxis": "year",
+"yAxis": {
+"label": "Congestion Index",
+"type": "number"
+},
+"locations": [
+{"value": "mpo", "name": "MPO Region"},
+{"value": "ches", "name": "Chesterfield"},
+{"value": "colh", "name": "Colonial Heights"},
+{"value": "din", "name": "Dinwiddie"},
+{"value": "hope", "name": "Hopewell"},
+{"value": "pet", "name": "Petersburg"},
+{"value": "prge", "name": "Prince George"}
+],
+"timePeriods": {
+"24": "24 Hours",
+"AM": "Morning Peak (6 AM - 10 AM)",
+"MD": "Midday (10 AM - 3 PM)",
+"PM": "Evening Peak (3 PM - 7 PM)",
+"OVN": "Overnight (7 PM - 6 AM)"
+}
+}

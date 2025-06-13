@@ -2,12 +2,7 @@ Increasing the share of people not driving their vehicles alone, such as **carpo
 
 This indicator relates to the _Connections 2050_ Plan goal to integrate modes into an accessible, multimodal transportation network, with transit, walking, and biking serving as fundamental components.
 
-<br>
-<br>
-
 #### Deficient Bridges by Ownership Type
-
-<br>
 
 chart:{
 "type": "commute",
@@ -53,9 +48,3 @@ chart:{
 ]
 }
 }
-
-<br>
-<br>
-
-<br>
-<br>
