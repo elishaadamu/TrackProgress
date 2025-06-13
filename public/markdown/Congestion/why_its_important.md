@@ -2,18 +2,23 @@ It's hard to plan a trip when you have no idea how long it will take. Travelers 
 
 This indicator relates to the _Connections 2050_ Plan’s goal to increase mobility and reliability, while reducing congestion and vehicle miles traveled. It also incorporates federal Transportation Performance Management (TPM) metrics related to the system performance of the region’s roadways. These metrics are used to inform transportation investment decision making and include the percentage of roadway which is considered reliable, Truck Travel Time Reliability (TTTR), and Annual Hours of Peak Hour Excessive Delay (PHED).
 
+#### Congestion Data
+
 chart:{
-"type": "line",
+"type": "congestion",
 "file": "congestion_phd_fk.csv",
 "xAxis": "year",
-"option": false,
+"yAxis": {
+"label": "congestion",
+"type": "number"
+},
 "lines": [
-{"key": "mpo", "name": "MPO Region", "color": "#1565C0"},
-{"key": "hopewell", "name": "Hopewell", "color": "#C62828"},
-{"key": "petersburg", "name": "Petersburg", "color": "#2E7D32"},
-{"key": "colonial_heights", "name": "Colonial Heights", "color": "#6A1B9A"},
-{"key": "chesterfield", "name": "Chesterfield", "color": "#E65100"},
-{"key": "dinwiddie", "name": "Dinwiddie", "color": "#00838F"},
-{"key": "prince_george", "name": "Prince George", "color": "#4E342E"}
+{"key": "mpo", "name": "MPO Region"},
+{"key": "hopewell", "name": "Hopewell"},
+{"key": "petersburg", "name": "Petersburg"},
+{"key": "colonial_heights", "name": "Colonial Heights"},
+{"key": "chesterfield", "name": "Chesterfield"},
+{"key": "dinwiddie", "name": "Dinwiddie"},
+{"key": "prince_george", "name": "Prince George"}
 ]
 }

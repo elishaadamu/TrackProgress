@@ -35,12 +35,6 @@ function Sidebar() {
       return (
         <>
           <div
-            onClick={() => setSelectedCategory(null)}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-700 cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
-          >
-            <span className="text-white text-xl">Show All</span>
-          </div>
-          <div
             onClick={() => handleCategoryClick("sustainability")}
             className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#762a83]  hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#762a83] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
           >

@@ -15,6 +15,7 @@ import {
 import { csv } from "d3";
 import BridgeStackedChart from "./MarkdownCharts/BridgeChart"; // Import the new chart component
 import CommuteChart from "./MarkdownCharts/CommuteChart"; // Import the new commute chart component
+import Congestion from "./MarkdownCharts/CongestionChart"; // Import the congestion chart component
 
 // Update the color palette with more distinct and contrasting colors
 const CHART_COLORS = [
@@ -354,6 +355,8 @@ const Chart = ({ type, dataPath, config }) => {
 
       case "commute":
         return <CommuteChart dataPath={dataPath} config={config} />; // Render the new commute chart type
+      case "congestion":
+        return <Congestion dataPath={dataPath} config={config} />; // Render the congestion chart type
 
       default:
         return null;
