@@ -5,8 +5,9 @@ import TPLogo from "../assets/tracker.png"; // Adjust the path as necessary
 
 function Navbar() {
   return (
-    <div className="navbar bg-white shadow-md">
-      <nav className="p-2   max-w-[1280px] mx-auto">
+    <div className="navbar sticky top-0  bg-white shadow-md w-full z-50">
+      {/* Remove fixed class, navbar will scroll with main content */}
+      <nav className="p-2 max-w-[1280px] mx-auto">
         <div className="">
           <div className="flex gap-10 items-center flex-wrap justify-between">
             <Link to="/" className="flex gap-1 items-center">

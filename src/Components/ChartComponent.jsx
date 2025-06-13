@@ -17,6 +17,7 @@ import BridgeStackedChart from "./MarkdownCharts/BridgeCharts/BridgeChart"; // I
 import CommuteChart from "./MarkdownCharts/CommuteChart/CommuteChart"; // Import the new commute chart component
 import Congestion1 from "./MarkdownCharts/CongestionCharts/CongestionChart1"; // Import the congestion chart component
 import Congestion2 from "./MarkdownCharts/CongestionCharts/CongestionChart2"; // Import the congestion chart component
+import Congestion3 from "./MarkdownCharts/CongestionCharts/CongestionChart3";
 
 // Update the color palette with more distinct and contrasting colors
 const CHART_COLORS = [
@@ -360,6 +361,8 @@ const Chart = ({ type, dataPath, config }) => {
         return <Congestion1 dataPath={dataPath} config={config} />; // Render the congestion chart type
       case "congestion2":
         return <Congestion2 dataPath={dataPath} config={config} />; // Render the second congestion chart type
+      case "congestion3":
+        return <Congestion3 dataPath={dataPath} config={config} />; // Render the third congestion chart type
 
       default:
         return null;

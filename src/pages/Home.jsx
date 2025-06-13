@@ -11,7 +11,6 @@ function Home() {
       <Navbar />
       <Landing />
       <Content />
-      <Footer />
     </div>
   );
 }

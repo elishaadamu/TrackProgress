@@ -50,3 +50,36 @@ chart:{
 "OVN": "Overnight (7 PM - 6 AM)"
 }
 }
+
+#### Reliable Roadways
+
+chart:{
+"type": "congestion3",
+"file": "congestion_reliable_roads_2_fk.csv",
+"xAxis": "year",
+"yAxis": {
+"format": "percentage",
+"label": "Percent or Miles Reliability"
+},
+"locations": [
+{"value": "mpo", "label": "Greater Philadelphia"},
+{"value": "ches", "label": "Chester County"},
+{"value": "colh", "label": "Collegeville"},
+{"value": "din", "label": "Dingmans Ferry"},
+{"value": "hope", "label": "Hopewell"},
+{"value": "pet", "label": "Peterborough"},
+{"value": "prge", "label": "Prince George"}
+],
+"transportModes": {
+"options": [
+{"value": "int", "label": "Interstate"},
+{"value": "nonint", "label": "Non-Interstate"}
+]
+},
+"filters": {
+"Value": [
+{"value": "Miles", "label": "Miles"},
+{"value": "Percent", "label": "Percent"}
+]
+}
+}

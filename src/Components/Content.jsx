@@ -6,7 +6,7 @@ function Content() {
   return (
     <div
       id="content"
-      className="flex flex-col md:flex-row max-w-full mt-10 mx-auto"
+      className="flex flex-col md:flex-row max-w-full md:mt-2 mx-auto"
     >
       <Sidebar />
       <MainContent />

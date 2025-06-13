@@ -150,7 +150,13 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
           </button>
         ))}
       </div>
-
+      <div className="flex items-center text-yellow-500 justify-center mt-10 gap-5">
+        <div className="flex items-center">
+          {trendIcon}
+          <span className="ml-2 font-semibold">{trendDetails}</span>
+        </div>
+        <span className="text-gray-300 mt-[0px] ">{details}</span>
+      </div>
       <div className="prose prose-invert mt-10 max-w-[1024px] mx-auto">
         {error ? (
           <div className="text-red-500">{error}</div>
@@ -159,13 +165,6 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
             {content}
           </ReactMarkdown>
         )}
-        <div className="flex items-center justify-center mt-10 gap-5">
-          <div className="flex items-center">
-            {trendIcon}
-            <span className="ml-2 font-semibold">{trendDetails}</span>
-          </div>
-          <span className="text-gray-300 mt-[2px] ">{details}</span>
-        </div>
       </div>
     </div>
   );

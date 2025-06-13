@@ -18,16 +18,32 @@ import { useCategory } from "../Context/CategoryContext";
 
 function Sidebar() {
   const { Option } = Select;
-  const { setSelectedCategory, setSelectedTrend } = useCategory();
+  const {
+    setSelectedCategory,
+    setSelectedTrend,
+    selectedCategory,
+    selectedTrend,
+  } = useCategory();
   const [selectedFilter, setSelectedFilter] = useState("category");
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category.toLowerCase());
+    const lowercaseCategory = category.toLowerCase();
+    // If clicking the same category that's already selected, clear the filter
+    if (lowercaseCategory === selectedCategory) {
+      setSelectedCategory(null);
+    } else {
+      // If clicking a different category, set it as the new filter
+      setSelectedCategory(lowercaseCategory);
+    }
   };
 
   const handleTrendClick = (trend) => {
-    setSelectedTrend(trend);
-    setSelectedCategory(null);
+    if (trend === selectedTrend) {
+      setSelectedTrend(null);
+    } else {
+      setSelectedTrend(trend);
+      setSelectedCategory(null);
+    }
   };
 
   const renderContent = () => {
@@ -36,54 +52,54 @@ function Sidebar() {
         <>
           <div
             onClick={() => handleCategoryClick("sustainability")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#762a83]  hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#762a83] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
+            className={`${categoryClass} bg-[#762a83]  hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#762a83] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0`}
           >
-            <GrPowerCycle style={{ fontSize: "40px", color: "#ffffff" }} />
-            <span className="text-white text-xl ml-2">Sustainability</span>
+            <GrPowerCycle style={{ fontSize: "24px", color: "#ffffff" }} />
+            <span className="text-white text-base ml-2">Sustainability</span>
           </div>
           <div
             onClick={() => handleCategoryClick("equity")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#9970ab] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#9970ab] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
+            className={`${categoryClass} bg-[#9970ab] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#9970ab] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0`}
           >
-            <BarChartOutlined style={{ fontSize: "40px", color: "#000000" }} />
-            <span className="text-black text-xl ml-2">Equity</span>
+            <BarChartOutlined style={{ fontSize: "24px", color: "#000000" }} />
+            <span className="text-black text-base ml-2">Equity</span>
           </div>
           <div
             onClick={() => handleCategoryClick("resilience")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#c2a5cf] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#c2a5cf] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
+            className={`${categoryClass} bg-[#c2a5cf] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#c2a5cf] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0`}
           >
-            <SafetyOutlined style={{ fontSize: "40px", color: "#000000" }} />
-            <span className="text-black text-xl ml-2">Resilience</span>
+            <SafetyOutlined style={{ fontSize: "24px", color: "#000000" }} />
+            <span className="text-black text-base ml-2">Resilience</span>
           </div>
           <div
             onClick={() => handleCategoryClick("environment")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#FFFFA6] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#FFFFA6] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
+            className={`${categoryClass} bg-[#FFFFA6] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#FFFFA6] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0`}
           >
             <EnvironmentOutlined
-              style={{ fontSize: "40px", color: "#000000" }}
+              style={{ fontSize: "24px", color: "#000000" }}
             />
-            <span className="text-black text-xl ml-2">Environment</span>
+            <span className="text-black text-base ml-2">Environment</span>
           </div>
           <div
             onClick={() => handleCategoryClick("community")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#a6dba0] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#a6dba0] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
+            className={`${categoryClass} bg-[#a6dba0] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#a6dba0] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0`}
           >
-            <TeamOutlined style={{ fontSize: "40px", color: "#000000" }} />
-            <span className="text-black text-xl ml-2">Community</span>
+            <TeamOutlined style={{ fontSize: "24px", color: "#000000" }} />
+            <span className="text-black text-base ml-2">Community</span>
           </div>
           <div
             onClick={() => handleCategoryClick("transportation")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#5aae61] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#5aae61] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
+            className={`${categoryClass} bg-[#5aae61] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#5aae61] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0`}
           >
-            <CarOutlined style={{ fontSize: "40px", color: "#000000" }} />
-            <span className="text-black text-xl ml-2">Transportation</span>
+            <CarOutlined style={{ fontSize: "24px", color: "#000000" }} />
+            <span className="text-black text-base ml-2">Transportation</span>
           </div>
           <div
             onClick={() => handleCategoryClick("economy")}
-            className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-[#1b7837] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#1b7837] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0"
+            className={`${categoryClass} bg-[#1b7837] hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-[#1b7837] cursor-pointer transition-all duration-100 ease-in-out mx-2 md:mx-0`}
           >
-            <BankOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-            <span className="text-white text-xl ml-2">Economy</span>
+            <BankOutlined style={{ fontSize: "24px", color: "#ffffff" }} />
+            <span className="text-white text-base ml-2">Economy</span>
           </div>
         </>
       );
@@ -96,45 +112,39 @@ function Sidebar() {
     return (
       <>
         <div
-          onClick={() => handleTrendClick(null)}
-          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:shadow-[0_4px_15px_rgba(251,191,36,0.5)] hover:bg-gray-700 cursor-pointer"
-        >
-          <span className="text-white text-xl">Show All</span>
-        </div>
-        <div
           onClick={() => handleTrendClick("very-good")}
-          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:bg-gray-800 cursor-pointer"
+          className={`${trendClass} bg-gray-700 hover:bg-gray-800 cursor-pointer`}
         >
-          <SmileOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-          <span className="text-white text-xl ml-2">Very Good</span>
+          <SmileOutlined style={{ fontSize: "24px", color: "#ffffff" }} />
+          <span className="text-white text-base ml-2">Very Good</span>
         </div>
         <div
           onClick={() => handleTrendClick("good")}
-          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:bg-gray-800 cursor-pointer"
+          className={`${trendClass} bg-gray-700 hover:bg-gray-800 cursor-pointer`}
         >
-          <LikeOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-          <span className="text-white text-xl ml-2">Good</span>
+          <LikeOutlined style={{ fontSize: "24px", color: "#ffffff" }} />
+          <span className="text-white text-base ml-2">Good</span>
         </div>
         <div
           onClick={() => handleTrendClick("neutral")}
-          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:bg-gray-800 cursor-pointer"
+          className={`${trendClass} bg-gray-700 hover:bg-gray-800 cursor-pointer`}
         >
-          <MehOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-          <span className="text-white text-xl ml-2">Neutral</span>
+          <MehOutlined style={{ fontSize: "24px", color: "#ffffff" }} />
+          <span className="text-white text-base ml-2">Neutral</span>
         </div>
         <div
           onClick={() => handleTrendClick("not-good")}
-          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:bg-gray-800 cursor-pointer"
+          className={`${trendClass} bg-gray-700 hover:bg-gray-800 cursor-pointer`}
         >
-          <FrownOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-          <span className="text-white text-xl ml-2">Not Good</span>
+          <FrownOutlined style={{ fontSize: "24px", color: "#ffffff" }} />
+          <span className="text-white text-base ml-2">Not Good</span>
         </div>
         <div
           onClick={() => handleTrendClick("poor")}
-          className="min-w-[200px] md:min-w-full flex justify-center items-center h-20 mt-3 bg-gray-700 hover:bg-gray-800 cursor-pointer"
+          className={`${trendClass} bg-gray-700 hover:bg-gray-800 cursor-pointer`}
         >
-          <DislikeOutlined style={{ fontSize: "40px", color: "#ffffff" }} />
-          <span className="text-white text-xl ml-2">Poor</span>
+          <DislikeOutlined style={{ fontSize: "24px", color: "#ffffff" }} />
+          <span className="text-white text-base ml-2">Poor</span>
         </div>
       </>
     );
@@ -147,18 +157,19 @@ function Sidebar() {
   };
 
   return (
-    <div className="w-full md:w-[20%] pb-3 md:pr-3 overflow-x-auto">
-      <div className="flex flex-col">
-        <div className="text-gray-600 w-full h-full">
-          <div className="w-full h-20 flex px-1 bg-gray-800 items-center justify-center">
+    <div className="w-full md:w-[18%] md:h-screen  md:sticky md:top-20">
+      <div className="flex flex-col h-full">
+        <div className="text-gray-600 w-full h-full flex flex-col">
+          {/* Reduce the header height */}
+          <div className="w-full h-[60px] flex px-1 bg-gray-800 items-center justify-center">
             <div className="flex items-center">
-              <span className="font-semibold mr-1 text-gray-100">
+              <span className="font-semibold mr-1 text-gray-100 text-sm">
                 Filter by:
               </span>
               <Select
                 defaultValue="category"
-                style={{ width: 150 }}
-                size="large"
+                style={{ width: 120 }}
+                size="middle"
                 className="text-transparent"
                 onChange={handleFilterChange}
               >
@@ -167,13 +178,43 @@ function Sidebar() {
               </Select>
             </div>
           </div>
-          <div className="flex flex-row md:flex-col overflow-x-auto whitespace-nowrap">
-            {renderContent()}
+          {/* Update the content container */}
+          <div className="flex flex-row md:flex-col overflow-x-auto md:overflow-hidden">
+            <div
+              className={`flex flex-row md:flex-col md:h-[calc(100vh-60px)]`}
+            >
+              {renderContent()}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+// Update the category and trend classes with smaller dimensions and remove margins
+const categoryClass = `
+  min-w-[180px] 
+  md:min-w-full 
+  flex 
+  justify-center 
+  items-center 
+  md:h-[calc((100vh-80px))] 
+  my-2
+
+  py-2
+`;
+
+const trendClass = `
+  min-w-[180px] 
+  md:min-w-full 
+  flex 
+  justify-center 
+  items-center 
+  md:h-[calc((100vh-80px)/5.5)] 
+  py-2
+  my-2
+
+`;
 
 export default Sidebar;

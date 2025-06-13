@@ -6,7 +6,7 @@ import splashicon from "../assets/splash-icon.png"; // Adjust the path as necess
 
 function Landing() {
   return (
-    <div className="text-center text-gray-700 mt-10">
+    <div className="text-center text-gray-700 ">
       {/* <h2 className="text-2xl font-semibold mt-7">
         <span className="text-[#008085]">Tracking Progress</span> Indicators
         Dashboard
