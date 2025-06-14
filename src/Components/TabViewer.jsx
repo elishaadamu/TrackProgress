@@ -116,7 +116,7 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
   );
 
   return (
-    <div className="w-full md:max-w-[70%] border border-gray-800 rounded-lg shadow mx-auto h-full bg-gray-900 text-white p-4">
+    <div className="w-full md:max-w-[70%] pb-20 border border-gray-800 rounded-lg shadow mx-auto h-full bg-gray-900 text-white p-4">
       <div className="flex items-center justify-center max-w-[1024px] mx-auto mb-6">
         <h1 className="text-[16px] text-center md:text-xl font-bold">
           {title}
