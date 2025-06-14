@@ -67,6 +67,12 @@ const Chart = ({ type, dataPath, config }) => {
   const [selectedOption, setSelectedOption] = React.useState(null);
   const [availableOptions, setAvailableOptions] = React.useState([]);
 
+  const axisDomain = [0, 100];
+  const axisTicks = [
+    0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90,
+    95, 100,
+  ];
+
   // Add formatYAxis function before the renderChart function
   const formatYAxis = (value) => {
     if (config.yAxis?.type === "percentage") {
@@ -212,22 +218,53 @@ const Chart = ({ type, dataPath, config }) => {
               stroke="#E0E0E0"
               fill="white"
             />
+
             <XAxis
               dataKey={config.xAxis}
               tick={{ fill: "#000000", fontSize: 12 }}
               stroke="#666666"
               tickLine={{ stroke: "#666666" }}
             />
-            <YAxis {...commonYAxisProps} />
+
+            {/* Left Y Axis (used by data) */}
+            <YAxis
+              yAxisId="left"
+              domain={axisDomain}
+              ticks={axisTicks}
+              tick={{ fill: "#000000", fontSize: 12 }}
+              stroke="#666666"
+              tickLine={{ stroke: "#666666" }}
+              label={{
+                value: "Days",
+                angle: -90,
+                marginLeft: 10,
+                position: "insideLeft",
+              }}
+            />
+
+            {/* Right Y Axis (not used by data, but forced to match left) */}
+            <YAxis
+              yAxisId="right" // <--- different ID, but forced to match
+              orientation="right"
+              domain={axisDomain}
+              ticks={axisTicks}
+              tick={{ fill: "#000000", fontSize: 12 }}
+              stroke="#666666"
+              tickLine={{ stroke: "#666666" }}
+              label={{ value: "", angle: 90, position: "insideRight" }}
+            />
+
             <Tooltip
               content={<CustomTooltip />}
               cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}
             />
+
             <Legend
               onClick={handleLegendClick}
               wrapperStyle={customLegendStyle}
               iconSize={10}
             />
+
             {config.bars?.map((bar, index) => (
               <Bar
                 key={`bar-${index}`}
@@ -236,8 +273,10 @@ const Chart = ({ type, dataPath, config }) => {
                 name={bar.name}
                 hide={hiddenSeries.has(bar.key)}
                 opacity={0.8}
+                yAxisId="left"
               />
             ))}
+
             {config.lines?.map((line, index) => (
               <Line
                 key={`line-${index}`}
@@ -272,6 +311,7 @@ const Chart = ({ type, dataPath, config }) => {
                 }}
                 name={line.name}
                 hide={hiddenSeries.has(line.key)}
+                yAxisId="left"
               />
             ))}
           </ComposedChart>

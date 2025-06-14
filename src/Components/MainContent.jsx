@@ -411,7 +411,7 @@ function MainContent() {
           onClick={handleBack}
           className="m-4 px-4 py-2 sticky top-20 md:top-30 z-40 bg-gray-700 text-white rounded hover:bg-gray-600"
         >
-          <div className="flex items-center space-x-2 font-semibold">
+          <div className="flex items-center space-x-2 font-semibold cursor-pointer">
             <IoMdArrowBack />
             <span>To Dashboard</span>
           </div>
