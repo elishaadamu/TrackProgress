@@ -409,7 +409,7 @@ function MainContent() {
       <div className="flex-grow bg-gray-900">
         <button
           onClick={handleBack}
-          className="m-4 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
+          className="m-4 px-4 py-2 sticky top-20 md:top-30 z-40 bg-gray-700 text-white rounded hover:bg-gray-600"
         >
           <div className="flex items-center space-x-2 font-semibold">
             <IoMdArrowBack />
@@ -427,8 +427,9 @@ function MainContent() {
     );
   }
 
+  // Update the main return statement to include overflow styling
   return (
-    <div className="flex-[80%] bg-gray-900 p-4 flex items-start justify-start">
+    <div className="md:ml-[15%] md:flex-[85%] bg-gray-900 p-4 md:h-[calc(100vh-5rem)] overflow-y-auto">
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6 gap-8 w-full max-w-full">
         {items.map((item, idx) => (
           <div

@@ -73,7 +73,6 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
     if (allContent[activeTab]) {
       setContent(allContent[activeTab]);
     } else {
-      setError(`Tab content not found: ${activeTab}`);
       setContent("");
     }
   }, [activeTab, allContent]);
@@ -108,7 +107,6 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
             );
           } catch (e) {
             console.error("Error parsing chart config:", e);
-            return <p className="text-red-500">Invalid chart configuration</p>;
           }
         }
         return <p>{children}</p>;
@@ -120,7 +118,9 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
   return (
     <div className="w-full md:max-w-[70%] border border-gray-800 rounded-lg shadow mx-auto h-full bg-gray-900 text-white p-4">
       <div className="flex items-center justify-center max-w-[1024px] mx-auto mb-6">
-        <h1 className="text-2xl font-bold">{title}</h1>
+        <h1 className="text-[16px] text-center md:text-xl font-bold">
+          {title}
+        </h1>
       </div>
 
       <div className="relative flex transistion-all duration-300 ease-in-out md:justify-center overflow-x-auto whitespace-nowrap space-x-4 mb-4 border-b border-gray-700 scrollbar-hide">
@@ -157,7 +157,7 @@ const TabViewer = ({ folderPath, trendIcon, trendDetails, details, title }) => {
         </div>
         <span className="text-gray-300 mt-[0px] ">{details}</span>
       </div>
-      <div className="prose prose-invert mt-10 max-w-[1024px] mx-auto">
+      <div className="prose prose-invert mt-10 max-w-[1024px] text-justify mx-auto">
         {error ? (
           <div className="text-red-500">{error}</div>
         ) : (

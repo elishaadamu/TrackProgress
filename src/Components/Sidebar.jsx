@@ -164,15 +164,13 @@ function Sidebar() {
   };
 
   return (
-    <div className="w-full md:w-[18%] md:h-screen md:sticky md:top-20 bg-white">
-      {" "}
-      {/* Added bg-white */}
+    <div className="md:fixed md:top-20 flex mt-[2px] pr-2 flex-col left-0 md:w-[15%] md:h-[calc(100vh-5rem)] bg-white">
       <div className="flex flex-col h-full">
         <div className="text-gray-600 w-full h-full flex flex-col">
-          {/* Update header background to match buttons */}
+          {/* Filter header */}
           <div className="w-full h-[60px] flex px-1 bg-gray-700 items-center justify-center">
             <div className="flex items-center">
-              <span className="font-semibold mr-1 text-gray-100 text-sm">
+              <span className="font-semibold mr-1 text-gray-100 text-[12px]">
                 Filter by:
               </span>
               <Select
@@ -187,11 +185,9 @@ function Sidebar() {
               </Select>
             </div>
           </div>
-          {/* Update the content container */}
+          {/* Content container */}
           <div className="flex flex-row md:flex-col overflow-x-auto md:overflow-hidden">
-            <div
-              className={`flex flex-row md:flex-col md:h-[calc(100vh-60px)]`}
-            >
+            <div className="flex flex-row md:flex-col md:h-[calc(100vh-80px)]">
               {renderContent()}
             </div>
           </div>
@@ -203,27 +199,25 @@ function Sidebar() {
 
 // Update the category and trend classes with smaller dimensions and remove margins
 const categoryClass = `
-  min-w-[180px] 
+  min-w-[100px] 
   md:min-w-full 
   flex 
   justify-center 
   items-center 
-  md:h-[calc((100vh-80px))] 
+  md:h-[calc((100vh-250px)/7)] 
   my-2
-
-  py-2
+  p-2
 `;
 
 const trendClass = `
-  min-w-[180px] 
+  min-w-[100px] 
   md:min-w-full 
   flex 
   justify-center 
   items-center 
-  md:h-[calc((100vh-80px)/5.5)] 
-  py-2
+  md:h-[calc((100vh-100px)/7)] 
   my-2
-
+  p-2
 `;
 
 export default Sidebar;
