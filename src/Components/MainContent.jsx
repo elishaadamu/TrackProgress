@@ -33,6 +33,7 @@ import {
   FrownOutlined,
   DislikeOutlined,
 } from "@ant-design/icons";
+import { IoMdArrowBack } from "react-icons/io";
 
 // Update these items based on the markdown files
 const items = [
@@ -330,7 +331,8 @@ const trendTypeMapping = {
 };
 
 function MainContent() {
-  const { selectedCategory, selectedTrend } = useCategory();
+  const { selectedCategory, selectedTrend, setIsSidebarVisible } =
+    useCategory();
   const [selectedPath, setSelectedPath] = useState(null);
 
   const isItemActive = (item) => {
@@ -386,23 +388,33 @@ function MainContent() {
     return lightBackgrounds.includes(selectedCategory) ? "#000000" : "#ffffff";
   };
 
+  // Update handleBoxClick to hide sidebar
   const handleBoxClick = (markdownPath) => {
     setSelectedPath(markdownPath);
+    setIsSidebarVisible(false);
+  };
+
+  // Add back button handler
+  const handleBack = () => {
+    setSelectedPath(null);
+    setIsSidebarVisible(true);
   };
 
   if (selectedPath) {
-    // Find the selected item
     const selectedItem = items.find(
       (item) => item.markdownPath === selectedPath
     );
 
     return (
-      <div className="flex-[80%] bg-gray-900">
+      <div className="flex-grow bg-gray-900">
         <button
-          onClick={() => setSelectedPath(null)}
+          onClick={handleBack}
           className="m-4 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
         >
-          Back to Grid
+          <div className="flex items-center space-x-2 font-semibold">
+            <IoMdArrowBack />
+            <span>To Dashboard</span>
+          </div>
         </button>
         <TabViewer
           folderPath={selectedPath}

@@ -23,7 +23,14 @@ function Sidebar() {
     setSelectedTrend,
     selectedCategory,
     selectedTrend,
+    isSidebarVisible,
   } = useCategory();
+
+  // Add early return if sidebar should be hidden
+  if (!isSidebarVisible) {
+    return null;
+  }
+
   const [selectedFilter, setSelectedFilter] = useState("category");
 
   const handleCategoryClick = (category) => {
@@ -157,11 +164,13 @@ function Sidebar() {
   };
 
   return (
-    <div className="w-full md:w-[18%] md:h-screen  md:sticky md:top-20">
+    <div className="w-full md:w-[18%] md:h-screen md:sticky md:top-20 bg-white">
+      {" "}
+      {/* Added bg-white */}
       <div className="flex flex-col h-full">
         <div className="text-gray-600 w-full h-full flex flex-col">
-          {/* Reduce the header height */}
-          <div className="w-full h-[60px] flex px-1 bg-gray-800 items-center justify-center">
+          {/* Update header background to match buttons */}
+          <div className="w-full h-[60px] flex px-1 bg-gray-700 items-center justify-center">
             <div className="flex items-center">
               <span className="font-semibold mr-1 text-gray-100 text-sm">
                 Filter by:
