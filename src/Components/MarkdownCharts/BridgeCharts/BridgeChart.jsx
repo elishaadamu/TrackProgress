@@ -49,9 +49,7 @@ const customLegendStyle = {
 
 const BridgeStackedChart = ({ dataPath, config }) => {
   const [data, setData] = React.useState([]);
-  const [selectedOption, setSelectedOption] = React.useState(
-    config.defaultOption || "Bridge"
-  );
+  const [selectedOption, setSelectedOption] = React.useState("Desk");
   const [hiddenSeries, setHiddenSeries] = React.useState(new Set());
 
   React.useEffect(() => {

@@ -149,7 +149,7 @@ const CongestionChart2 = ({ dataPath, config }) => {
         {config.locations.map((location) => (
           <Line
             key={location.value}
-            type="monotone"
+            type="cardinal"
             dataKey={location.value}
             name={location.name}
             stroke={CHART_COLORS[location.name]}

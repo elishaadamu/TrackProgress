@@ -18,6 +18,7 @@ import CommuteChart from "./MarkdownCharts/CommuteChart/CommuteChart"; // Import
 import Congestion1 from "./MarkdownCharts/CongestionCharts/CongestionChart1"; // Import the congestion chart component
 import Congestion2 from "./MarkdownCharts/CongestionCharts/CongestionChart2"; // Import the congestion chart component
 import Congestion3 from "./MarkdownCharts/CongestionCharts/CongestionChart3";
+import MilesDriven from "./MarkdownCharts/MilesDrivenCharts/MilesDrivenChart"; // Import the miles driven chart component
 
 // Update the color palette with more distinct and contrasting colors
 const CHART_COLORS = [
@@ -144,7 +145,7 @@ const Chart = ({ type, dataPath, config }) => {
               .map((line, index) => (
                 <Line
                   key={index}
-                  type="monotone"
+                  type="cardinal"
                   dataKey={line.key}
                   stroke={
                     line.color || CHART_COLORS[index % CHART_COLORS.length]
@@ -280,7 +281,7 @@ const Chart = ({ type, dataPath, config }) => {
             {config.lines?.map((line, index) => (
               <Line
                 key={`line-${index}`}
-                type="monotone"
+                type="cardinal"
                 dataKey={line.key}
                 stroke={
                   line.color ||
@@ -403,6 +404,8 @@ const Chart = ({ type, dataPath, config }) => {
         return <Congestion2 dataPath={dataPath} config={config} />; // Render the second congestion chart type
       case "congestion3":
         return <Congestion3 dataPath={dataPath} config={config} />; // Render the third congestion chart type
+      case "milesdriven":
+        return <MilesDriven dataPath={dataPath} config={config} />; // Render the miles driven chart
 
       default:
         return null;

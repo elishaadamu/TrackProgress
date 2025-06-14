@@ -131,7 +131,9 @@ const CommuteChart = ({ dataPath, config }) => {
       .then((response) => response.text())
       .then((csvText) => {
         const parsedData = d3.csvParse(csvText);
-        const filteredData = parsedData.filter((d) => d.Value === selectedValue);
+        const filteredData = parsedData.filter(
+          (d) => d.Value === selectedValue
+        );
 
         // Transform data for the selected location
         const transformedData = [];
@@ -141,7 +143,9 @@ const CommuteChart = ({ dataPath, config }) => {
           const yearData = { year };
           config.transportModes.options.forEach((mode) => {
             const columnName = `${selectedLocation}_${mode.value}`;
-            const value = filteredData.find((d) => d.year === year)?.[columnName];
+            const value = filteredData.find((d) => d.year === year)?.[
+              columnName
+            ];
             yearData[columnName] = value ? parseFloat(value) : 0;
           });
           transformedData.push(yearData);
@@ -160,7 +164,12 @@ const CommuteChart = ({ dataPath, config }) => {
       .catch((error) => {
         console.error("Error loading chart data:", error);
       });
-  }, [dataPath, selectedLocation, selectedValue, config.transportModes.options]);
+  }, [
+    dataPath,
+    selectedLocation,
+    selectedValue,
+    config.transportModes.options,
+  ]);
 
   const handleLegendClick = (entry) => {
     setHiddenSeries((prev) => {
@@ -224,7 +233,7 @@ const CommuteChart = ({ dataPath, config }) => {
           return (
             <Line
               key={key}
-              type="monotone"
+              type="cardinal"
               dataKey={key}
               name={mode.label}
               stroke={CHART_COLORS[mode.label]}

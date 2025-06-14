@@ -13,15 +13,20 @@ import * as d3 from "d3";
 
 const LOCATION_COLORS = {
   mpo: "#1565C0", // blue
-  ches: "#2E7D32", // green
-  colh: "#E65100", // orange
-  din: "#6A1B9A", // purple
-  hope: "#C62828", // red
-  pet: "#00838F", // cyan
-  prge: "#F9A825", // yellow
+  hopewell: "#C62828", // red
+  petersburg: "#00838F", // cyan
+  colonial_heights: "#E65100", // orange
+  chesterfield: "#2E7D32", // green
+  dinwiddie: "#6A1B9A", // purple
+  prince_george: "#F9A825", // yellow
 };
 
-const INITIAL_VISIBLE_LOCATIONS = ["mpo", "ches", "colh", "din"];
+const INITIAL_VISIBLE_LOCATIONS = [
+  "mpo",
+  "hopewell",
+  "petersburg",
+  "colonial_heights",
+];
 
 const selectStyle = {
   padding: "0.5rem",
@@ -69,7 +74,7 @@ const CustomTooltip = ({ active, payload, label }) => {
             }}
           />
           <span style={{ color: "#000000" }}>
-            {entry.name}: {entry.value.toFixed(1)}%
+            {entry.name}: {entry.value.toFixed(1)}
           </span>
         </div>
       ))}
@@ -77,10 +82,12 @@ const CustomTooltip = ({ active, payload, label }) => {
   );
 };
 
-const CongestionChart3 = ({ dataPath, config }) => {
+const MilesDrivenChart = ({ dataPath, config }) => {
   const [data, setData] = useState([]);
-  const [selectedMode, setSelectedMode] = useState("int");
-  const [selectedValue, setSelectedValue] = useState("Percent");
+  const [selectedValue, setSelectedValue] = useState(
+    config.filters.Value[0].value
+  );
+
   const [hiddenSeries, setHiddenSeries] = useState(
     new Set(
       config.locations
@@ -95,19 +102,16 @@ const CongestionChart3 = ({ dataPath, config }) => {
       .then((csvText) => {
         const parsedData = d3.csvParse(csvText);
         const filteredData = parsedData.filter(
-          (d) => d.Values === selectedValue
+          (d) => d.Value === selectedValue
         );
 
         const transformedData = filteredData.reduce((acc, row) => {
           const year = row.year;
-          if (!acc[year]) {
-            acc[year] = { year };
-          }
+          if (!acc[year]) acc[year] = { year };
 
           config.locations.forEach((loc) => {
-            const columnName = `${loc.value}_${selectedMode}`;
-            if (row[columnName]) {
-              acc[year][loc.value] = parseFloat(row[columnName]);
+            if (row[loc.value]) {
+              acc[year][loc.value] = parseFloat(row[loc.value]);
             }
           });
 
@@ -123,7 +127,7 @@ const CongestionChart3 = ({ dataPath, config }) => {
       .catch((error) => {
         console.error("Error loading chart data:", error);
       });
-  }, [dataPath, selectedMode, selectedValue, config.locations]);
+  }, [dataPath, selectedValue, config.locations]);
 
   const handleLegendClick = (entry) => {
     setHiddenSeries((prev) => {
@@ -147,59 +151,9 @@ const CongestionChart3 = ({ dataPath, config }) => {
     },
   };
 
-  const LocationButton = ({ location }) => (
-    <button
-      key={location.value}
-      onClick={() => handleLegendClick({ dataKey: location.value })}
-      style={{
-        padding: "6px 12px",
-        borderRadius: "16px",
-        border: "1px solid",
-        borderColor: LOCATION_COLORS[location.value],
-        backgroundColor: hiddenSeries.has(location.value)
-          ? "transparent"
-          : LOCATION_COLORS[location.value],
-        color: hiddenSeries.has(location.value)
-          ? LOCATION_COLORS[location.value]
-          : "white",
-        cursor: "pointer",
-        margin: "0 4px 8px",
-        transition: "all 0.2s ease",
-        fontSize: "12px",
-        fontWeight: "500",
-      }}
-    >
-      {location.label}
-    </button>
-  );
-
   return (
     <div>
       <div style={{ marginBottom: "1rem", display: "flex", gap: "1rem" }}>
-        <div>
-          <label
-            htmlFor="modeSelect"
-            style={{
-              marginRight: "0.5rem",
-              fontWeight: "500",
-              color: "#ffffff",
-            }}
-          >
-            Select Road Type:
-          </label>
-          <select
-            id="modeSelect"
-            value={selectedMode}
-            onChange={(e) => setSelectedMode(e.target.value)}
-            style={selectStyle}
-          >
-            {config.transportModes.options.map((mode) => (
-              <option key={mode.value} value={mode.value}>
-                {mode.label}
-              </option>
-            ))}
-          </select>
-        </div>
         <div>
           <label
             htmlFor="valueSelect"
@@ -250,7 +204,7 @@ const CongestionChart3 = ({ dataPath, config }) => {
           <YAxis
             tick={{ fill: "#000000", fontSize: 12 }}
             stroke="#666666"
-            tickFormatter={(value) => `${value}%`}
+            tickFormatter={(value) => `${value}`}
             domain={[0, "auto"]}
             label={{
               value: config.yAxis.label,
@@ -299,4 +253,4 @@ const CongestionChart3 = ({ dataPath, config }) => {
   );
 };
 
-export default CongestionChart3;
+export default MilesDrivenChart;
