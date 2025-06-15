@@ -12,10 +12,10 @@ chart:{
 "xAxis": "year",
 "option": false,
 "bars": [
-{"key": "daysViolating", "name": "Days Violating", "color": "red"}
+{"key": "daysViolating", "name": "Days Violating", "color": "#ac6fb2"}
 ],
 "lines": [
-{"key": "fiveYearAvg", "name": "Five Years Avg", "color": "green"}
+{"key": "fiveYearAvg", "name": "Five Years Avg", "color": "gray"}
 ]
 }
 
@@ -29,17 +29,17 @@ chart:{
 "optionKey": "type",
 "optionLabel": "Select Pollutant Type",
 "options": [
-{"value": "Ozone", "label": "Ground-level Ozone"},
-{"value": "PM", "label": "Particulate Matter - PM"}
+{"value": "Ozone", "label": "Ozone"},
+{"value": "PM", "label": "Particulate Matter"}
 ],
 "bars": [
-{"key": "Unhealthy Sensitive PM", "name": "Unhealthy for Sensitive Groups (PM)", "color": "#FFB74D", "type": "PM"},
-{"key": "Unhealthy PM", "name": "Unhealthy", "color": "#FF9800", "type": "PM"},
-{"key": "Very Unhealthy PM", "name": "Very Unhealthy", "color": "#F57C00", "type": "PM"},
-{"key": "Hazardous PM", "name": "Hazardous ", "color": "#E65100", "type": "PM"},
-{"key": "Unhealthy Sensitive Ozone", "name": "Unhealthy for Sensitive Groups", "color": "#81C784", "type": "Ozone"},
-{"key": "Unhealthy Ozone", "name": "Unhealthy ", "color": "#4CAF50", "type": "Ozone"},
-{"key": "Very Unhealthy Ozone", "name": "Very Unhealthy ", "color": "#388E3C", "type": "Ozone"},
-{"key": "Hazardous Ozone", "name": "Hazardous ", "color": "#1B5E20", "type": "Ozone"}
+{"key": "Unhealthy Sensitive PM", "name": "Unhealthy for Sensitive PM", "color": "#ff7d00", "type": "PM"},
+{"key": "Unhealthy PM", "name": "Unhealthy PM", "color": "#fe0000", "type": "PM"},
+{"key": "Very Unhealthy PM", "name": "Very Unhealthy PM", "color": "#8f3f98", "type": "PM"},
+{"key": "Hazardous PM", "name": "Hazardous PM", "color": "#993400", "type": "PM"},
+{"key": "Unhealthy Sensitive Ozone", "name": "Unhealthy Sensitive Ozone", "color": "#ff7e00", "type": "Ozone"},
+{"key": "Unhealthy Ozone", "name": "Unhealthy Ozone", "color": "#fe0000", "type": "Ozone"},
+{"key": "Very Unhealthy Ozone", "name": "Very Unhealthy Ozone ", "color": "#8f3f98", "type": "Ozone"},
+{"key": "Hazardous Ozone", "name": "Hazardous Ozone", "color": "#993400", "type": "Ozone"}
 ]
 }

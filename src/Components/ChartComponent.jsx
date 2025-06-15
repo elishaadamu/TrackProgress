@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import { csv } from "d3";
 import BridgeStackedChart from "./MarkdownCharts/BridgeCharts/BridgeChart"; // Import the new chart component
+import BridgeStackedChart1 from "./MarkdownCharts/BridgeCharts/BridgeChart1";
 import CommuteChart from "./MarkdownCharts/CommuteChart/CommuteChart"; // Import the new commute chart component
 import Congestion1 from "./MarkdownCharts/CongestionCharts/CongestionChart1"; // Import the congestion chart component
 import Congestion2 from "./MarkdownCharts/CongestionCharts/CongestionChart2"; // Import the congestion chart component
@@ -335,7 +336,7 @@ const Chart = ({ type, dataPath, config }) => {
             <YAxis
               {...commonYAxisProps}
               label={{
-                value: config.yAxis?.label || "",
+                value: config.yAxis?.label || "Days",
                 angle: -90,
                 position: "insideLeft",
                 offset: 10,
@@ -395,6 +396,8 @@ const Chart = ({ type, dataPath, config }) => {
 
       case "bridgeStacked":
         return <BridgeStackedChart dataPath={dataPath} config={config} />; // Render the new chart type
+      case "bridgeStacked1":
+        return <BridgeStackedChart1 dataPath={dataPath} config={config} />; // Render the new chart type
 
       case "commute":
         return <CommuteChart dataPath={dataPath} config={config} />; // Render the new commute chart type

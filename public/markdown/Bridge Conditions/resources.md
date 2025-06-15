@@ -88,10 +88,10 @@ chart:{
 "defaultOption": "Bridge"
 }
 
-#### Deficient Bridges by Ownership Type
+#### Bridges by Condition
 
 chart:{
-"type": "bridgeStacked",
+"type": "bridgeStacked1",
 "file": "Bridge_Conditions_3_fk.csv",
 "xAxis": "year",
 "yAxis": {
@@ -105,8 +105,8 @@ chart:{
 }
 },
 "options": [
-{"value": "Bridge", "label": "Number of Bridges"},
-{"value": "Deck", "label": "Bridge Desk Area"}
+{"value": "Deck", "label": "Bridge Desk Area"},
+{"value": "Bridge", "label": "Number of Bridges"}
 ],
 "bars": [
 {"key": "MPO- All", "name": "All", "type": "All"},
@@ -114,5 +114,5 @@ chart:{
 {"key": "MPO- Fair", "name": "Fair", "type": "Fair"},
 {"key": "MPO- Good", "name": "Good", "type": "Good"}
 ],
-"defaultOption": "Bridge"
+"defaultOption": "Deck"
 }

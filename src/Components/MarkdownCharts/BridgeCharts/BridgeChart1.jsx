@@ -13,11 +13,11 @@ import {
 
 // Updated color palette for all types
 const CHART_COLORS = {
-  // Ownership colors
-  All: "#0277BD", // blue
-  State: "#579ac7", // lighter blue
-  Local: "#c3d4ee", // green
-  Other: "#ff9f4b", // orange
+  // Condition colors
+  All: "#0277BD", // medium blue
+  Good: "#ff9f4b", // orange
+  Fair: "#c3d4ee", // light blue
+  Poor: "#579ac7", // muted blue
 };
 
 const customLegendStyle = {
@@ -39,10 +39,10 @@ const customLegendStyle = {
   },
 };
 
-const BridgeStackedChart = ({ dataPath, config }) => {
+const BridgeStackedChart1 = ({ dataPath, config }) => {
   const [data, setData] = React.useState([]);
   const [selectedOption, setSelectedOption] = React.useState(
-    config.defaultOption || "Bridge"
+    config.defaultOption || "Deck"
   );
 
   const [hiddenSeries, setHiddenSeries] = React.useState(new Set());
@@ -218,4 +218,4 @@ const BridgeStackedChart = ({ dataPath, config }) => {
   );
 };
 
-export default BridgeStackedChart;
+export default BridgeStackedChart1;
