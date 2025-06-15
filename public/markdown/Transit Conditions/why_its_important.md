@@ -11,7 +11,7 @@ chart:{
 "type": "number"
 },
 "locations": [
-{"value": "septa_bus", "name": "SEPTA Bus"}
+{"value": "septa_bus", "name": "Bus"}
 ],
 "timePeriods": {
 "Total": "Total",
@@ -20,13 +20,17 @@ chart:{
 "defaultOption": "Total"
 }
 
+#### Support Vehicles Past their Useful Life Benchmark (ULB)
+
 chart:{
 "type": "transit",
 "file": "transit_conditions_2_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Lanes Miles",
-"type": "number"
+"label": "Number of Support Vehicles Past their (ULB)",
+"type": "number",
+"dx": -5,
+"dy": 150
 },
 "locations": [
 {"value": "auto", "name": "Automobiles"},
@@ -38,4 +42,45 @@ chart:{
 "Percent": "Percent"
 },
 "defaultOption": "Total"
+}
+
+#### Rail Track with Performance Restrictions
+
+chart:{
+"type": "transit",
+"file": "transit_conditions_3_fk.csv",
+"xAxis": "year",
+"yAxis": {
+"label": "Miles of Rail Track with Performance Restrictions",
+"type": "number",
+"dx": -5,
+"dy": 150
+},
+"locations": [
+{"value": "all", "name": "All"},
+{"value": "pass", "name": "Passangers"},
+{"value": "admin", "name": "Admin"}
+],
+"timePeriods": {
+"Total": "Total",
+"Percent": "Percent"
+},
+"defaultOption": "Total"
+}
+
+#### Vehicle Revenue Miles Between Failures
+
+chart: {
+"type": "transit",
+"file": "transit_conditions_vrmf_fk.csv",
+"xAxis": "year",
+"yAxis": {
+"label": "Miles Between Failures Per 100,000 Vehicle Revenue Miles",
+"type": "number",
+"dx": -5,
+"dy": 150
+},
+"locations": [
+{ "value": "All", "name": "All Transit Modes" }
+]
 }

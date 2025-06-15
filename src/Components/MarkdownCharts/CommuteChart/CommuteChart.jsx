@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
 import {
   LineChart,
@@ -11,175 +11,107 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// Updated color palette for all transport modes
+// Use mode.value as keys!
 const CHART_COLORS = {
-  // Transport mode colors
-  Bike: "#E65100", // orange
-  Bus: "#2E7D32", // green
-  Ferry: "#00838F", // cyan
-  Motorcycle: "#6A1B9A", // purple
-  "Motor Other": "#AD1457", // pink
-  "Non-SOV": "#827717", // olive
-  Other: "#4E342E", // brown
-  Carpool: "#F9A825", // yellow
-  Rail: "#4527A0", // deep purple
-  "Drive Alone": "#1565C0", // blue
-  Subway: "#00695C", // teal
-  Taxi: "#FF8F00", // amber
-  Transit: "#C62828", // red
-  Trolley: "#37474F", // blue grey
-  Walk: "#6A1B9A", // purple
-  "Work from Home": "#00838F", // cyan
+  bike: "#E65100",
+  bus: "#2E7D32",
+  ferry: "#00838F",
+  mcyc: "#6A1B9A",
+  mo: "#AD1457",
+  nsov: "#827717",
+  other: "#4E342E",
+  pool: "#F9A825",
+  rail: "#4527A0",
+  sov: "#1565C0",
+  subw: "#00695C",
+  taxi: "#FF8F00",
+  transit: "#C62828",
+  troll: "#37474F",
+  walk: "#6A1B9A",
+  wfh: "#00838F",
 };
 
-const customLegendStyle = {
-  ".recharts-legend-item": {
-    cursor: "pointer",
-    padding: "0.5rem",
-    borderRadius: "4px",
-    transition: "all 0.2s ease",
-    backgroundColor: "white",
-    margin: "0 4px",
-    border: "1px solid #E0E0E0",
-  },
-  ".recharts-legend-item:hover": {
-    backgroundColor: "#F5F5F5",
-    border: "1px solid #BDBDBD",
-  },
-  ".recharts-legend-item.inactive": {
-    opacity: 0.5,
-  },
-};
+const INITIAL_VISIBLE_MODES = ["sov", "transit", "pool", "walk", "wfh"];
 
-// Custom tooltip component
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload) return null;
-
   return (
     <div
       style={{
         backgroundColor: "white",
         border: "1px solid #666666",
         borderRadius: "4px",
-        boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
         padding: "10px",
         fontSize: "12px",
       }}
     >
-      <p style={{ margin: "0 0 5px 0", fontWeight: "bold", color: "#000000" }}>
-        {label}
-      </p>
+      <p style={{ fontWeight: "bold", marginBottom: "5px" }}>{label}</p>
       {payload.map((entry, index) => (
-        <div
-          key={index}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "3px",
-          }}
-        >
-          <div
-            style={{
-              width: "10px",
-              height: "10px",
-              backgroundColor: entry.color,
-              borderRadius: "2px",
-              marginRight: "5px",
-            }}
-          />
-          <span style={{ color: "#000000" }}>
-            {entry.name}: {entry.value}%
-          </span>
+        <div key={index} style={{ color: "#000" }}>
+          <span>{entry.name}: </span>
+          <strong>{entry.value}%</strong>
         </div>
       ))}
     </div>
   );
 };
 
-const INITIAL_VISIBLE_MODES = [
-  "sov", // Drive Alone
-  "transit", // Transit
-  "pool", // Carpool
-  "walk", // Walk
-  "wfh", // Work from Home
-];
-
 const CommuteChart = ({ dataPath, config }) => {
-  const [data, setData] = React.useState([]);
-  const [selectedLocation, setSelectedLocation] = React.useState(
+  const [data, setData] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(
     config.locations[0]?.value
   );
-  const [selectedValue, setSelectedValue] = React.useState("Residence");
-  const [hiddenSeries, setHiddenSeries] = React.useState(
-    new Set(
-      config.transportModes.options
-        .filter((mode) => !INITIAL_VISIBLE_MODES.includes(mode.value))
-        .map((mode) => `${config.locations[0]?.value}_${mode.value}`)
-    )
+  const [selectedValue, setSelectedValue] = useState(
+    config.filters.Value[0]?.value
   );
+  const [hiddenSeries, setHiddenSeries] = useState(new Set());
 
-  const getInitialHiddenSeries = (location) => {
-    return new Set(
-      config.transportModes.options
-        .filter((mode) => !INITIAL_VISIBLE_MODES.includes(mode.value))
-        .map((mode) => `${location}_${mode.value}`)
-    );
-  };
-
-  React.useEffect(() => {
+  useEffect(() => {
     fetch(dataPath)
-      .then((response) => response.text())
+      .then((res) => res.text())
       .then((csvText) => {
-        const parsedData = d3.csvParse(csvText);
-        const filteredData = parsedData.filter(
-          (d) => d.Value === selectedValue
-        );
+        const parsed = d3.csvParse(csvText);
+        const filtered = parsed.filter((d) => d.Value === selectedValue);
 
-        // Transform data for the selected location
-        const transformedData = [];
-        const years = [...new Set(filteredData.map((d) => d.year))];
+        if (filtered.length === 0) {
+          console.warn("No data matched the selected value:", selectedValue);
+          return;
+        }
 
-        years.forEach((year) => {
-          const yearData = { year };
+        const years = [...new Set(filtered.map((d) => d.year))];
+        const transformed = years.map((year) => {
+          const row = { year };
           config.transportModes.options.forEach((mode) => {
-            const columnName = `${selectedLocation}_${mode.value}`;
-            const value = filteredData.find((d) => d.year === year)?.[
-              columnName
-            ];
-            yearData[columnName] = value ? parseFloat(value) : 0;
+            const col = `${selectedLocation}_${mode.value}`;
+            const value = filtered.find((d) => d.year === year)?.[col];
+            row[col] = value ? parseFloat(value) : 0;
           });
-          transformedData.push(yearData);
+          return row;
         });
 
-        // Keep initial visibility based on INITIAL_VISIBLE_MODES only
-        const newHiddenSeries = new Set(
+        const hidden = new Set(
           config.transportModes.options
             .filter((mode) => !INITIAL_VISIBLE_MODES.includes(mode.value))
             .map((mode) => `${selectedLocation}_${mode.value}`)
         );
 
-        setHiddenSeries(newHiddenSeries);
-        setData(transformedData);
+        setData(transformed);
+        setHiddenSeries(hidden);
       })
-      .catch((error) => {
-        console.error("Error loading chart data:", error);
+      .catch((err) => {
+        console.error("Failed to load CSV", err);
       });
-  }, [
-    dataPath,
-    selectedLocation,
-    selectedValue,
-    config.transportModes.options,
-  ]);
+  }, [dataPath, selectedLocation, selectedValue]);
 
   const handleLegendClick = (entry) => {
     setHiddenSeries((prev) => {
-      const newHidden = new Set(prev);
-      if (newHidden.has(entry.dataKey)) {
-        newHidden.delete(entry.dataKey);
+      const copy = new Set(prev);
+      if (copy.has(entry.dataKey)) {
+        copy.delete(entry.dataKey);
       } else {
-        newHidden.add(entry.dataKey);
+        copy.add(entry.dataKey);
       }
-      return newHidden;
+      return copy;
     });
   };
 
@@ -193,135 +125,83 @@ const CommuteChart = ({ dataPath, config }) => {
     fontWeight: "500",
   };
 
-  const renderChart = () => {
-    if (data.length === 0) {
-      return <div>Loading data...</div>;
-    }
-
-    return (
-      <LineChart
-        data={data}
-        margin={{ top: 10, right: 30, left: 50, bottom: 20 }}
-        style={{ backgroundColor: "white" }}
-      >
-        <CartesianGrid strokeDasharray="3 3" stroke="#E0E0E0" />
-        <XAxis
-          dataKey="year"
-          tick={{ fill: "#000000", fontSize: 12 }}
-          stroke="#666666"
-        />
-        <YAxis
-          tick={{ fill: "#000000", fontSize: 12 }}
-          stroke="#666666"
-          tickFormatter={(value) => `${value}%`}
-          label={{
-            value: config.yAxis.label,
-            angle: -90,
-            position: "insideLeft",
-            offset: -40,
-          }}
-        />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend
-          onClick={handleLegendClick}
-          iconSize={10}
-          iconType="circle"
-          wrapperStyle={{ paddingTop: "20px" }}
-        />
-        {config.transportModes.options.map((mode) => {
-          const key = `${selectedLocation}_${mode.value}`;
-          return (
-            <Line
-              key={key}
-              type="cardinal"
-              dataKey={key}
-              name={mode.label}
-              stroke={CHART_COLORS[mode.label]}
-              strokeWidth={2}
-              dot={{
-                r: 4,
-                strokeWidth: 2,
-                fill: "white",
-                stroke: CHART_COLORS[mode.label],
-              }}
-              activeDot={{
-                r: 6,
-                strokeWidth: 2,
-                fill: "white",
-                stroke: CHART_COLORS[mode.label],
-              }}
-              hide={hiddenSeries.has(key)}
-            />
-          );
-        })}
-      </LineChart>
-    );
-  };
-
-  // Update location selector handler
-  const handleLocationChange = (e) => {
-    setSelectedLocation(e.target.value);
-  };
-
-  // Remove resetting hiddenSeries from Value select onChange
-  const handleValueChange = (e) => {
-    setSelectedValue(e.target.value);
-  };
-
   return (
     <div>
       <div style={{ marginBottom: "1rem", display: "flex", gap: "1rem" }}>
         <div>
           <label
-            htmlFor="locationSelect"
-            style={{
-              marginRight: "0.5rem",
-              fontWeight: "500",
-              color: "#ffffff",
-            }}
+            style={{ marginRight: "0.5rem", fontWeight: 500, color: "#000" }}
           >
             Select Location:
           </label>
           <select
-            id="locationSelect"
             value={selectedLocation}
-            onChange={handleLocationChange}
+            onChange={(e) => setSelectedLocation(e.target.value)}
             style={selectStyle}
           >
-            {config.locations.map((location) => (
-              <option key={location.value} value={location.value}>
-                {location.label}
+            {config.locations.map((loc) => (
+              <option key={loc.value} value={loc.value}>
+                {loc.label}
               </option>
             ))}
           </select>
         </div>
         <div>
           <label
-            htmlFor="valueSelect"
-            style={{
-              marginRight: "0.5rem",
-              fontWeight: "500",
-              color: "#ffffff",
-            }}
+            style={{ marginRight: "0.5rem", fontWeight: 500, color: "#000" }}
           >
             Select Value:
           </label>
           <select
-            id="valueSelect"
             value={selectedValue}
-            onChange={handleValueChange}
+            onChange={(e) => setSelectedValue(e.target.value)}
             style={selectStyle}
           >
-            {config.filters.Value.map((value) => (
-              <option key={value.value} value={value.value}>
-                {value.label}
+            {config.filters.Value.map((val) => (
+              <option key={val.value} value={val.value}>
+                {val.label}
               </option>
             ))}
           </select>
         </div>
       </div>
+
       <ResponsiveContainer width="100%" height={600}>
-        {renderChart()}
+        <LineChart
+          data={data}
+          margin={{ top: 10, right: 30, left: 50, bottom: 20 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="year" stroke="#666" />
+          <YAxis
+            stroke="#666"
+            tickFormatter={(v) => `${v}%`}
+            label={{
+              value: config.yAxis.label,
+              angle: -90,
+              position: "insideLeft",
+              offset: -40,
+            }}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend onClick={handleLegendClick} />
+          {config.transportModes.options.map((mode) => {
+            const key = `${selectedLocation}_${mode.value}`;
+            return (
+              <Line
+                key={key}
+                type="monotone"
+                dataKey={key}
+                name={mode.label}
+                stroke={CHART_COLORS[mode.value] || "#8884d8"}
+                strokeWidth={2}
+                dot={{ r: 3 }}
+                activeDot={{ r: 5 }}
+                hide={hiddenSeries.has(key)}
+              />
+            );
+          })}
+        </LineChart>
       </ResponsiveContainer>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as d3 from "d3";
 import {
   LineChart,
@@ -12,9 +12,13 @@ import {
 } from "recharts";
 
 const CHART_COLORS = {
-  auto: "#000000",
-  truck: "#FF5722",
-  articulated: "#4CAF50",
+  septa_bus: "#ffbc77",
+  auto: "#FF9800",
+  trucks: "#aec6e8",
+  articulated: "#1565C0",
+  all: "#1565C0",
+  pass: "#FF9800",
+  admin: "#aec6e8",
 };
 
 const INITIAL_VISIBLE_LOCATIONS = ["auto", "truck", "articulated"];
@@ -60,21 +64,25 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 const TransitChart1 = ({ dataPath, config }) => {
-  const [data, setData] = useState([]);
+  const hasTimePeriods =
+    config.timePeriods && Object.keys(config.timePeriods).length > 0;
   const [selectedTimePeriod, setSelectedTimePeriod] = useState(
-    config.defaultOption
+    hasTimePeriods ? config.defaultOption : null
   );
+  const [data, setData] = useState([]);
   const [hiddenSeries, setHiddenSeries] = useState(new Set());
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetch(dataPath)
       .then((response) => response.text())
       .then((csvText) => {
         const parsedData = d3.csvParse(csvText);
 
-        // Fix: Properly filter and format the data
         const filteredData = parsedData
-          .filter((row) => row.Value === selectedTimePeriod)
+          .filter((row) => {
+            if (!hasTimePeriods) return true;
+            return row.Value === selectedTimePeriod;
+          })
           .map((row) => {
             const yearData = { year: row.year };
             config.locations.forEach((location) => {
@@ -83,7 +91,6 @@ const TransitChart1 = ({ dataPath, config }) => {
             return yearData;
           });
 
-        console.log("Filtered Data:", filteredData); // Debug log
         setData(filteredData);
       })
       .catch((error) => {
@@ -101,6 +108,16 @@ const TransitChart1 = ({ dataPath, config }) => {
       }
       return newHidden;
     });
+  };
+
+  const selectStyle = {
+    padding: "0.5rem",
+    borderRadius: "4px",
+    border: "1px solid #9E9E9E",
+    backgroundColor: "#E3F2FD",
+    cursor: "pointer",
+    color: "#000000",
+    fontWeight: "500",
   };
 
   const renderChart = () => {
@@ -121,8 +138,16 @@ const TransitChart1 = ({ dataPath, config }) => {
             value: config.yAxis?.label || "",
             angle: -90,
             position: "insideLeft",
+            dx: config.yAxis?.dx || "", // moves it horizontally (left or right)
+            dy: config.yAxis?.dy || "", // adjusts vertical position (try tuning this)
+            style: {
+              textAnchor: "center",
+              fill: "#666666",
+              fontSize: 12,
+            },
           }}
         />
+
         <Tooltip content={CustomTooltip} />
         <Legend onClick={handleLegendClick} />
         {config.locations.map((location) => (
@@ -131,19 +156,19 @@ const TransitChart1 = ({ dataPath, config }) => {
             type="cardinal"
             dataKey={location.value}
             name={location.name}
-            stroke="#1565C0"
+            stroke={CHART_COLORS[location.value] || "#1565C0"}
             strokeWidth={2}
             dot={{
               r: 4,
               strokeWidth: 2,
               fill: "white",
-              stroke: "#1565C0",
+              stroke: CHART_COLORS[location.value] || "#1565C0",
             }}
             activeDot={{
               r: 6,
               strokeWidth: 2,
               fill: "white",
-              stroke: "#1565C0",
+              stroke: CHART_COLORS[location.value] || "#1565C0",
             }}
             connectNulls={true}
             hide={hiddenSeries.has(location.value)}
@@ -153,43 +178,35 @@ const TransitChart1 = ({ dataPath, config }) => {
     );
   };
 
-  const selectStyle = {
-    padding: "0.5rem",
-    borderRadius: "4px",
-    border: "1px solid #9E9E9E",
-    backgroundColor: "#E3F2FD",
-    cursor: "pointer",
-    color: "#000000",
-    fontWeight: "500",
-  };
-
   return (
     <div className="chart-container">
-      <div style={{ marginBottom: "1rem" }}>
-        <label
-          htmlFor="timePeriodSelect"
-          style={{
-            marginRight: "0.5rem",
-            fontWeight: "500",
-            color: "#ffffff",
-          }}
-        >
-          Select Road Type:
-        </label>
-        <select
-          id="timePeriodSelect"
-          value={selectedTimePeriod}
-          onChange={(e) => setSelectedTimePeriod(e.target.value)}
-          style={selectStyle}
-        >
-          {Object.entries(config.timePeriods).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </div>
-      <ResponsiveContainer width="100%" height={400}>
+      {hasTimePeriods && (
+        <div style={{ marginBottom: "1rem" }}>
+          <label
+            htmlFor="timePeriodSelect"
+            style={{
+              marginRight: "0.5rem",
+              fontWeight: "500",
+              color: "#ffffff",
+            }}
+          >
+            Select Value Type:
+          </label>
+          <select
+            id="timePeriodSelect"
+            value={selectedTimePeriod}
+            onChange={(e) => setSelectedTimePeriod(e.target.value)}
+            style={selectStyle}
+          >
+            {Object.entries(config.timePeriods).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+      <ResponsiveContainer width="100%" height={500}>
         {renderChart()}
       </ResponsiveContainer>
     </div>
