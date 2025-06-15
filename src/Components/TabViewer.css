@@ -54,3 +54,10 @@
 .back-button:hover {
   background-color: #1f2937; /* gray-800 */
 }
+.recharts-wrapper {
+  background-color: white !important;
+  width: 100% !important;
+}
+.recharts-responsive-container {
+  height: 600px !important;
+}

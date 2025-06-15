@@ -77,7 +77,7 @@ chart:{
 },
 "options": [
 {"value": "Bridge", "label": "Number of Bridges"},
-{"value": "Deck", "label": "Bridge Desk Area"}
+{"value": "Deck", "label": "Bridge Deck Area"}
 ],
 "bars": [
 {"key": "MPO- All", "name": "All", "type": "All"},
@@ -105,7 +105,7 @@ chart:{
 }
 },
 "options": [
-{"value": "Deck", "label": "Bridge Desk Area"},
+{"value": "Deck", "label": "Bridge Deck Area"},
 {"value": "Bridge", "label": "Number of Bridges"}
 ],
 "bars": [

@@ -20,6 +20,8 @@ import Congestion1 from "./MarkdownCharts/CongestionCharts/CongestionChart1"; //
 import Congestion2 from "./MarkdownCharts/CongestionCharts/CongestionChart2"; // Import the congestion chart component
 import Congestion3 from "./MarkdownCharts/CongestionCharts/CongestionChart3";
 import MilesDriven from "./MarkdownCharts/MilesDrivenCharts/MilesDrivenChart"; // Import the miles driven chart component
+import Pavement from "./MarkdownCharts/PavementChart/PavementChart"; // Import the pavement chart component
+import Transit1 from "./MarkdownCharts/TransitCharts/TransitChart1"; // Import the transit chart component
 
 // Update the color palette with more distinct and contrasting colors
 const CHART_COLORS = [
@@ -409,6 +411,10 @@ const Chart = ({ type, dataPath, config }) => {
         return <Congestion3 dataPath={dataPath} config={config} />; // Render the third congestion chart type
       case "milesdriven":
         return <MilesDriven dataPath={dataPath} config={config} />; // Render the miles driven chart
+      case "pavement":
+        return <Pavement dataPath={dataPath} config={config} />; // Render the pavement chart
+      case "transit":
+        return <Transit1 dataPath={dataPath} config={config} />; // Render the transit chart
 
       default:
         return null;
