@@ -11,27 +11,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// Use mode.value as keys!
 const CHART_COLORS = {
-  bike: "#E65100",
-  bus: "#2E7D32",
-  ferry: "#00838F",
-  mcyc: "#6A1B9A",
-  mo: "#AD1457",
-  nsov: "#827717",
-  other: "#4E342E",
-  pool: "#F9A825",
-  rail: "#4527A0",
-  sov: "#1565C0",
-  subw: "#00695C",
-  taxi: "#FF8F00",
-  transit: "#C62828",
-  troll: "#37474F",
-  walk: "#6A1B9A",
-  wfh: "#00838F",
+  Bus: "#E65100",
+  Busper: "#2E7D32",
 };
 
-const INITIAL_VISIBLE_MODES = ["sov", "transit", "pool", "walk", "wfh"];
+const INITIAL_VISIBLE_MODES = ["Bus", "Busper"];
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload) return null;
@@ -49,20 +34,23 @@ const CustomTooltip = ({ active, payload, label }) => {
       {payload.map((entry, index) => (
         <div key={index} style={{ color: "#000" }}>
           <span>{entry.name}: </span>
-          <strong>{entry.value}%</strong>
+          <strong>{entry.value}</strong>
         </div>
       ))}
     </div>
   );
 };
 
-const CommuteChart = ({ dataPath, config }) => {
+const getColumnKey = (mode, loc) => {
+  if (mode === "Bus" && loc === "all") return "bus_all";
+  if (mode === "Busper") return `busper_${loc}`;
+  return null;
+};
+
+const TransitRidership = ({ dataPath, config }) => {
   const [data, setData] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(
     config.locations[0]?.value
-  );
-  const [selectedValue, setSelectedValue] = useState(
-    config.filters?.Value?.[0]?.value
   );
   const [hiddenSeries, setHiddenSeries] = useState(new Set());
 
@@ -71,40 +59,27 @@ const CommuteChart = ({ dataPath, config }) => {
       .then((res) => res.text())
       .then((csvText) => {
         const parsed = d3.csvParse(csvText);
-        // Only filter by Value if it exists in config
-        const filtered = config.filters?.Value
-          ? parsed.filter((d) => d.Value === selectedValue)
-          : parsed;
 
-        if (filtered.length === 0) {
-          console.warn("No data matched the filters");
-          return;
-        }
-
-        const years = [...new Set(filtered.map((d) => d.year))];
+        const years = [...new Set(parsed.map((d) => d.year))];
         const transformed = years.map((year) => {
           const row = { year };
           config.transportModes.options.forEach((mode) => {
-            const col = `${selectedLocation}_${mode.value}`;
-            const value = filtered.find((d) => d.year === year)?.[col];
-            row[col] = value ? parseFloat(value) : 0;
+            const col = getColumnKey(mode.value, selectedLocation);
+            if (!col) return;
+            const value = parsed.find((d) => d.year === year)?.[col];
+            row[col] = value ? parseFloat(value) : null;
           });
           return row;
         });
 
-        const hidden = new Set(
-          config.transportModes.options
-            .filter((mode) => !INITIAL_VISIBLE_MODES.includes(mode.value))
-            .map((mode) => `${selectedLocation}_${mode.value}`)
-        );
-
+        // No lines hidden by default now
         setData(transformed);
-        setHiddenSeries(hidden);
+        setHiddenSeries(new Set());
       })
       .catch((err) => {
         console.error("Failed to load CSV", err);
       });
-  }, [dataPath, selectedLocation, selectedValue]);
+  }, [dataPath, selectedLocation, config.transportModes]);
 
   const handleLegendClick = (entry) => {
     setHiddenSeries((prev) => {
@@ -127,18 +102,33 @@ const CommuteChart = ({ dataPath, config }) => {
     color: "#000000",
     fontWeight: "500",
   };
+  const getYAxisLabel = () => {
+    switch (selectedLocation) {
+      case "all":
+        return "Trips (thousand)";
+      case "capita":
+        return "Trips Per Capita";
+      case "vrh":
+        return "Trips Per Vehicle Revenue Hour";
+      case "vrm":
+        return "Trips Per Vehicle Revenue Mile";
+      default:
+        return "Trips";
+    }
+  };
 
   return (
     <div>
       <div style={{ marginBottom: "1rem", display: "flex", gap: "1rem" }}>
         <div>
           <label
-            className="text-white"
+            htmlFor="locationSelect"
             style={{ marginRight: "0.5rem", fontWeight: 500, color: "#000" }}
           >
             Select Location:
           </label>
           <select
+            id="locationSelect"
             value={selectedLocation}
             onChange={(e) => setSelectedLocation(e.target.value)}
             style={selectStyle}
@@ -150,27 +140,6 @@ const CommuteChart = ({ dataPath, config }) => {
             ))}
           </select>
         </div>
-        {config.filters?.Value && (
-          <div>
-            <label
-              className="text-white"
-              style={{ marginRight: "0.5rem", fontWeight: 500, color: "#000" }}
-            >
-              Select Value:
-            </label>
-            <select
-              value={selectedValue}
-              onChange={(e) => setSelectedValue(e.target.value)}
-              style={selectStyle}
-            >
-              {config.filters.Value.map((val) => (
-                <option key={val.value} value={val.value}>
-                  {val.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
       </div>
 
       <ResponsiveContainer width="100%" height={600}>
@@ -182,25 +151,27 @@ const CommuteChart = ({ dataPath, config }) => {
           <XAxis dataKey="year" stroke="#666" />
           <YAxis
             stroke="#666"
-            tickFormatter={(v) => `${v}%`}
             label={{
-              value: config.yAxis.label,
+              value: getYAxisLabel(),
               angle: -90,
               position: "insideLeft",
-              offset: -40,
+              offset: -30,
+              style: { textAnchor: "middle", fill: "#666" },
             }}
           />
+
           <Tooltip content={<CustomTooltip />} />
           <Legend onClick={handleLegendClick} />
           {config.transportModes.options.map((mode) => {
-            const key = `${selectedLocation}_${mode.value}`;
+            const key = getColumnKey(mode.value, selectedLocation);
+            if (!key) return null;
             return (
               <Line
                 key={key}
-                type="cardinal"
                 dataKey={key}
                 name={mode.label}
                 stroke={CHART_COLORS[mode.value] || "#8884d8"}
+                type="monotone"
                 strokeWidth={2}
                 dot={{ r: 3 }}
                 activeDot={{ r: 5 }}
@@ -214,4 +185,4 @@ const CommuteChart = ({ dataPath, config }) => {
   );
 };
 
-export default CommuteChart;
+export default TransitRidership;

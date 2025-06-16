@@ -2,17 +2,24 @@ Increasing transit ridership is critical to maintaining a safe multimodal transp
 
 #### Vehicle Revenue Miles Between Failures
 
-chart: {
-"type": "transit",
+chart:{
+"type": "transitRidership",
 "file": "transit_ridership_1_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Miles Between Failures Per 100,000 Vehicle Revenue Miles",
-"type": "number",
-"dx": -5,
-"dy": 150
+"format": "number",
+"label": "Annual Unlinked Trips by Transit Mode"
 },
 "locations": [
-{ "value": "All", "name": "All Transit Modes" }
+{"value": "all", "label": "Total"},
+{"value": "capita", "label": "Per Capita"},
+{"value": "vrh", "label": "Per VRH"},
+{"value": "vrm", "label": "Per VRM"}
+],
+"transportModes": {
+"options": [
+{"value": "Bus", "label": "Bus"},
+{"value": "Busper", "label": "Busper"}
 ]
+}
 }

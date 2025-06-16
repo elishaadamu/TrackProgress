@@ -66,3 +66,8 @@
   opacity: 1;
   visibility: visible;
 }
+
+label {
+  font-weight: 600;
+  color: #ffffff !important;
+}
