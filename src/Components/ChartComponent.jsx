@@ -24,6 +24,7 @@ import Pavement from "./MarkdownCharts/PavementChart/PavementChart"; // Import t
 import Transit1 from "./MarkdownCharts/TransitCharts/TransitChart1"; // Import the transit chart component
 import TransitRidership from "./MarkdownCharts/TransitRidership/TransitRidership"; // Import the transit ridership chart component
 import TransitSafety from "./MarkdownCharts/TransitSafety/TransitSafety"; // Import the transit safety chart component
+import TransitSafety1 from "./MarkdownCharts/TransitSafety/TransitSafety1"; // Import the transit safety chart component
 
 // Update the color palette with more distinct and contrasting colors
 const CHART_COLORS = [
@@ -421,6 +422,8 @@ const Chart = ({ type, dataPath, config }) => {
         return <TransitRidership dataPath={dataPath} config={config} />; // Render the transit ridership chart
       case "transitSafety":
         return <TransitSafety dataPath={dataPath} config={config} />; // Render the transit safety chart
+      case "transitSafety1":
+        return <TransitSafety1 dataPath={dataPath} config={config} />; // Render the transit safety chart 1
       default:
         return null;
     }

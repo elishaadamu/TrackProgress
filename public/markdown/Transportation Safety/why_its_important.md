@@ -33,10 +33,10 @@ chart:{
 "defaultOption": "total"
 }
 
-####
+#### Individuals Killed or Seriously Injured (KSI) on Roadways by Crash Type
 
 chart:{
-"type": "transitSafety",
+"type": "transitSafety1",
 "file": "transit_safety_type_2_fk.csv",
 "xAxis": "year",
 "yAxis": {
@@ -59,8 +59,8 @@ chart:{
 },
 "filters": {
 "Value": [
-{"value": "Fatalities", "label": "Fatalities"},
-{"value": "Serious_Injuries", "label": "Serious Injuries"},
+{"value": "Fatalities", "label": "Motorized Fatalities"},
+{"value": "Serious_Injuries", "label": "Motorized Serious Injuries"},
 {"value": "NMF", "label": "Non-Motorized Fatalities"},
 {"value": "NMSI", "label": "Non-Motorized Serious Injuries"}
 ]
