@@ -132,7 +132,7 @@ const CongestionChart2 = ({ dataPath, config }) => {
             angle: -90,
             position: "insideLeft",
             offset: -5, // Move label closer
-            style: { textAnchor: "middle", fill: "#666666" },
+            style: { textAnchor: "middle", fontSize: 14, fontWeight: "bold" },
           }}
           padding={{ top: 0, bottom: 0 }} // Remove padding
         />

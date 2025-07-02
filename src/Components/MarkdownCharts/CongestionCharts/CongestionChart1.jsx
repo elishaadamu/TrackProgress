@@ -126,7 +126,7 @@ const CongestionChart = ({ dataPath, config }) => {
             value: config.yAxis?.label || "",
             angle: -90,
             position: "insideLeft",
-            style: { textAnchor: "middle", fill: "#666666" },
+            style: { textAnchor: "middle", fontSize: 14, fontWeight: "bold" },
           }}
         />
         <Tooltip content={CustomTooltip} />

@@ -108,3 +108,113 @@ chart:{
 {"key": "prince_george", "name": "Prince George"}
 ]
 }
+
+#### Congestion Index
+
+chart:{
+"type": "congestion4",
+"file": "congestion_pti_Fwy_loc-f1_fk.csv",
+"xAxis": "year",
+"yAxis": {
+"label": "Planning Time Index",
+"type": "number"
+},
+"locations": [
+{"value": "MPO", "label": "MPO Region"},
+{"value": "Hopewell", "label": "Hopewell"},
+{"value": "Petersburg", "label": "Petersburg"},
+{"value": "ColonialHeights", "label": "Colonial Heights"},
+{"value": "Chesterfield", "label": "Chesterfield"},
+{"value": "Dinwiddie", "label": "Dinwiddie"},
+{"value": "PrinceGeorge", "label": "Prince George"}
+],
+"timePeriods": {
+"AM": "Morning Peak",
+"MD": "Midday",
+"PM": "Evening Peak",
+"INT": "Overnight",
+"24": "24 Hour"
+}
+}
+
+<div className="mt-30"> </div>
+
+#### Travel Time Reliability
+
+chart:{
+"type": "congestion5",
+"file": "congestion_reliability_fk.csv",
+"xAxis": "year",
+"yAxis": {
+"label": "Reliability",
+"type": "number",
+"format": "percentage"
+},
+"locations": [
+{"value": "MPO", "name": "MPO Region"},
+{"value": "Hopewell", "name": "Hopewell"},
+{"value": "Petersburg", "name": "Petersburg"},
+{"value": "ColonialHeights", "name": "Colonial Heights"},
+{"value": "Chesterfield", "name": "Chesterfield"},
+{"value": "Dinwiddie", "name": "Dinwiddie"},
+{"value": "PrinceGeorge", "name": "Prince George"}
+],
+"filters": {
+"value": [
+{"value": "Percent", "label": "Percentage"},
+{"value": "Miles", "label": "Miles"}
+],
+"Unit": [
+{"value": "Interstate", "label": "Interstate"},
+{"value": "Non Interstate", "label": "Non-Interstate"}
+]
+}
+}
+
+<div className="mt-30"> </div>
+
+#### Peak Hour Excessive Delay
+
+chart:{
+"type": "congestion6",
+"file": "congestion_reliability_phed-f4_fk.csv",
+"xAxis": "year",
+"yAxis": {
+"label": "Hours of Delay",
+"type": "number"
+},
+"lines": [
+{"value": "TCA_UA", "name": "Tri-Cities Area"},
+{"value": "RR_UA", "name": "Richmond Region"},
+{"value": "Total_UA", "name": "Total Urban Area"}
+],
+"filters": {
+"Scope": [
+{"value": "Capita", "label": "Per Capita"},
+{"value": "Total", "label": "Total"}
+]
+}
+}
+
+<div className="mt-30"> </div>
+
+#### Truck Travel Time Reliability F3
+
+chart:{
+"type": "congestion7",
+"file": "congestion_reliability_tttr-f3_fk.csv",
+"xAxis": "year",
+"yAxis": {
+"label": "Travel Time Reliability Index",
+"type": "number"
+},
+"locations": [
+{"value": "MPO", "name": "MPO Region"},
+{"value": "Hopewell", "name": "Hopewell"},
+{"value": "Petersburg", "name": "Petersburg"},
+{"value": "Colonial Heights", "name": "Colonial Heights"},
+{"value": "Chesterfield", "name": "Chesterfield"},
+{"value": "Dinwiddie", "name": "Dinwiddie"},
+{"value": "Prince George", "name": "Prince George"}
+]
+}

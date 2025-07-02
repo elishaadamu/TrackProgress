@@ -15,16 +15,40 @@ import {
 import { csv } from "d3";
 import BridgeStackedChart from "./MarkdownCharts/BridgeCharts/BridgeChart"; // Import the new chart component
 import BridgeStackedChart1 from "./MarkdownCharts/BridgeCharts/BridgeChart1";
+import CommunityIntegrationChart1 from "./MarkdownCharts/CommunityIntegrationCharts/CommunityIntegrationChart1";
+import CommunityIntegrationChart2 from "./MarkdownCharts/CommunityIntegrationCharts/CommunityIntegrationChart2";
+import BusinessFormation from "./MarkdownCharts/BusinessFormationChart/BusinessFormationChart"; // Import the business formation chart component
 import CommuteChart from "./MarkdownCharts/CommuteChart/CommuteChart"; // Import the new commute chart component
 import Congestion1 from "./MarkdownCharts/CongestionCharts/CongestionChart1"; // Import the congestion chart component
 import Congestion2 from "./MarkdownCharts/CongestionCharts/CongestionChart2"; // Import the congestion chart component
 import Congestion3 from "./MarkdownCharts/CongestionCharts/CongestionChart3";
+import CongestionChart4 from "./MarkdownCharts/CongestionCharts/CongestionChart4";
+import CongestionChart5 from "./MarkdownCharts/CongestionCharts/CongestionChart5";
+import CongestionChart6 from "./MarkdownCharts/CongestionCharts/CongestionChart6";
+import CongestionChart7 from "./MarkdownCharts/CongestionCharts/CongestionChart7";
+import EducationAttainment1 from "./MarkdownCharts/EducationAttainmentCharts/EducationAttainment1";
+import EducationAttainment2 from "./MarkdownCharts/EducationAttainmentCharts/EducationAttainment2";
+import GDP1 from "./MarkdownCharts/GDP/gdp1"; // Import the GDP chart component
+import GDP2 from "./MarkdownCharts/GDP/gdp2"; // Import the second
+import GDP3 from "./MarkdownCharts/GDP/gdp3"; // Import the third GDP chart component
+import HeatEmission1 from "./MarkdownCharts/HeatEmission/HeatEmission1"; // Import the third GDP chart component
+import HeatEmission2 from "./MarkdownCharts/HeatEmission/HeatEmission2"; // Import the third GDP chart component
+import HeatEmission3 from "./MarkdownCharts/HeatEmission/HeatEmission3"; // Import the third GDP chart component
+import Housing1 from "./MarkdownCharts/Housing/Housing1"; // Import the housing chart component
+import Housing2 from "./MarkdownCharts/Housing/Housing2"; // Import the housing chart component
+import Housing3 from "./MarkdownCharts/Housing/Housing3"; // Import the housing chart component
+import Income1 from "./MarkdownCharts/Income/Income1"; // Import the housing chart component
 import MilesDriven from "./MarkdownCharts/MilesDrivenCharts/MilesDrivenChart"; // Import the miles driven chart component
+import MortgageChart1 from "./MarkdownCharts/Mortgage/Mortgage1";
 import Pavement from "./MarkdownCharts/PavementChart/PavementChart"; // Import the pavement chart component
+import PopulationGrowth1 from "./MarkdownCharts/Population/Population1";
+import PopulationGrowth2 from "./MarkdownCharts/Population/Population2";
+import PopulationGrowth4 from "./MarkdownCharts/Population/Population4";
 import Transit1 from "./MarkdownCharts/TransitCharts/TransitChart1"; // Import the transit chart component
 import TransitRidership from "./MarkdownCharts/TransitRidership/TransitRidership"; // Import the transit ridership chart component
 import TransitSafety from "./MarkdownCharts/TransitSafety/TransitSafety"; // Import the transit safety chart component
 import TransitSafety1 from "./MarkdownCharts/TransitSafety/TransitSafety1"; // Import the transit safety chart component
+import WaterQuality from "./MarkdownCharts/WaterQuality/WaterQuality"; // Import the water quality chart component
 
 // Update the color palette with more distinct and contrasting colors
 const CHART_COLORS = [
@@ -403,7 +427,17 @@ const Chart = ({ type, dataPath, config }) => {
         return <BridgeStackedChart dataPath={dataPath} config={config} />; // Render the new chart type
       case "bridgeStacked1":
         return <BridgeStackedChart1 dataPath={dataPath} config={config} />; // Render the new chart type
-
+      case "businessFormation":
+        return <BusinessFormation dataPath={dataPath} config={config} />; // Render the business formation chart type
+      case "communityintegration1":
+        return (
+          <CommunityIntegrationChart1 dataPath={dataPath} config={config} />
+        );
+      case "communityintegration2":
+        return (
+          <CommunityIntegrationChart2 dataPath={dataPath} config={config} />
+        );
+      // Render the business formation chart type
       case "commute":
         return <CommuteChart dataPath={dataPath} config={config} />; // Render the new commute chart type
       case "congestion1":
@@ -412,10 +446,50 @@ const Chart = ({ type, dataPath, config }) => {
         return <Congestion2 dataPath={dataPath} config={config} />; // Render the second congestion chart type
       case "congestion3":
         return <Congestion3 dataPath={dataPath} config={config} />; // Render the third congestion chart type
+      case "congestion4":
+        return <CongestionChart4 dataPath={dataPath} config={config} />;
+      case "congestion5":
+        return <CongestionChart5 dataPath={dataPath} config={config} />; // Render the congestion chart type 5
+      case "congestion6":
+        return <CongestionChart6 dataPath={dataPath} config={config} />;
+      case "congestion7":
+        return <CongestionChart7 dataPath={dataPath} config={config} />;
+      case "educationAttainment1":
+        return <EducationAttainment1 dataPath={dataPath} config={config} />;
+      case "educationAttainment2":
+        return <EducationAttainment2 dataPath={dataPath} config={config} />;
+      case "gdp1":
+        return <GDP1 dataPath={dataPath} config={config} />; // Render
+      case "gdp2":
+        return <GDP2 dataPath={dataPath} config={config} />; // Render
+      case "gdp3":
+        return <GDP3 dataPath={dataPath} config={config} />; // Render
+      case "heatEmission1":
+        return <HeatEmission1 dataPath={dataPath} config={config} />; //
+      case "heatEmission2":
+        return <HeatEmission2 dataPath={dataPath} config={config} />; //
+      case "heatEmission3":
+        return <HeatEmission3 dataPath={dataPath} config={config} />; //
+      case "housing1":
+        return <Housing1 dataPath={dataPath} config={config} />; // Render
+      case "housing2":
+        return <Housing2 dataPath={dataPath} config={config} />; // Render
+      case "housing3":
+        return <Housing3 dataPath={dataPath} config={config} />; // Render
+      case "income1":
+        return <Income1 dataPath={dataPath} config={config} />; // Render
       case "milesdriven":
         return <MilesDriven dataPath={dataPath} config={config} />; // Render the miles driven chart
+      case "mortgage1":
+        return <MortgageChart1 dataPath={dataPath} config={config} />; // Render the mortgage chart
       case "pavement":
         return <Pavement dataPath={dataPath} config={config} />; // Render the pavement chart
+      case "PopulationGrowth1":
+        return <PopulationGrowth1 dataPath={dataPath} config={config} />; //
+      case "PopulationGrowth2":
+        return <PopulationGrowth2 dataPath={dataPath} config={config} />; //
+      case "PopulationGrowth4":
+        return <PopulationGrowth4 dataPath={dataPath} config={config} />; //
       case "transit":
         return <Transit1 dataPath={dataPath} config={config} />; // Render the transit chart
       case "transitRidership":
@@ -424,6 +498,8 @@ const Chart = ({ type, dataPath, config }) => {
         return <TransitSafety dataPath={dataPath} config={config} />; // Render the transit safety chart
       case "transitSafety1":
         return <TransitSafety1 dataPath={dataPath} config={config} />; // Render the transit safety chart 1
+      case "waterQuality":
+        return <WaterQuality dataPath={dataPath} config={config} />; // Render
       default:
         return null;
     }
