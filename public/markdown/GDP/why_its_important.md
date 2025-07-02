@@ -20,6 +20,8 @@ chart:{
 ]
 }
 
+<div className="markdown-chart -mt-20">
+
 #### GDP Distribution by Industry
 
 chart:{
@@ -65,7 +67,7 @@ chart:{
 }
 }
 
-<div className="markdown-chart mt-10">
+<div className="markdown-chart mt-20">
   </div>
 
 #### Gross Domestic Product (GDP) by Commuter Mode

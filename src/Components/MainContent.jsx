@@ -148,7 +148,7 @@ const items = [
     trendDetails: "5-6% drop",
     title: "Labor Force",
     details: "in participation rate gaps from base years",
-    markdownPath: "/markdown/Job Growth",
+    markdownPath: "/markdown/Labor Force",
   },
   {
     icon: <FaBriefcase size={40} color="#ffffff" />,
@@ -156,7 +156,15 @@ const items = [
     trendDetails: "49% drop",
     title: "Land Consumption",
     details: "in land consumption rate",
-    markdownPath: "/markdown/Job Growth",
+    markdownPath: "/markdown/Land Consumption",
+  },
+  {
+    icon: <FaUsers size={40} color="#ffffff" />,
+    trendIcon: <MehOutlined size={40} color="#ffffff" />,
+    trendDetails: "0.5% decrease",
+    title: "Medinc Gap Race",
+    details: "in daily miles driven per person",
+    markdownPath: "/markdown/Medinc Gap",
   },
   {
     icon: <FaUsers size={40} color="#ffffff" />,

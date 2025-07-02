@@ -10,7 +10,7 @@ chart:{
 "xAxis": "year",
 "yAxis": {
 "format": "percentage",
-"label": "Denial Rate (%)"
+"label": "Mortgage Lending Disparities"
 },
 "locations": [
 {"value": "MPO", "name": "MPO Region"},
@@ -40,6 +40,8 @@ chart:{
 }
 }
 
+<div className="markdown-chart mt-25">
+
 #### Mortgage Lending Demographics by Application Type
 
 chart:{
@@ -48,7 +50,7 @@ chart:{
 "xAxis": "year",
 "yAxis": {
 "format": "percentage",
-"label": "Application Share (%)"
+"label": "Mortgage Lending Demographics"
 },
 "locations": [
 {"value": "MPO", "name": "MPO Region"},
@@ -80,6 +82,8 @@ chart:{
 }
 }
 
+<div className="markdown-chart mt-25">
+
 #### Total Mortgage Lending Volume by Demographic Group
 
 chart:{
@@ -88,7 +92,7 @@ chart:{
 "xAxis": "year",
 "yAxis": {
 "format": "number",
-"label": "Number of Mortgage Applications"
+"label": "Total Mortgage Lending Volume"
 },
 "isPercentage": false,
 "locations": [

@@ -38,6 +38,7 @@ import Housing1 from "./MarkdownCharts/Housing/Housing1"; // Import the housing 
 import Housing2 from "./MarkdownCharts/Housing/Housing2"; // Import the housing chart component
 import Housing3 from "./MarkdownCharts/Housing/Housing3"; // Import the housing chart component
 import Income1 from "./MarkdownCharts/Income/Income1"; // Import the housing chart component
+import Jobs from "./MarkdownCharts/Jobs/Jobs";
 import MilesDriven from "./MarkdownCharts/MilesDrivenCharts/MilesDrivenChart"; // Import the miles driven chart component
 import MortgageChart1 from "./MarkdownCharts/Mortgage/Mortgage1";
 import Pavement from "./MarkdownCharts/PavementChart/PavementChart"; // Import the pavement chart component
@@ -478,6 +479,8 @@ const Chart = ({ type, dataPath, config }) => {
         return <Housing3 dataPath={dataPath} config={config} />; // Render
       case "income1":
         return <Income1 dataPath={dataPath} config={config} />; // Render
+      case "jobs":
+        return <Jobs dataPath={dataPath} config={config} />; // Render
       case "milesdriven":
         return <MilesDriven dataPath={dataPath} config={config} />; // Render the miles driven chart
       case "mortgage1":

@@ -2,14 +2,14 @@ Since the start of the industrial age, the increasing combustion of fossil fuels
 
 Reducing the accumulation of heat-trapping gases in the atmosphere is critical for slowing or even reversing global temperature increases. Many of the actions taken to accomplish this goal will also make our transportation network more efficient, improve air quality, bolster public health, make the region's communities more livable, and increase economic resilience. The _Connections 2050_ Plan therefore sets a goal to reduce regional CO<sub>2</sub> equivalent outputs to net zero by 2050.
 
-#### Community Integration Chart One
+#### Heat Emissions by Location
 
 chart:{
 "type": "heatEmission1",
 "file": "heat_emission-heat-nhs-f5_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Heat Emissions NHS",
+"label": "Heat Emissions (Million BTUs)",
 "type": "number"
 },
 "lines": [
@@ -23,14 +23,16 @@ chart:{
 ]
 }
 
-#### Heat Emission Reduction Goal
+<div className="markdown-chart -mt-30">
+
+#### Total Emissions and Per Capita Trends
 
 chart:{
 "type": "heatEmission2",
 "file": "heat_emissions_1_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Total Emissions",
+"label": "CO₂ Equivalent Emissions (Metric Tons)",
 "type": "number"
 },
 "lines": [
@@ -39,14 +41,16 @@ chart:{
 ]
 }
 
-#### Heat Emission Reduction Goal Two
+<div className="markdown-chart -mt-15">
+
+#### Emissions by Sector
 
 chart:{
 "type": "heatEmission2",
 "file": "heat_emissions_2_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Total Emissions",
+"label": "CO₂ Equivalent Emissions by Sector (Metric Tons)",
 "type": "number"
 },
 "lines": [
@@ -57,17 +61,17 @@ chart:{
 ]
 }
 
-<div className="markdown-chart mt-[-40px]">
+<div className="markdown-chart -mt-15">
   </div>
 
-#### Heat Emission Reduction Goal Three
+#### Emissions by Energy Source
 
 chart:{
 "type": "heatEmission2",
 "file": "heat_emissions_3_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Total Emissions",
+"label": "Energy Production by Source (GWh)",
 "type": "number"
 },
 "lines": [

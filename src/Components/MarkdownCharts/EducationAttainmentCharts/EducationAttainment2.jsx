@@ -110,7 +110,6 @@ const CommunityIntegrationChart = ({ dataPath, config }) => {
 
   const renderChart = () => {
     if (data.length === 0) {
-      return <div>Loading data...</div>;
     }
 
     return (

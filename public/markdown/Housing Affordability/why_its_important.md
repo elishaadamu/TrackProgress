@@ -1,6 +1,6 @@
 Maintaining a diverse supply of housing at all price points helps ensure that everyone can find a place to live. It is critical to attracting a sufficient labor force, increasing economic prosperity, promoting public health, and providing a high quality of life. Households paying more than 30% of their income on housing may have trouble making other necessary payments and building wealth. Substandard housing conditions, steep home prices, and lower income levels all exacerbate inequities experienced within disadvantaged communities, and can prevent individuals and families from fully accessing the opportunities afforded to others in the region.
 
-This indicator relates to the _Connections 2050_ goals of preserving and building more accessible and affordable housing, and reducing how much of a household’s income is spent on combined housing and transportation costs.
+This indicator relates to the _Connections 2050_ goals of preserving and building more accessible and affordable housing, and reducing how much of a household's income is spent on combined housing and transportation costs.
 
 #### Median Household Income by Tenure
 
@@ -9,17 +9,17 @@ chart:{
 "file": "housing_afford_graph_1a_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Household Income ",
+"label": "Median Household Income ($)",
 "type": "number"
 },
 "locations": [
 {"value": "MPO", "name": "MPO Region"},
 {"value": "Hopewell", "name": "Hopewell"},
 {"value": "Petersburg", "name": "Petersburg"},
-{"value": "ColonialHeights", "name": "Colonial Heights"},
+{"value": "Colonial Heights", "name": "Colonial Heights"},
 {"value": "Chesterfield", "name": "Chesterfield"},
 {"value": "Dinwiddie", "name": "Dinwiddie"},
-{"value": "PrinceGeorge", "name": "Prince George"}
+{"value": "Prince George", "name": "Prince George"}
 ],
 "timePeriods": {
 "Total": "Total",
@@ -28,24 +28,24 @@ chart:{
 }
 }
 
-#### Community Integration Chart Two
+#### Median Household Income by Ownership Status
 
 chart:{
 "type": "housing1",
 "file": "housing_afford_graph_1b_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Median Income",
+"label": "Median Household Income ($)",
 "type": "number"
 },
 "locations": [
 {"value": "MPO", "name": "MPO Region"},
 {"value": "Hopewell", "name": "Hopewell"},
 {"value": "Petersburg", "name": "Petersburg"},
-{"value": "ColonialHeights", "name": "Colonial Heights"},
+{"value": "Colonial Heights", "name": "Colonial Heights"},
 {"value": "Chesterfield", "name": "Chesterfield"},
 {"value": "Dinwiddie", "name": "Dinwiddie"},
-{"value": "PrinceGeorge", "name": "Prince George"}
+{"value": "Prince George", "name": "Prince George"}
 ],
 "timePeriods": {
 "Total": "Total",
@@ -54,14 +54,16 @@ chart:{
 }
 }
 
-#### Community Integration Chart Two
+<div className="markdown-chart -mt-5">
+
+#### Housing Cost Burden by Tenure and Income Level
 
 chart:{
 "type": "housing2",
 "file": "housing_afford_graph_f3_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Median Income",
+"label": "Percentage of Cost-Burdened Households (%)",
 "type": "number"
 },
 "locations": [
@@ -78,21 +80,21 @@ chart:{
 {"value": "RuralArea", "name": "Rural Area"}
 ],
 "timePeriods": {
-"OwnAbove": "Own Above",
-"RentAbove": "Rent Above",
-"OwnBelow": "Own Below",
-"RentBelow": "Rent Below"
+"OwnAbove": "Homeowners Above Median Income",
+"RentAbove": "Renters Above Median Income",
+"OwnBelow": "Homeowners Below Median Income",
+"RentBelow": "Renters Below Median Income"
 }
 }
 
-#### Community Integration Chart Two
+#### Housing Cost Burden Distribution by Spending Percentage
 
 chart:{
 "type": "housing3",
 "file": "housing_afford_graph_f4_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Median Income",
+"label": "Share of Households (%)",
 "type": "number"
 },
 "locations": [
@@ -117,18 +119,18 @@ chart:{
 "30.0-34.9%": "30.0 to 34.9%",
 "35.0-39.9%": "35.0 to 39.9%",
 "40.0-49.9%": "40.0 to 49.9%",
-"50%+": "50+%"
+"50%+": "50% or more"
 }
 }
 
-#### Truck Travel Time Reliability F3
+#### Housing Affordability Index by Location
 
 chart:{
 "type": "congestion7",
 "file": "housing_afford_graph_f5_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Travel Time Reliability Index",
+"label": "Housing Affordability Index (100 = Affordable)",
 "type": "number"
 },
 "locations": [

@@ -1,4 +1,4 @@
-year,year,region_total,region_wage_salary,region_proprietors,hw_cos_total,hw_cos_wage_salary,hw_cos_proprietors,pe_sub_cos_total,pe_sub_cos_wage_salary,pe_sub_cos_proprietors,co_total,co_wage_salary,co_proprietors,che_total,che_wage_salary,che_proprietors,din_total,din_wage_salary,din_proprietors,pg_total,pg_wage_salary,pg_proprietors,Scope
+year,region_total,region_wagesalary,region_proprietors,hw_total,hw_wagesalary,hw_proprietors,pe_total,pe_wagesalary,pe_proprietors,co_total,co_wagesalary,co_proprietors,che_total,che_wagesalary,che_proprietors,din_total,din_wagesalary,din_proprietors,pg_total,pg_wagesalary,pg_proprietors,Value
 2001,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,Annual
 2002,0.001,-0.003,0.028,0.013,0.009,0.033,0,-0.004,0.022,0.009,0.006,0.023,0.019,0.015,0.037,0.007,0.004,0.027,0.002,-0.004,0.032,0.024,Annual
 2003,0.005,-0.002,0.048,0.019,0.015,0.048,0.001,-0.007,0.043,0.011,0.003,0.048,0.026,0.02,0.063,0.01,0.006,0.034,0.01,0.001,0.05,0.04,Annual

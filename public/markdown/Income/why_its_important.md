@@ -2,7 +2,7 @@ All residents deserve the opportunity to participate and thrive in our economy a
 
 This indicator measures how well the region is achieving the _Connections 2050_ Plan goal to reduce poverty and the wealth gap.
 
-#### Median Household Income by Tenure
+#### Income Quintiles Abs
 
 chart:{
 "type": "income1",
@@ -31,14 +31,16 @@ chart:{
 }
 }
 
-#### Median Household Income by Tenure
+<div className="markdown-chart -mt-20">
+
+#### Income Quintiles Mean
 
 chart:{
 "type": "income1",
 "file": "IncomeQuintilesMean-f2_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Household Income ",
+"label": "Income Quintiles Mean",
 "type": "number"
 },
 "locations": [
@@ -61,14 +63,16 @@ chart:{
 }
 }
 
-#### Median Household Income by Tenure
+<div className="markdown-chart -mt-20">
+
+#### Income Quintiles PCT
 
 chart:{
 "type": "income1",
 "file": "IncomeQuintilesPct-f2_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Household Income ",
+"label": "Income Quintiles PCT",
 "type": "number"
 },
 "locations": [
@@ -91,14 +95,16 @@ chart:{
 }
 }
 
-#### Truck Travel Time Reliability F3
+<div className="markdown-chart -mt-10">
+
+#### Income Quintiles Top to Bottom Gap
 
 chart:{
 "type": "congestion7",
 "file": "IncomeQuintileTopBottomGap-f1_fk.csv",
 "xAxis": "year",
 "yAxis": {
-"label": "Travel Time Reliability Index",
+"label": "Income Quintiles Top to Bottom Gap",
 "type": "number"
 },
 "locations": [

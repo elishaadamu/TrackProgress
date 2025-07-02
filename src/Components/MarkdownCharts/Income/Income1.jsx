@@ -30,6 +30,7 @@ const INITIAL_VISIBLE_LOCATIONS = [
   "Hopewell",
   "Petersburg",
   "ColonialHeights",
+  "hopewell",
 ];
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -74,7 +75,9 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const CommunityIntegrationChart2 = ({ dataPath, config }) => {
   const [data, setData] = useState([]);
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState("1st");
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState(
+    Object.keys(config.timePeriods)[0]
+  );
   const [hiddenSeries, setHiddenSeries] = useState(
     new Set(
       config.locations
@@ -117,7 +120,6 @@ const CommunityIntegrationChart2 = ({ dataPath, config }) => {
 
   const renderChart = () => {
     if (data.length === 0) {
-      return <div>Loading data...</div>;
     }
 
     return (
@@ -204,7 +206,7 @@ const CommunityIntegrationChart2 = ({ dataPath, config }) => {
             color: "#ffffff",
           }}
         >
-          Select Time Period:
+          Select Level:
         </label>
         <select
           id="timePeriodSelect"

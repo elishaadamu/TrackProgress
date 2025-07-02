@@ -42,7 +42,7 @@ const Education1 = ({ dataPath, config }) => {
       const transformedData = csvData.map((row) => {
         const yearData = { year: +row.year }; // Ensure year is numeric
         config.bars.forEach((bar) => {
-          const key = `${selectedLocation}-${bar.key}`;
+          const key = `${selectedLocation}_${bar.key}`;
           yearData[bar.name] = +row[key] || 0;
         });
         return yearData;
